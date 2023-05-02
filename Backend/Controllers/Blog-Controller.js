@@ -1,5 +1,5 @@
 import express from "express";
-import blog from "../Model/Blog";
+import BlogModel from "../Models/Blog-model.js";
 
 export const addBlog = async (req, res) => {
   let userId1 = req.params.id;
@@ -12,7 +12,7 @@ export const addBlog = async (req, res) => {
   const fullDescription = req.body.fullDescription;
   console.log(req.body);
 
-  const newBlog= new blog({
+  const newBlog= new BlogModel({
     title,
     shortDescription,
     fullDescription,
