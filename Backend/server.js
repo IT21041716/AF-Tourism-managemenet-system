@@ -28,5 +28,14 @@ connection.once("open", () => {
   console.log("***************************************");
 });
 
+
+connection.once("open",() => {
+    console.log("MONGO_DB Connection successfull......!!");
+    console.log("***************************************");
+})
+
+// sithanga
+import seller from './Routes/Seller-routes.js'
+app.use("/Seller" , seller)
 import blog from "./Routes/Blog-routes.js";
 app.use("/Blog", blog);
