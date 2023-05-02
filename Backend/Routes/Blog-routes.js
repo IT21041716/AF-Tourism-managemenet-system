@@ -2,7 +2,14 @@ import express from "express";
 const router = express.Router();
 import multer from "multer";
 
-import { addBlog } from "../Controllers/Blog-Controller.js";
+import {
+  addBlog,
+  viewBlogs,
+  viewAll,
+  updateBlog,
+  deleteBlog,
+  getBlogById,
+} from "../Controllers/Blog-Controller.js";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -15,5 +22,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.post("/addBlog", upload.single("image"), addBlog);
+router.get("/viewBlogs", viewBlogs);
+router.get("/viewAll", viewAll);
+router.put("/updateBlog/:id", updateBlog);
+router.delete("/deleteBlog/:id", deleteBlog);
+router.get("/getBlogById/:id", getBlogById);
 
 export default router;
