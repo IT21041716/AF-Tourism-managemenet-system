@@ -28,3 +28,7 @@ connection.once("open",() => {
     console.log("MONGO_DB Connection successfull......!!");
     console.log("***************************************");
 })
+
+// sithanga
+import seller from './Routes/Seller-routes.js'
+app.use("/Seller" , seller)
