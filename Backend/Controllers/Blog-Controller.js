@@ -48,8 +48,6 @@ export const viewAll = async (req, res, next) => {
   await BlogModel.find()
     .then((BlogModel) => {
       res.json(BlogModel);
-      //console.log(x);
-      //res.status(200).json(response);
     })
     .catch((err) => {
       console.log(err);
