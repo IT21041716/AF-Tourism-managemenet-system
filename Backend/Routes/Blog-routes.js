@@ -24,7 +24,7 @@ const upload = multer({ storage });
 router.post("/addBlog", upload.single("image"), addBlog);
 router.get("/viewBlogs", viewBlogs);
 router.get("/viewAll", viewAll);
-router.put("/updateBlog/:id", updateBlog);
+router.put("/updateBlog/:id", upload.single("image"), updateBlog);
 router.delete("/deleteBlog/:id", deleteBlog);
 router.get("/getBlogById/:id", getBlogById);
 

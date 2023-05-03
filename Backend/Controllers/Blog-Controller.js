@@ -64,6 +64,9 @@ export const updateBlog = async (req, res) => {
     shortDescription,
     fullDescription,
   };
+  if (req.file) {
+    updateBlog.image = req.file.filename;
+  }
   const update = await BlogModel.findByIdAndUpdate(userId, updateBlog)
     .then(() => {
       res.status(200).send({ status: "Blog updated " });

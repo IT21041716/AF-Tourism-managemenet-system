@@ -3,9 +3,15 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const filePath = fileURLToPath(import.meta.url);
+const dirName = path.dirname(filePath);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+app.use(express.static(path.join(dirName, "uploads")));
 dotenv.config();
 app.use(cors());
 app.use(bodyParser.json());
@@ -28,14 +34,13 @@ connection.once("open", () => {
   console.log("***************************************");
 });
 
-
-connection.once("open",() => {
-    console.log("MONGO_DB Connection successfull......!!");
-    console.log("***************************************");
-})
+connection.once("open", () => {
+  console.log("MONGO_DB Connection successfull......!!");
+  console.log("***************************************");
+});
 
 // sithanga
-import seller from './Routes/Seller-routes.js'
-app.use("/Seller" , seller)
+import seller from "./Routes/Seller-routes.js";
+app.use("/Seller", seller);
 import blog from "./Routes/Blog-routes.js";
 app.use("/Blog", blog);
