@@ -7,6 +7,7 @@ import UpdateBlog from "./IT21049590/UpdateBlog";
 import ViewBlogs from "./IT21049590/ViewBlogs";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AllBlogs from "./IT21049590/UserViewBlog";
+import Feedback from "./IT21049590/Feedback";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -19,6 +20,7 @@ function App() {
           <Route path="/UpdateBlog/:id" element={<UpdateBlog />} />
           <Route path="/ViewBlogs" element={<ViewBlogs />} />
           <Route path="/AllBlogs" element={<AllBlogs />} />
+          <Route path="/Feedback/:id" element={<Feedback />} />
         </Routes>
       </BrowserRouter>
     </>
