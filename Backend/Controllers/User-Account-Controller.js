@@ -1,10 +1,9 @@
-const { response } = require('express');
-const User = require('../Models/User-Account-Model')
-const jwt = require('jsonwebtoken');
+import User from '../Models/User-Account-Model.js'
+import jwt from 'jsonwebtoken'
+import fs from 'fs'
 let refreshtokens = [];
-const fs = require('fs');
 
-exports.UserRegister = async (req, res) => {
+export const UserRegister = async (req, res) => {
   console.log(req.body)
  try{
   let file = 'N/A'
@@ -33,8 +32,9 @@ exports.UserRegister = async (req, res) => {
         country: req.body.country,
         gender:req.body.gender,
         badge:req.body.badge,
+        tel_no:req.body.tel_no,
         ProfilePicture: {
-          data: fs.readFileSync('UploadImage/' + req.file.filename),
+          data: fs.readFileSync('UploadUserProfileImages/' + req.file.filename),
           contentType:"image/png"
         }
 
@@ -68,7 +68,7 @@ exports.UserRegister = async (req, res) => {
   }
 }
 
-exports.Signin = async (req, res) => {
+export const Signin = async (req, res) => {
   try {
     
     /*console.log(req.body.email)*/
@@ -112,7 +112,7 @@ exports.Signin = async (req, res) => {
   }
 }
 
-exports.tokenRefresh = (req, res, next) => {
+export const tokenRefresh = (req, res, next) => {
   const refreshToken = req.body.refreshToken;
   if (refreshToken == null) {
     res.status(401).json({
@@ -139,7 +139,7 @@ exports.tokenRefresh = (req, res, next) => {
   }
 }
 
-exports.Signout = (req, res) => {
+export const Signout = (req, res) => {
   try {
     const refreshToken = req.body.refreshToken;
     refreshtokens = refreshtokens.filter(token => token !== refreshToken);
@@ -154,7 +154,7 @@ exports.Signout = (req, res) => {
   }
 }
 
-exports.getAllUsers = async (req, res) => {
+export const getAllUsers = async (req, res) => {
   try {
     const allusers = await User.find();
     if (allusers) {
@@ -168,7 +168,7 @@ exports.getAllUsers = async (req, res) => {
   }
 }
 
-exports.getOneUser = async (req, res) => {
+export const getOneUser = async (req, res) => {
   try {
     let userId = req.params.user_id;
     const user = await User.findById(userId);

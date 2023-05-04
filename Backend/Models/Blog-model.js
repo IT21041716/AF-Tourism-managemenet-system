@@ -25,4 +25,8 @@ const blogSchema = new mongoose.Schema({
       ref: "",
     },
   ],
+  blogId: {
+    type: String,
+  },
 });
+export default mongoose.model("Blog", blogSchema);
