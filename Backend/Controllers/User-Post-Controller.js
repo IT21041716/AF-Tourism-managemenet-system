@@ -1,13 +1,10 @@
 import Post from '../Models/User-Post-model.js'
-
+import fs from 'fs'
 
 export const addPost = async (req, res) => {
   console.log(req.body)
  try{
-  let file = 'N/A'
-  if (req.file) {
-    file = req.file.filename
-  }
+ 
       const prefix = 'PID'
       const POST_ID = (prefix + Date.now())
       console.log(POST_ID)
@@ -27,6 +24,7 @@ export const addPost = async (req, res) => {
 
       });
 
+      console.log(req.file.filename);
       console.log(newPost);
       const newAcct = await newPost.save();
       if (newAcct) {
@@ -77,40 +75,87 @@ export const getOnePost = async (req, res) => {
 }
 
 
-export const updatePost =  (async(req,res)=>{
+// export const updatePost =  (async(req,res)=>{
 
-    let file = 'N/A'
-    if (req.file) {
-        file = req.file.filename
-    }
+//     let file = 'N/A'
+//     if (req.file) {
+//         file = req.file.filename
+//     }
 
-    let post_id = req.params.post_id;
-
-    const post_title = req.body.post_title;
-    const post_description = req.body.post_description;
-    const post_date = req.body.post_date;
-    const post_location = req.body.post_location;
-    const post_remark = req.body.post_remark;
-    const post_image = file;
+//     let id = req.params.id;
+//     console.log(id)
+//     // const post_title = req.body.post_title;
+//     // const post_description = req.body.post_description;
+//     // const post_date = req.body.post_date;
+//     // const post_location = req.body.post_location;
+//     // const post_remark = req.body.post_remark;
+//     const post_image = file;
+//     const user_id = req.body.user_id;
+//     const post_title = req.body.post_title;
+//     const post_description = req.body.post_description;
+//     const post_date = req.body.post_date;
+//     const post_location = req.body.post_location;
+//     const post_remark = req.body.post_remark;
    
-    const updatePost = {
-        post_title,
-        post_description,
-        post_date,
-        post_location,
-        post_remark,
-        post_image
-    }
-    console.log(updatePost);
-    const update = await Post.findByIdAndUpdate(post_id, updatePost).then(() => {
-        res.status(200).send({status: "Report Updated"})
-    }).catch((err) =>{
-        console.log(err);
-        res.status(500).send({status: "Error with updation data"});
-    })
+//     const updatePost = {
+//         user_id,
+//         post_title,
+//         post_description,
+//         post_date,
+//         post_location,
+//         post_remark,
+//         post_image
+//     }
+//     console.log(updatePost);
+//     const update = await Post.findByIdAndUpdate(id, updatePost).then(() => {
+//         res.status(200).send({status: "Post Updated"})
+//     }).catch((err) =>{
+//         console.log(err);
+//         res.status(500).send({status: "Error with updation data"});
+//     })
 
     
-})
+// })
+
+export const updatePost = async (req, res) => {
+  let file = 'N/A'
+  if (req.file) {
+      file = req.file.filename
+  }
+
+  const id = req.params.id;
+
+  const user_id = req.body.user_id;
+  const post_title = req.body.post_title;
+  const post_description = req.body.post_description;
+  const post_date = req.body.post_date;
+  const post_location = req.body.post_location;
+  const post_remark = req.body.post_remark;
+  const post_image = file;
+
+  const updatePost = {
+      user_id,
+      post_title,
+      post_description,
+      post_date,
+      post_location,
+      post_remark,
+      post_image
+  }
+
+  try {
+      const updatedPost = await Post.findByIdAndUpdate(id, updatePost, { new: true });
+      if (updatedPost) {
+          res.status(200).send({ status: "Post Updated", data: updatedPost });
+      } else {
+          res.status(404).send({ status: "Post not found" });
+      }
+  } catch (err) {
+      console.log(err);
+      res.status(500).send({ status: "Error with updating data" });
+  }
+};
+
 
 export const deletePost = (async (req,res) =>{
      let post_id = req.params.post_id;
