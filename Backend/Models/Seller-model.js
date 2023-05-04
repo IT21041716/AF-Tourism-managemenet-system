@@ -4,60 +4,70 @@ const Schema = mongoose.Schema;
 
 const SellerSchema = new Schema({
 
-    Seller_ID:{
+    Seller_ID: {
         type: String,
         required: true
     },
-    Company_name:{
+    Company_name: {
         type: String,
         required: true
     },
-    Company_email:{
+    Company_email: {
         type: String,
         required: true
     },
-    Company_contact_no:{
+    Company_contact_no: {
         type: String,
         required: true
     },
-    Company_address:{
+    Company_address: {
         type: String,
         required: true
     },
-    Personal_name:{
+    Personal_name: {
         type: String,
         required: true
     },
-    Personal_contact_no:{
+    Personal_contact_no: {
         type: String,
         required: true
     },
-    Personal_address:{
+    Personal_address: {
         type: String,
         required: true
     },
-    Personal_email:{
+    Personal_email: {
         type: String,
         required: true
     },
-    Hash_password:{
-        type:String,
+    Hash_password: {
+        type: String,
         required: true
     },
-    ProfilePicture:{
-        type:String
-    }
+    ProfilePicture: {
+        type: String
+    },
+    Description: {
+        type: String
+    },
+    ImagesCom: [
+        {
+            img:{
+                type: String
+            }
+        }
+    ]
 
-},{timestamps:true})
+}, { timestamps: true })
 
-SellerSchema.virtual('password').set(function(Password){
-    this.Hash_password =bcrypt.hashSync(Password, 8)
+SellerSchema.virtual('password').set(function (Password) {
+    this.Hash_password = bcrypt.hashSync(Password, 8)
 });
 
-SellerSchema.methods ={
-    authenticate: function(){
-        return bcrypt.compareSync(password , this.Hash_password);
+SellerSchema.methods = {
+    authenticate: function () {
+        return bcrypt.compareSync(password, this.Hash_password);
     }
 }
 
-export default mongoose.model("Seller",SellerSchema)
+export default mongoose.model("Seller", SellerSchema)
