@@ -16,6 +16,8 @@ import UpdateBlog from "./IT21049590/UpdateBlog";
 import ViewBlogs from "./IT21049590/ViewBlogs";
 import AllBlogs from "./IT21049590/UserViewBlog";
 
+
+
 function App() {
   return (
     <>
@@ -29,10 +31,6 @@ function App() {
           <Route path="/UpdateBlog/:id" element={<UpdateBlog />} />
           <Route path="/ViewBlogs" element={<ViewBlogs />} />
           <Route path="/AllBlogs" element={<AllBlogs />} />
-
-
-
-
 
 
           {/* sithanga */}

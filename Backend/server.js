@@ -32,3 +32,12 @@ connection.once("open",() => {
 // sithanga
 import seller from './Routes/Seller-routes.js'
 app.use("/Seller" , seller)
+
+
+
+//sajindu
+import userAccount from "./Routes/User-Account-Routes.js"
+app.use("/user",userAccount);
+
+import userPost from "./Routes/User-Post-Routes.js"
+app.use("/userPost",userPost);
