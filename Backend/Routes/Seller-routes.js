@@ -1,5 +1,5 @@
 import express from 'express'
-import {sellerSignup, login, tokenRefresh, Signout, updateSeller,updateDP,uploadImages} from '../Controllers/Seller-controller.js'
+import {sellerSignup, login, tokenRefresh, Signout, updateSeller,updateDP,uploadImages,deleteSeller} from '../Controllers/Seller-controller.js'
 import multer from 'multer'
 
 const router = express.Router();
@@ -21,5 +21,9 @@ router.delete('/Signout', Signout);
 router.post('/update', updateSeller);
 router.post('/updateDP', upload.single('ProfilePicture'), updateDP);
 router.post('/updateImages', upload.array('ImagesCom'), uploadImages);
+router.post('/deleteSeller', deleteSeller);
+
+
+
 
 export default router

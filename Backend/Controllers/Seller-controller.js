@@ -34,7 +34,7 @@ export const sellerSignup = async (req, res) => {
         Hash_password: Hash_password,
         ProfilePicture: file,
         Description: "Type somthing here...",
-        ImagesCom : "N/A"
+        ImagesCom: "N/A"
 
       })
       const newAcct = await newSeller.save()
@@ -197,12 +197,12 @@ export const updateDP = async (req, res) => {
     }
 
     const updates = await seller.findOneAndUpdate(id, newDP, { new: true });
-    if(updates){
+    if (updates) {
       res.status(201).json({
         message: "Profile picture updated..!",
         payload: updates
       })
-    }else {
+    } else {
       res.status(400).json({
         message: "Profile picture Update failed..!",
         error: error
@@ -216,20 +216,20 @@ export const updateDP = async (req, res) => {
   }
 }
 
-export const uploadImages =async(req,res) => {
-  try{
+export const uploadImages = async (req, res) => {
+  try {
     let file = 'N/A'
     if (req.file) {
       file = req.file.filename
     }
 
     const id = { Seller_ID: req.body.Seller_ID }
-    let images =[]
+    let images = []
 
-    if(req.files.length > 0){
-      images =req.files.map(file => {
-        return{
-          img:  file.filename
+    if (req.files.length > 0) {
+      images = req.files.map(file => {
+        return {
+          img: file.filename
 
         }
       }
@@ -237,28 +237,50 @@ export const uploadImages =async(req,res) => {
       )
     }
 
-    const newImages ={
+    const newImages = {
       ImagesCom: images
     }
     console.log(newImages)
     const updateimgs = await seller.findOneAndUpdate(id, newImages, { new: true });
     console.log("methanin pahala response eka")
     console.log(updateimgs)
-    if(updateimgs){
+    if (updateimgs) {
       res.status(201).json({
         message: "Images updated..!",
         payload: updateimgs
       })
-    }else {
+    } else {
       res.status(400).json({
         message: "Images Update failed..!",
         error: error
       })
     }
 
-  }catch(error){
+  } catch (error) {
     res.status(500).json({
       message: "Somthing Went Wrong..!",
+    })
+  }
+}
+
+export const deleteSeller = async (req, res) => {
+  console.log(req.body.Seller_ID)
+  try {
+    let id = req.body.Seller_ID
+    const success = await seller.findOneAndDelete({ Seller_ID: id })
+
+    if (success) {
+      res.status(200).json({
+        message: "deleted..!"
+      })
+    } else {
+      res.status(400).json({
+        message: "error..!"
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "server Error..!"
     })
   }
 }
