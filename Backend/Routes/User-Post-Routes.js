@@ -19,10 +19,10 @@ const upload = multer({storage:storage});
 
 
 
-router.post('/postadd',upload.single('post'), addPost);
-router.delete('/postdelete/:id',deletePost);
+router.post('/postadd',upload.single('post_image'), addPost);
+router.delete('/postdelete/:post_id',deletePost);
 router.get("/allpost", getAllPost);
-router.get("/post/:id", getOnePost);
-router.put("/postupdate/:id", updatePost);
+router.get("/post/:post_id", getOnePost);
+router.put("/postupdate/:id",upload.single('post_image'), updatePost);
 
 export default router;
