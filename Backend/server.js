@@ -1,9 +1,13 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import bodyParser from 'body-parser'
-import cors from 'cors'
-import dotenv from 'dotenv'
+import express from "express";
+import mongoose from "mongoose";
+import bodyParser from "body-parser";
+import cors from "cors";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
+const filePath = fileURLToPath(import.meta.url);
+const dirName = path.dirname(filePath);
 
 
 const app = express()
@@ -14,15 +18,15 @@ app.use(bodyParser.json())
 
 const URL = process.env.MONGODB_URL;
 
-mongoose.connect(URL,{
-    useNewUrlParser: true,
-    useUnifiedTopology:true,
-})
+mongoose.connect(URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-app.listen(PORT,() => {
-    console.log("***************************************");
-    console.log(`Server Running on port number : ${PORT}`)
-})
+app.listen(PORT, () => {
+  console.log("***************************************");
+  console.log(`Server Running on port number : ${PORT}`);
+});
 
 const connection = mongoose.connection;
 connection.once("open",() => {
