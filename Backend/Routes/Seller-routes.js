@@ -1,5 +1,5 @@
 import express from 'express'
-import {sellerSignup ,login,tokenRefresh,Signout} from '../Controllers/Seller-controller.js'
+import {sellerSignup, login, tokenRefresh, Signout, updateSeller,updateDP,uploadImages,deleteSeller} from '../Controllers/Seller-controller.js'
 import multer from 'multer'
 
 const router = express.Router();
@@ -14,9 +14,16 @@ const storage = multer.diskStorage({
 })
 const upload = multer({storage});
 
-router.post('/Signup',upload.single('ProfilePicture'), sellerSignup);
-router.post('/Signin',login);
-router.post('/Token',tokenRefresh);
-router.delete('/Signout',Signout);
+router.post('/Signup', upload.single('ProfilePicture'), sellerSignup);
+router.post('/Signin', login);
+router.post('/Token', tokenRefresh);
+router.delete('/Signout', Signout);
+router.post('/update', updateSeller);
+router.post('/updateDP', upload.single('ProfilePicture'), updateDP);
+router.post('/updateImages', upload.array('ImagesCom'), uploadImages);
+router.post('/deleteSeller', deleteSeller);
+
+
+
 
 export default router

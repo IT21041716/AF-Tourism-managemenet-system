@@ -9,6 +9,8 @@ import {
   updateBlog,
   deleteBlog,
   getBlogById,
+  addRating,
+  addFeedback,
 } from "../Controllers/Blog-Controller.js";
 
 const storage = multer.diskStorage({
@@ -27,5 +29,8 @@ router.get("/viewAll", viewAll);
 router.put("/updateBlog/:id", upload.single("image"), updateBlog);
 router.delete("/deleteBlog/:id", deleteBlog);
 router.get("/getBlogById/:id", getBlogById);
+
+router.post("/addFeedback/:id", addFeedback);
+router.post("/addRating/:id", addRating);
 
 export default router;

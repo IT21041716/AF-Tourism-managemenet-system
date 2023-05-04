@@ -103,3 +103,47 @@ export const getBlogById = async (req, res) => {
         .send({ status: "Error with get product", error: err.message });
     });
 };
+export const addFeedback = async (req, res) => {
+  try {
+    const { firstName, lastName, rating, comment } = req.body;
+    const blogId = req.params.id;
+    const blog = await BlogModel.findById(blogId);
+
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+    const newFeedback = {
+      firstName,
+      lastName,
+      rating,
+      comment,
+    };
+
+    blog.feedback.push(newFeedback);
+    await blog.save();
+    res.status(201).json(blog);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export const addRating = async (req, res) => {
+  try {
+    const { rating } = req.body;
+    const blogId = req.params.id;
+    const blog = await BlogModel.findById(blogId);
+
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+    blog.rating.push(rating);
+    await blog.save();
+    res.status(201).json(blog);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};

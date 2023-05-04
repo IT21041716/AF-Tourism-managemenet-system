@@ -8,13 +8,12 @@ import { fileURLToPath } from "url";
 
 const filePath = fileURLToPath(import.meta.url);
 const dirName = path.dirname(filePath);
-
-
-const app = express()
-const PORT = process.env.PORT || 5000
-dotenv.config()
-app.use(cors())
-app.use(bodyParser.json())
+const app = express();
+const PORT = process.env.PORT || 5000;
+app.use(express.static(path.join(dirName, "uploads")));
+dotenv.config();
+app.use(cors());
+app.use(bodyParser.json());
 
 const URL = process.env.MONGODB_URL;
 
@@ -29,12 +28,23 @@ app.listen(PORT, () => {
 });
 
 const connection = mongoose.connection;
-connection.once("open",() => {
-    console.log("MONGO_DB Connection successfull......!!");
-    console.log("***************************************");
-})
+connection.once("open", () => {
+  console.log("MONGO_DB Connection successfull......!!");
+  console.log("***************************************");
+});
 
-import userAccount from "./Routes/User-Account-Routes.js"
-app.use("/user",userAccount);
-import userPost from "./Routes/User-Post-Routes.js"
-app.use("/userPost",userPost);
+
+// sithanga
+import seller from "./Routes/Seller-routes.js";
+app.use("/Seller", seller);
+
+//sajindu
+import userAccount from "./Routes/User-Account-Routes.js";
+app.use("/user", userAccount);
+
+import userPost from "./Routes/User-Post-Routes.js";
+app.use("/userPost", userPost);
+
+//Hiruna
+import blog from "./Routes/Blog-routes.js";
+app.use("/Blog", blog);
