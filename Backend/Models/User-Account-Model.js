@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 //create user account model class 
@@ -47,4 +47,4 @@ const UsersAccountSchema = new Schema({
 },{timestamps:true})
 
 
-module.exports = mongoose.model("user_accounts",UsersAccountSchema);
+export default mongoose.model("user_accounts",UsersAccountSchema);

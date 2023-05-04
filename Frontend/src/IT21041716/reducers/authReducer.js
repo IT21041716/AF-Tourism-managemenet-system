@@ -40,7 +40,7 @@ export default(state =initState,action) => {
         case authConstants.SIGN_UP_SUCCESS:
             state = {
                 ...state,
-                authenticating: false,
+                loading: false,
                 user: action.payload,
                 sellers: action.payload
             }
@@ -48,9 +48,29 @@ export default(state =initState,action) => {
         case authConstants.SIGN_UP_FAILURE:
             state = {
                 ...state,
-                authenticating: false,
+                loading: false,
+            }
+        break
+        case authConstants.LOGOUT_REQUEST:
+            state={
+                ...state,
+                loading:true
+            }
+        break
+
+        case authConstants.LOGOUT_SUCCESS:
+            state={
+                ...initState
+  
+            }
+        break
+        case authConstants.LOGOUT_FAILED:
+            state={
+                ...state,
+                loading:false
             }
         break
 
     }
+    return state
 }

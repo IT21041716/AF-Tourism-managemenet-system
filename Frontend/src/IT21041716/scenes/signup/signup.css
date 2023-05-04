@@ -1,0 +1,36 @@
+.body {
+  background-image: url('../../../assets/ron-whitaker-mVuKCYMGZBM-unsplash.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  color: white;
+}
+
+.row {
+  padding: 1rem 1rem 1rem;
+  margin-top: 2rem;
+}
+
+.col {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.container1 {
+  background-color: rgba(233, 233, 233, 0.707);
+  margin-top: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 4rem;
+}
+
+.link {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+}
+
+.link:hover {
+  color: blue;
+  animation: alternate-reverse;
+}
