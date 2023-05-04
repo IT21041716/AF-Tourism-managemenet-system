@@ -123,13 +123,13 @@ export const tokenRefresh = (req, res, next) => {
       message: "Forbidden..!"
     })
   } else {
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY, (err, user) => {
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY1, (err, user) => {
       if (err) {
         res.status(403).json({
           message: "Forbidden..!"
         })
       } else {
-        const token = jwt.sign({ email: req.body.email }, process.env.JWT_TOKEN_KEY, { expiresIn: "1h" });
+        const token = jwt.sign({ email: req.body.email }, process.env.JWT_TOKEN_KEY1, { expiresIn: "1h" });
         res.status(201).json({
           message: "Session Extended..!",
           token
