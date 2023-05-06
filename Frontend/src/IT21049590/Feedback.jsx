@@ -65,7 +65,8 @@ const SubmitButton = styled(Button)({
 const Feedback = ({ blogId }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [feedback, setFeedback] = useState("");
+  const [rating, setRating] = useState("");
+  const [comment, setComment] = useState("");
   const [blog, setBlog] = useState({});
   const { id } = useParams();
   useEffect(() => {
@@ -84,19 +85,22 @@ const Feedback = ({ blogId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(id);
     try {
       const response = await axios.post(
-        `http://localhost:5000/Blog/feedback/${blogId}`,
+        `http://localhost:5000/Blog/addFeedback/${id}`,
         {
           firstName,
           lastName,
-          feedback,
+          rating,
+          comment,
         }
       );
       console.log(response.data);
       setFirstName("");
       setLastName("");
-      setFeedback("");
+      setRating("");
+      setComment("");
     } catch (error) {
       console.log(error);
     }
@@ -134,12 +138,18 @@ const Feedback = ({ blogId }) => {
           onChange={(e) => setLastName(e.target.value)}
         />
         <Field
-          label="Feedback"
+          label="Rating"
+          variant="outlined"
+          value={rating}
+          onChange={(e) => setRating(e.target.value)}
+        />
+        <Field
+          label="comment"
           variant="outlined"
           multiline
           rows={4}
-          value={feedback}
-          onChange={(e) => setFeedback(e.target.value)}
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
         />
         <SubmitButton variant="contained" color="primary" type="submit">
           Submit Feedback

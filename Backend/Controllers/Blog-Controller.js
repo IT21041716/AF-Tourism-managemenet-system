@@ -120,7 +120,7 @@ export const addFeedback = async (req, res) => {
       comment,
     };
 
-    blog.feedback.push(newFeedback);
+    blog.feedbacks.push(newFeedback);
     await blog.save();
     res.status(201).json(blog);
   } catch (error) {
@@ -145,5 +145,19 @@ export const addRating = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export const getBlogFeedbacks = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const blog = await BlogModel.findById(id);
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+    res.json(blog.feedbacks);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };

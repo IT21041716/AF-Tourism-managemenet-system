@@ -14,6 +14,8 @@ import UpdateBlog from "./IT21049590/UpdateBlog";
 import ViewBlogs from "./IT21049590/ViewBlogs";
 import AllBlogs from "./IT21049590/UserViewBlog";
 import Feedback from "./IT21049590/Feedback";
+import BlogFeedbacks from "./IT21049590/getFeedback";
+import FeedbackItem from "./IT21049590/FeedbackItem";
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
           <Route path="/ViewBlogs" element={<ViewBlogs />} />
           <Route path="/AllBlogs" element={<AllBlogs />} />
           <Route path="/Feedback/:id" element={<Feedback />} />
+          <Route path="/BlogFeedbacks/:id" element={<BlogFeedbacks />} />
+          <Route path="/FeedbackItem" element={<FeedbackItem />} />
 
           {/* sithanga */}
 
