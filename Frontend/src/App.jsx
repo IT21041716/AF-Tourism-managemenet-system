@@ -7,7 +7,7 @@ import { Toaster } from 'react-hot-toast'
 //sithanga
 import SignIn from "./IT21041716/scenes/signin";
 import SignUp from "./IT21041716/scenes/signup";
-import Sample from "./IT21041716/scenes/sample";
+//import Sample from "./IT21041716/scenes/sample";
 
 
 // hiruna
@@ -19,7 +19,7 @@ import Feedback from "./IT21049590/Feedback";
 import BlogFeedbacks from "./IT21049590/getFeedback";
 import FeedbackItem from "./IT21049590/FeedbackItem";
 
-import Header from "./IT21042560/header";
+//import Header from "./IT21042560/header";
 
 function App() {
   return (
@@ -41,7 +41,7 @@ function App() {
 
           <Route path='/login' element={<SignIn />} />
           <Route path='/signup' element={<SignUp />} />
-          <Route path='/sample' element={<Sample />} />
+          {/* <Route path='/sample' element={<Sample />} /> */}
 
 
 
