@@ -15,6 +15,7 @@ import './signin.css'
 
 
 
+
 const SignIn = () => {
 
     const dispatch = useDispatch();
@@ -75,13 +76,13 @@ const SignIn = () => {
     }
 
     if (authenticated) {
-        return <Navigate to='/sample' />
+        return <Navigate to='/dashboard' />
     };
 
 
     return (
      
-            <div className='bgimage'>
+            <div className='bgimage' data-testid="login-id-1">
 
                 <Container component="main" maxWidth="xs" className='container2'>
                     <Box

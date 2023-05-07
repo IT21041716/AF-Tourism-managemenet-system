@@ -16,6 +16,7 @@ import { SignUp } from '../../actions/authActions';
 import toast from 'react-hot-toast'
 import'./signup.css'
 
+
 const index = () => {
     const [Company_name, setCompany_name] = useState('')
     const [Company_email, setCompany_email] = useState('')
@@ -152,11 +153,11 @@ const index = () => {
     }
 
     if (authenticated) {
-        return <Navigate to='/sample' />
+        return <Navigate to='/dashboard' />
     }
 
     return (
-        <div className='body'>
+        <div className='body' data-testid="signup-id-1">
 
         <Container component="main" maxWidth="sm" className='container1'>
             <CssBaseline />
