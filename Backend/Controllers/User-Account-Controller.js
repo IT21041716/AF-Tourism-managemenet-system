@@ -22,6 +22,7 @@ export const UserRegister = async (req, res) => {
     } else if(!ExsistUser) {
       const prefix = 'UID'
       const USER_ID = (prefix + Date.now())
+      const bg = 'Level 01'
       console.log(USER_ID)
       const newUser = new User({
         user_id: USER_ID,
@@ -170,7 +171,7 @@ export const getAllUsers = async (req, res) => {
 
 export const getOneUser = async (req, res) => {
   try {
-    let userId = req.params.user_id;
+    let userId = req.params.userid;
     const user = await User.findById(userId);
     if (user) {
       res.status(200).json({user

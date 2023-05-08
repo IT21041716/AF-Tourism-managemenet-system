@@ -32,8 +32,8 @@ const UserPostSchema = new Schema({
         type:String
     },
     post_image:{
-        data:Buffer,
-        contentType:String
+        type:String,
+        required: true
     }
 },{timestamps:true})
 
