@@ -20,7 +20,19 @@ const AllBlogs = () => {
         console.log(error);
       });
   }, []);
+  const [likes, setLikes] = useState({});
+  const [dislikes, setDislikes] = useState({});
 
+  const handleLike = (id) => {
+    setLikes((prevLikes) => ({ ...prevLikes, [id]: (prevLikes[id] || 0) + 1 }));
+  };
+
+  const handleDislike = (id) => {
+    setDislikes((prevDislikes) => ({
+      ...prevDislikes,
+      [id]: (prevDislikes[id] || 0) + 1,
+    }));
+  };
   return (
     <div>
       {blogs.map((blog) => (
@@ -48,6 +60,12 @@ const AllBlogs = () => {
               {blog.shortDescription}
             </Typography>
           </CardContent>
+          <div>
+            <button onClick={() => handleLike(blog._id)}>Like</button>
+            <span>{likes[blog._id] || 0}</span>
+            <button onClick={() => handleDislike(blog._id)}>Dislike</button>
+            <span>{dislikes[blog._id] || 0}</span>
+          </div>
         </Card>
       ))}
     </div>

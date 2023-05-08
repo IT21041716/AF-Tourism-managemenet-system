@@ -62,11 +62,15 @@ const blogSchema = new mongoose.Schema({
   ],
   feedbacks: [
     {
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+      // user: {
+      //   type: mongoose.Schema.Types.ObjectId,
+      //   ref: "User",
+      // },
+      firstName: {
+        type: String,
+        required: true,
       },
-      message: {
+      lastName: {
         type: String,
         required: true,
       },
@@ -74,6 +78,10 @@ const blogSchema = new mongoose.Schema({
         type: Number,
         min: 1,
         max: 5,
+        required: true,
+      },
+      comment: {
+        type: String,
         required: true,
       },
       date: {

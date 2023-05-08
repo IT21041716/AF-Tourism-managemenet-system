@@ -111,6 +111,9 @@ export default function ViewBlogs() {
                   >
                     Delete
                   </button>
+                  <Link to={"/BlogFeedbacks/" + e._id}>
+                    <button>Feedback</button>
+                  </Link>
                 </td>
               </tr>
             ))}

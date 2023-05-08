@@ -45,7 +45,17 @@ import axios from "axios";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Typography, Card, CardContent, CardMedia } from "@mui/material";
+import {
+  Typography,
+  Card,
+  CardContent,
+  CardMedia,
+  Rating,
+  Paper,
+  FormControl,
+  InputLabel,
+  Box,
+} from "@mui/material";
 import { useParams, Link } from "react-router-dom";
 const Form = styled("form")({
   display: "flex",
@@ -61,13 +71,35 @@ const Field = styled(TextField)({
 const SubmitButton = styled(Button)({
   marginTop: 2,
 });
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     display: "flex",
+//     flexDirection: "column",
+//     alignItems: "center",
+//     padding: theme.spacing(3),
+//     margin: theme.spacing(2),
+//   },
+//   formControl: {
+//     margin: theme.spacing(1),
+//     minWidth: 120,
+//   },
+//   submitButton: {
+//     marginTop: theme.spacing(2),
+//   },
+// }));
 
 const Feedback = ({ blogId }) => {
+  //const classes = useStyles();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [feedback, setFeedback] = useState("");
+  const [rating, setRating] = useState("");
+  const [comment, setComment] = useState("");
   const [blog, setBlog] = useState({});
   const { id } = useParams();
+  const handleRatingChange = (event, newValue) => {
+    setRating(newValue);
+  };
+
   useEffect(() => {
     const fetchBlog = async () => {
       try {
@@ -84,19 +116,22 @@ const Feedback = ({ blogId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(id);
     try {
       const response = await axios.post(
-        `http://localhost:5000/Blog/feedback/${blogId}`,
+        `http://localhost:5000/Blog/addFeedback/${id}`,
         {
           firstName,
           lastName,
-          feedback,
+          rating,
+          comment,
         }
       );
       console.log(response.data);
       setFirstName("");
       setLastName("");
-      setFeedback("");
+      setRating("");
+      setComment("");
     } catch (error) {
       console.log(error);
     }
@@ -104,47 +139,119 @@ const Feedback = ({ blogId }) => {
 
   return (
     <div>
-      <Card sx={{ display: "flex", flexDirection: "column", margin: "1rem" }}>
+      <Card
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          margin: "1rem",
+          boxShadow: "none",
+          borderRadius: "0",
+        }}
+      >
         <CardMedia
           component="img"
-          height="250"
+          height="500"
           image={`http://localhost:5000/${blog.image}`}
           alt={blog.title}
+          sx={{ objectFit: "cover" }}
         />
-        <CardContent sx={{ flexGrow: 1 }}>
-          <Typography gutterBottom variant="h4" component="h2">
+        <CardContent sx={{ flexGrow: 1, padding: "2rem" }}>
+          <Typography
+            gutterBottom
+            variant="h3"
+            component="h1"
+            sx={{ marginBottom: "1rem" }}
+          >
             {blog.title}
           </Typography>
-          <Typography variant="body1">{blog.shortDescription}</Typography>
+          <Typography variant="body1" sx={{ marginBottom: "2rem" }}>
+            {blog.shortDescription}
+          </Typography>
+          <Typography
+            gutterBottom
+            variant="h3"
+            component="h1"
+            sx={{ marginBottom: "1rem" }}
+          >
+            Description
+          </Typography>
           <Typography variant="body1">{blog.fullDescription}</Typography>
         </CardContent>
       </Card>
-
-      <Form onSubmit={handleSubmit}>
-        <Field
-          label="First Name"
-          variant="outlined"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-        <Field
-          label="Last Name"
-          variant="outlined"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-        />
-        <Field
-          label="Feedback"
-          variant="outlined"
-          multiline
-          rows={4}
-          value={feedback}
-          onChange={(e) => setFeedback(e.target.value)}
-        />
-        <SubmitButton variant="contained" color="primary" type="submit">
-          Submit Feedback
-        </SubmitButton>
-      </Form>
+      <center>
+        <Typography
+          gutterBottom
+          variant="h3"
+          component="h1"
+          sx={{ marginBottom: "1rem" }}
+        >
+          Feedback
+        </Typography>
+      </center>
+      <Paper
+        elevation={3}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          padding: "1.5rem",
+          margin: "1rem",
+        }}
+      >
+        <Typography variant="h4" component="h2" gutterBottom>
+          Feedback Form
+        </Typography>
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: "flex", flexDirection: "column", width: "100%" }}
+        >
+          <TextField
+            required
+            label="First Name"
+            variant="outlined"
+            margin="normal"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            fullWidth
+          />
+          <TextField
+            required
+            label="Last Name"
+            variant="outlined"
+            margin="normal"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            fullWidth
+          />
+          <FormControl
+            required
+            variant="outlined"
+            style={{ margin: "1rem", minWidth: "120px" }}
+          >
+            <InputLabel>Rating</InputLabel>
+            <Rating
+              name="rating"
+              value={rating}
+              onChange={handleRatingChange}
+            />
+          </FormControl>
+          <TextField
+            label="Comment"
+            variant="outlined"
+            margin="normal"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            fullWidth
+            multiline
+            rows={4}
+          />
+          <Box textAlign="center" style={{ marginTop: "2rem" }}>
+            <Button variant="contained" color="primary" type="submit">
+              Submit Feedback
+            </Button>
+          </Box>
+        </form>
+      </Paper>
     </div>
   );
 };

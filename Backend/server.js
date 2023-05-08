@@ -33,10 +33,21 @@ connection.once("open", () => {
   console.log("***************************************");
 });
 
-
 // sithanga
 import seller from "./Routes/Seller-routes.js";
 app.use("/Seller", seller);
+
+import sellerPost from "./Routes/sellerPost-routes.js";
+app.use("/SellerPost", sellerPost);
+
+import Revorders from "./Routes/RevOrder-routes.js";
+app.use("/Orders", Revorders);
+
+import History from "./Routes/triphistory-routes.js";
+app.use("/History", History);
+
+import Accept from "./Routes/acptOrder-routes.js";
+app.use("/Accept", Accept);
 
 //sajindu
 import userAccount from "./Routes/User-Account-Routes.js";
