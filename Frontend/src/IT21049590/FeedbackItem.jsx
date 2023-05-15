@@ -2,6 +2,7 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
+import BlogNavbar from "./BlogNavbar";
 
 const Feedback = (props) => (
   <Box
@@ -32,6 +33,7 @@ const Avatar = (props) => (
 const FeedbackItem = ({ feedback }) => {
   return (
     <Feedback>
+     
       <FeedbackHeader>
         <Typography variant="h6">
           {feedback.firstName} {feedback.lastName}
