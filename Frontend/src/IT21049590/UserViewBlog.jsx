@@ -92,6 +92,7 @@ import { Link, useParams } from "react-router-dom";
 const AllBlogs = () => {
   const [blogs, setBlogs] = useState([]);
   const { id } = useParams();
+  const [serQuery, setQuery] = useState("");
 
   useEffect(() => {
     axios
@@ -117,67 +118,80 @@ const AllBlogs = () => {
       [id]: (prevDislikes[id] || 0) + 1,
     }));
   };
+  function searchfun(e) {
+    setQuery(e.target.value);
+  }
 
   return (
     <>
       <BlogNavbar />
+      <input onChange={searchfun} placeholder="Search..." />
 
       <Grid container spacing={2}>
-        {blogs.map((blog) => (
-          <Grid item xs={6} key={blog._id}>
-            <Card
-              sx={{
-                width: "700px",
-                margin: "10px",
-                height: "400px",
-                alignItems: "center",
-                marginLeft: "150px",
-                marginTop: "50px",
-              }}
-            >
-              <Link to={"/Feedback/" + blog._id}>
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={`http://localhost:5000/${blog.image}`}
-                  alt={blog.title}
-                />
-              </Link>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {blog.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {blog.shortDescription}
-                </Typography>
-              </CardContent>
-              <center>
-                <div className="like-dislike-container">
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => handleLike(blog._id)}
-                    sx={{ marginRight: "10px" }}
-                  >
-                    Like
-                  </Button>
-                  <span className="like-count">{likes[blog._id] || 0}</span>
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    onClick={() => handleDislike(blog._id)}
-                    sx={{ marginLeft: "15px" }}
-                  >
-                    Dislike
-                  </Button>
-                  <span className="dislike-count">
-                    {dislikes[blog._id] || 0}
-                  </span>
-                </div>
-              </center>
-            </Card>
-          </Grid>
-        ))}
+        {blogs &&
+          blogs
+            .filter(
+              (e) =>
+                e.title.toLowerCase().includes(serQuery) ||
+                e.title.includes(serQuery) ||
+                e.shortDescription.toLowerCase().includes(serQuery) ||
+                e.shortDescription.includes(serQuery)
+            )
+            .map((blog) => (
+              <Grid item xs={6} key={blog._id}>
+                <Card
+                  sx={{
+                    width: "700px",
+                    margin: "10px",
+                    height: "400px",
+                    alignItems: "center",
+                    marginLeft: "150px",
+                    marginTop: "50px",
+                  }}
+                >
+                  <Link to={"/Feedback/" + blog._id}>
+                    <CardMedia
+                      component="img"
+                      height="200"
+                      image={`http://localhost:5000/${blog.image}`}
+                      alt={blog.title}
+                    />
+                  </Link>
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {blog.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {blog.shortDescription}
+                    </Typography>
+                  </CardContent>
+                  <center>
+                    <div className="like-dislike-container">
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => handleLike(blog._id)}
+                        sx={{ marginRight: "10px" }}
+                      >
+                        Like
+                      </Button>
+                      <span className="like-count">{likes[blog._id] || 0}</span>
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        onClick={() => handleDislike(blog._id)}
+                        sx={{ marginLeft: "15px" }}
+                      >
+                        Dislike
+                      </Button>
+                      <span className="dislike-count">
+                        {dislikes[blog._id] || 0}
+                      </span>
+                    </div>
+                  </center>
+                </Card>
+              </Grid>
+            ))}
       </Grid>
     </>
   );

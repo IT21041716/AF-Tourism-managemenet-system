@@ -56,6 +56,7 @@ const Feedback = ({ blogId }) => {
   const [comment, setComment] = useState("");
   const [blog, setBlog] = useState({});
   const { id } = useParams();
+  
   const handleRatingChange = (event, newValue) => {
     setRating(newValue);
   };
