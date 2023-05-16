@@ -2,12 +2,12 @@ import Post from '../Models/User-Post-model.js'
 import fs from 'fs'
 
 export const addPost = async (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
  try{
  
       const prefix = 'PID'
       const POST_ID = (prefix + Date.now())
-      console.log(POST_ID)
+      // console.log(POST_ID)
 
       const newPost = new Post({
         post_id: POST_ID,
@@ -17,18 +17,14 @@ export const addPost = async (req, res) => {
         post_date: req.body.post_date,
         post_location: req.body.post_location,
         post_remark:req.body.post_remark,
-        post_image: {
-          data: fs.readFileSync('UploadUserPostImages/' + req.file.filename),
-          contentType:"image/png"
-        }
+        post_image: req.file.originalname
 
       });
 
-      console.log(req.file.filename);
-      console.log(newPost);
       const newAcct = await newPost.save();
+      console.log(newAcct);
       if (newAcct) {
-  
+      
         res.status(201).json({
           message: "Post Created Sucessfull..!",
           payload: newAcct
@@ -63,14 +59,16 @@ export const getAllPost = async (req, res) => {
 
 export const getOnePost = async (req, res) => {
   try {
-    let post_id = req.params.post_id;
-    const post = await Post.findById(post_id);
-    if (post) {
-      res.status(200).json({post
-      })
+    let user_id = req.params.user_id;
+    const posts = await Post.find({user_id});
+    if (posts) {
+      res.status(200).json({ posts });
+    } else {
+      res.status(404).json({ message: "No posts found for user ID " + user_id });
     }
-  }catch(error){
-    console.log(error)
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 }
 
