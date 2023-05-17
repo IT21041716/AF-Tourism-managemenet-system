@@ -34,7 +34,6 @@ import Login from "./IT21042560/login";
 import AddPost from "./IT21042560/Add-Post";
 import UserProfile from "./IT21042560/User-Prifile";
 import Certificate from "./IT21042560/User-Certificate";
-//import Header from "./IT21042560/header";
 
 function App() {
   return (
