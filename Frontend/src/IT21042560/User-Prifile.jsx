@@ -3,7 +3,7 @@ import Header from './header';
 import { motion,useCycle  } from 'framer-motion';
 import { useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { faEdit,faHandPointer,faStar  } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Modal, Button } from 'react-bootstrap';
@@ -37,11 +37,26 @@ export default function UserProfile() {
       const [tel_no,setTelNo] = useState('');
       const [badge,setBadge] = useState('');
       const [showModal, setShowModal] = useState(false);
+      const [showModal1, setShowModal1] = useState(false);
 
       const [posts,setPosts] = useState([]);
 
+      const [post_title,setPostTitle] = useState("");
+      const [post_description,setPostDescription] = useState('');
+      const [post_location,setPostLocation] = useState('');
+      const [post_remark, setPostRemark] = useState('');
+      const [post_date,setPostDate] = useState('');
+      const [post_image, setPostImage] = useState('');
+
       const handleShowModal = () => setShowModal(true);
       const handleCloseModal = () => setShowModal(false);
+
+      const handleShowModal1 = () => setShowModal1(true);
+      const handleCloseModal1 = () => setShowModal1(false);
+
+      const handleCatImg = (e) => {
+        setPostImage(e.target.files[0]);
+      }
 
       const getPost = () => {
         console.log("hi")
@@ -197,8 +212,9 @@ export default function UserProfile() {
             } <br/>
                 <Button style={{marginLeft:'12px',  backgroundColor:'#800000', borderColor:'black'}} onClick={handleShowModal}>View Your Profile <FontAwesomeIcon icon={faHandPointer} /></Button>
                 <br/>
+                <Link to={`/user/profile/certificate/${id}`}>
                 <a href='' style={{fontFamily:'MV Boli', color:'black', textDecoration: 'none'}}> <br/>Get Your Certificate<br/><br/></a>
-
+                </Link>
                 </div>
 
             </div>
@@ -265,7 +281,8 @@ export default function UserProfile() {
             <MDBCard style={{ border: "none" }}>
             <button className="btn btn-block mb-2" 
                          style={{  backgroundColor:'#800000', borderColor:'black', borderRadius: "20px", color: "white", fontWeight: "bold", textShadow: "2px 2px 4px rgba(0,0,0,0.4)", transition: "all 0.3s ease", width:'20%' }}
-                          >Edit <FontAwesomeIcon icon={faEdit} />
+                        onClick={handleShowModal1}
+                        >Edit <FontAwesomeIcon icon={faEdit} />
                           </button>
             <img src="https://i2.wp.com/otarafoundation.com/wp-content/uploads/2018/09/40656179_10155906804512183_7160866786412331008_n.jpg?fit=960%2C640&ssl=1" style={{borderRadius:'10px'}}/>
             <MDBCardBody >
@@ -285,6 +302,112 @@ export default function UserProfile() {
                 </MDBCardFooter>
             </MDBCardBody>
             </MDBCard>
+            <Modal show={showModal1} onHide={handleCloseModal1}>
+        <Modal.Header closeButton>
+          <Modal.Title>Post Update</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <div >
+            <div className="tab-pane fade show active" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
+                <form onSubmit={(e) => {
+                            e.preventDefault();
+
+                            
+                        
+                      const form =new FormData();
+
+                      form.append('user_id', post.user_id);
+                      form.append('post_title', post_title);
+                      form.append('post_description', post_description);
+                      form.append('post_date', post_date);
+                      form.append('post_location', post_location);
+                      form.append('post_remark', post_remark);
+                      form.append('post_image', post_image);
+                                    
+                            axios.put(`http://localhost:5000/userPost/postupdate/${post._id}`, form)
+                            .then(() => {
+                                toast.success('Event Updated');
+                                navigate(`/user/profile/${id}`);
+                            })
+                            .catch((err) => {
+                                alert(err);
+                            })
+                        }}>
+                <br/>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                            <div className="form-outline mb-4">
+                                                <label className="form-label" htmlFor="registerName">Post Title</label>
+                                                <input type="text" id="registerName" className="form-control" onChange={(e) => setPostTitle(e.target.value)} />
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                            <div className="form-outline mb-4">
+                                                <label className="form-label" htmlFor="registerName">Post Description</label>
+                                                <textarea rows={'10'} cols={'10'} id="registerName" className="form-control" onChange={(e) => setPostDescription(e.target.value)} placeholder=""/>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                            <div className="form-outline mb-4">
+                                                <label className="form-label" htmlFor="registerName">Date</label>
+                                                <input type="date" id="registerName" className="form-control" onChange={(e) => setPostDate(e.target.value)} placeholder=""/>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                            <div className="form-outline mb-4">
+                                                <label className="form-label" htmlFor="registerName">Location</label>
+                                                <input type="text" id="registerName" className="form-control" onChange={(e) => setPostLocation(e.target.value)} placeholder=""/>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                            <div className="form-outline mb-4">
+                                                <label className="form-label" htmlFor="registerName">Remark</label>
+                                                <textarea rows={'5'} cols={'5'} id="registerName" className="form-control" onChange={(e) => setPostRemark(e.target.value)} placeholder=""/>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                            <div className="form-outline mb-4">
+                                                <label className="form-label" htmlFor="registerName">Upload</label>
+                                                <input type="file" id="registerName" className="form-control" onChange={(e) => handleCatImg(e)} placeholder=""/>
+                                            </div>
+                                            </div>
+                                        </div>
+
+
+                                        
+                                        <motion.button type="submit" className="btn btn-primary btn-block mb-3" 
+                                        style={{
+                                            background:
+                                            "linear-gradient(90deg, #6a11cb, #2575fc, #007fff)",
+                                            borderRadius: "20px",
+                                            color: "white",
+                                            fontWeight: "bold",
+                                            textShadow: "2px 2px 4px rgba(0,0,0,0.4)",
+                                            transition: "all 0.3s ease",
+                                            marginLeft: "10px",
+                                        }}>Update</motion.button>
+                                      
+
+                                    </form>
+                                </div>
+            </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal1}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
             </MDBCol>
         ))}
            
@@ -293,6 +416,59 @@ export default function UserProfile() {
         
 
         </center>
+
+        <Modal show={showModal} onHide={handleCloseModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Personal Details</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    <center >
+                    <div className="profile-details">
+                        <h5 className="profile-details__title">Name - </h5>
+                        <p className="profile-details__value">{userName}</p>
+                    </div>
+                    <div className="profile-details">
+                        <h5 className="profile-details__title">Birthday - </h5>
+                        <p className="profile-details__value">{birthday}</p>
+                    </div>
+                    <div className="profile-details">
+                        <h5 className="profile-details__title">Country - </h5>
+                        <p className="profile-details__value">{country}</p>
+                    </div>
+                    <div className="profile-details">
+                        <h5 className="profile-details__title">Email - </h5>
+                        <p className="profile-details__value">{email}</p>
+                    </div>
+                    <div className="profile-details">
+                        <h5 className="profile-details__title">Gender - </h5>
+                        <p className="profile-details__value">{gender}</p>
+                    </div>
+                    <div className="profile-details">
+                        <h5 className="profile-details__title">Tel No - </h5>
+                        <p className="profile-details__value">{tel_no}</p>
+                    </div>
+                    </center>
+                    <div className="edit-button-container">
+                    <motion.button 
+                        type="submit" 
+                        className="edit-button"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={handleShowModal1}
+                    >
+                        Edit
+                    </motion.button>
+                    </div> 
+
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseModal}>
+                        Close
+                        </Button>
+                    </Modal.Footer>
+                    </Modal> 
+        
+        
         
     </>
   );

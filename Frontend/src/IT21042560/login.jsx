@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {motion} from 'framer-motion';
 import toast from 'react-hot-toast'
 import axios from 'axios'
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -16,6 +17,7 @@ function Login() {
   const [tel_no, setTelNo] = useState("");
   const [badge, setBadge] = useState("");
   const [ProfilePicture, setImageName] = useState('')
+  const navigate = useNavigate();
   
 
   const handleTabClick = (isLogin) => {
@@ -91,7 +93,7 @@ console.log("Hi")
         console.log(badge)
             axios.post("http://localhost:5000/user/usersignup",form).then(()=>{
                 toast.success("Successfully Registred");
-                // navigate('/signin/');
+                navigate('/userLogin');
             }).catch(()=>{
                 toast.success("Something Went Wrong")
             })
@@ -141,8 +143,8 @@ console.log("Hi")
             toast.success("Successfull Login!");
             const uid = response.data.payload.uid; 
             console.log(uid);;
-            alert('ok')
-            // navigate('/OneUser/'+uid);
+            toast.success("Login Success!")
+            navigate('/user/profile/'+uid);
         }).catch(() => {
           alert('Not ok')
             toast.error("Something Went Wrong!")
