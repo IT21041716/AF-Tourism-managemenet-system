@@ -54,6 +54,7 @@ const AddPost = () => {
     }
 
     const addPost = (e) => {
+        
         console.log("Hi")
                 e.preventDefault();
 
@@ -205,7 +206,7 @@ const AddPost = () => {
                                             textShadow: "2px 2px 4px rgba(0,0,0,0.4)",
                                             transition: "all 0.3s ease",
                                             marginLeft: "10px",
-                                        }}>POST</motion.button>
+                                        }}>Update</motion.button>
                                       
 
                                     </form>

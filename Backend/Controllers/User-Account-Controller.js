@@ -23,7 +23,9 @@ export const UserRegister = async (req, res) => {
       const prefix = 'UID'
       const USER_ID = (prefix + Date.now())
       const bg = 'Level 01'
-      console.log(USER_ID)
+      console.log(USER_ID);
+      const no = 0;
+
       const newUser = new User({
         user_id: USER_ID,
         userName: req.body.userName,
@@ -34,6 +36,7 @@ export const UserRegister = async (req, res) => {
         gender:req.body.gender,
         badge:req.body.badge,
         tel_no:req.body.tel_no,
+        post_count:no,
         ProfilePicture: {
           data: fs.readFileSync('UploadUserProfileImages/' + req.file.filename),
           contentType:"image/png"
