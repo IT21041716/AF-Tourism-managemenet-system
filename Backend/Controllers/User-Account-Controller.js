@@ -22,7 +22,10 @@ export const UserRegister = async (req, res) => {
     } else if(!ExsistUser) {
       const prefix = 'UID'
       const USER_ID = (prefix + Date.now())
-      console.log(USER_ID)
+      const bg = 'Level 01'
+      console.log(USER_ID);
+      const no = 0;
+
       const newUser = new User({
         user_id: USER_ID,
         userName: req.body.userName,
@@ -33,6 +36,7 @@ export const UserRegister = async (req, res) => {
         gender:req.body.gender,
         badge:req.body.badge,
         tel_no:req.body.tel_no,
+        post_count:no,
         ProfilePicture: {
           data: fs.readFileSync('UploadUserProfileImages/' + req.file.filename),
           contentType:"image/png"
@@ -170,7 +174,7 @@ export const getAllUsers = async (req, res) => {
 
 export const getOneUser = async (req, res) => {
   try {
-    let userId = req.params.user_id;
+    let userId = req.params.userid;
     const user = await User.findById(userId);
     if (user) {
       res.status(200).json({user

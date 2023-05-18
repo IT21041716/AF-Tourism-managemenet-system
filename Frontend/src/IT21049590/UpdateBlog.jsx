@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
-import { MDBCardImage } from "mdb-react-ui-kit";
+import BlogNavbar from "./BlogNavbar";
 const UpdateBlog = () => {
   const [title, setTitle] = useState("");
   const [shortDescription, setShortDescription] = useState("");
@@ -54,93 +54,111 @@ const UpdateBlog = () => {
   };
 
   return (
-    <Box
-      component="form"
-      sx={{
-        "& .MuiTextField-root": { m: 1, width: "25ch" },
-      }}
-      noValidate
-      autoComplete="off"
-      onSubmit={handleSubmit}
-    >
-      <div>
-        <TextField
-          id="title"
-          label="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <TextField
-          id="shortDescription"
-          label="Short Description"
-          value={shortDescription}
-          onChange={(e) => setShortDescription(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <TextField
-          id="longDescription"
-          label="Long Description"
-          multiline
-          rows={4}
-          maxRows={4}
-          value={fullDescription}
-          onChange={(e) => setLongDescription(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <input
-          accept="image/*"
-          id="image"
-          type="file"
-          style={{ display: "none" }}
-          onChange={(e) => {
-            handleCatImg(e);
-          }}
-        />
-        <label htmlFor="image">
+    <>
+      <BlogNavbar />
+      <Box
+        component="form"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          margin: "40px auto",
+          padding: "20px",
+          backgroundColor: "#f5f5f5",
+          borderRadius: "5px",
+          boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.15)",
+        }}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
+        <div>
+          <TextField
+            id="title"
+            label="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            sx={{ width: "100%", marginBottom: "20px" }}
+          />
+        </div>
+
+        <div>
+          <TextField
+            id="shortDescription"
+            label="Short Description"
+            value={shortDescription}
+            onChange={(e) => setShortDescription(e.target.value)}
+            required
+            sx={{ width: "100%", marginBottom: "20px" }}
+          />
+        </div>
+
+        <div>
+          <TextField
+            id="longDescription"
+            label="Long Description"
+            multiline
+            rows={4}
+            maxRows={4}
+            value={fullDescription}
+            onChange={(e) => setLongDescription(e.target.value)}
+            required
+            sx={{ width: "100%", marginBottom: "20px" }}
+          />
+        </div>
+
+        <div>
+          <input
+            accept="image/*"
+            id="image"
+            type="file"
+            style={{ display: "none" }}
+            onChange={(e) => {
+              handleCatImg(e);
+            }}
+          />
+
+          <label htmlFor="image">
+            <Button
+              variant="contained"
+              component="span"
+              startIcon={<CloudUploadIcon />}
+            >
+              Upload Image
+            </Button>
+          </label>
+        </div>
+
+        <br></br>
+
+        <div>
           <Button
             variant="contained"
-            component="span"
-            startIcon={<CloudUploadIcon />}
+            color="primary"
+            type="submit"
+            sx={{ width: "100%", marginBottom: "20px" }}
           >
-            Upload Image
+            Update
           </Button>
-        </label>
+        </div>
 
-        {/* <MDBCardImage
-          src={`http://localhost:5000/${image}`}
-          alt="Avatar"
-          className="my-5"
-          style={{ width: "80px" }}
-          fluid
-        /> */}
-      </div>
-      <br></br>
-      <div>
-        <Button variant="contained" color="primary" type="submit">
-          Update
-        </Button>
-      </div>
-      <div className="buttons">
-        <Link to={"/ViewBlogs"}>
-          <center>
-            <button
-              type="button2"
-              class="btn btn-success"
-              style={{ marginLeft: "-200px" }}
-            >
-              Back
-            </button>
-          </center>
-        </Link>
-      </div>
-    </Box>
+        <div className="buttons">
+          <div>
+            <Link to={"/ViewBlogs"}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                sx={{ width: "100%", marginBottom: "20px" }}
+              >
+                Back
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </Box>
+    </>
   );
 };
 

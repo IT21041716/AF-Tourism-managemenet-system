@@ -43,6 +43,9 @@ const UsersAccountSchema = new Schema({
     imageName:{
         data:Buffer,
         contentType:String
+    },
+    post_count:{
+        type: String
     }
 },{timestamps:true})
 

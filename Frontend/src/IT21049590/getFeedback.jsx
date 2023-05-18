@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
 import FeedbackItem from "./FeedbackItem";
-
+import BlogNavbar from "./BlogNavbar";
 const styles = {
   root: {
     flexGrow: 1,
@@ -47,7 +47,9 @@ const BlogFeedbacks = () => {
   }, [id]);
 
   return (
+    
     <div style={styles.root}>
+      {/* <BlogNavbar /> */}
       <Typography variant="h4" component="h1" style={styles.title}>
         Feedbacks
       </Typography>

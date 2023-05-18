@@ -1,0 +1,6 @@
+.container1 {
+    background-image: url('path/to/your/image.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: rgba(196, 235, 235, 0.274);
+  }

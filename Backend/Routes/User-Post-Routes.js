@@ -22,7 +22,7 @@ const upload = multer({storage:storage});
 router.post('/postadd',upload.single('post_image'), addPost);
 router.delete('/postdelete/:post_id',deletePost);
 router.get("/allpost", getAllPost);
-router.get("/post/:post_id", getOnePost);
+router.get("/post/:user_id", getOnePost);
 router.put("/postupdate/:id",upload.single('post_image'), updatePost);
 
 export default router;
