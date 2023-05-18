@@ -104,6 +104,7 @@ const AddPost = () => {
                     setPostImage(null)
               }
           }
+          
 
   return (
     <>
