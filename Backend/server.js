@@ -59,3 +59,6 @@ app.use("/userPost", userPost);
 //Hiruna
 import blog from "./Routes/Blog-routes.js";
 app.use("/Blog", blog);
+
+import admin from "./Routes/AdminLogin-Routes.js";
+app.use("/Admin", admin);

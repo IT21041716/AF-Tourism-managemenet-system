@@ -9,11 +9,17 @@ import {
   Typography,
   Button,
   Grid,
+  IconButton,
 } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
-
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbUpOffAltOutlinedIcon from "@mui/icons-material/ThumbUpOffAltOutlined";
+import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
+import Header from "../IT21042560/header";
 import "./Blog1.css";
-import { styled } from "@mui/system";
+import { Box, styled } from "@mui/system";
+
 
 const AllBlogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -25,6 +31,7 @@ const AllBlogs = () => {
       .get("http://localhost:5000/Blog/viewAll")
       .then((response) => {
         setBlogs(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -43,26 +50,61 @@ const AllBlogs = () => {
     },
   }));
 
-  const [likes, setLikes] = useState({});
-  const [dislikes, setDislikes] = useState({});
+  const [likes, setLikes] = useState([]);
+  const [dislikes, setDislikes] = useState([]);
+  const [isLiked, setIsLiked] = useState();
+  const [isDisliked, setIsDisliked] = useState();
 
-  const handleLike = (id) => {
-    setLikes((prevLikes) => ({ ...prevLikes, [id]: (prevLikes[id] || 0) + 1 }));
+  // const handleLike = async (id) => {
+  //   try {
+  //     const response = await axios.post(
+  //       `http://localhost:5000/Blog/blogLike/${id}`
+  //     );
+  //     const response1 = await axios.get(
+  //       `http://localhost:5000/Blog/getBlogById/${id}`
+  //     );
+  //     const { likes } = response.data;
+  //     console.log("KKK " + response1.data.likes);
+  //     setLikes(likes);
+  //     setIsLiked(true);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const handleLikeButton = async (bid) => {
+    try {
+      const response = await axios.patch("http://localhost:5000/Blog/like", {
+        id: id,
+        bid: bid,
+      });
+      setIsLiked(response.data.post.isLiked);
+      setIsDisliked(response.data.post.isDisliked);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-  const handleDislike = (id) => {
-    setDislikes((prevDislikes) => ({
-      ...prevDislikes,
-      [id]: (prevDislikes[id] || 0) + 1,
-    }));
+  const handleDislikeButton = async (bid) => {
+    try {
+      const response = await axios.patch("http://localhost:5000/Blog/dislike", {
+        id: id,
+        bid: bid,
+      });
+      setIsLiked(response.data.post.isLiked);
+      setIsDisliked(response.data.post.isDisliked);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
   function searchfun(e) {
     setQuery(e.target.value);
   }
 
   return (
-    <div >
-      <BlogNavbar />
+    <div>
+      <Header />
       <div className="container1">
         <input
           onChange={searchfun}
@@ -115,30 +157,48 @@ const AllBlogs = () => {
                       </Typography>
                     </CardContent>
                     <center>
-                      <div className="like-dislike-container">
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          onClick={() => handleLike(blog._id)}
-                          sx={{ marginRight: "10px" }}
+                      <Box display={"flex"} justifyContent={"space-between"}>
+                        <Box display={"flex"} alignItems={"center"}>
+                        <IconButton
+                          onClick={() => handleLikeButton(blog._id)}
+                          style={{
+                            color: blog.isLiked ? "blue" : "inherit",
+                            transition: "color 0.5s ease",
+                          }}
                         >
-                          Like
-                        </Button>
-                        <span className="like-count">
-                          {likes[blog._id] || 0}
-                        </span>
-                        <Button
-                          variant="outlined"
-                          color="secondary"
-                          onClick={() => handleDislike(blog._id)}
-                          sx={{ marginLeft: "15px" }}
+                          {blog.isLiked ? (
+                            <ThumbUpIcon />
+                          ) : (
+                            <ThumbUpOffAltOutlinedIcon />
+                          )}
+                        </IconButton>
+
+                        <Typography fontSize={20} fontWeight={800} ml={1}>
+                          {blog.likes.length}
+                        </Typography>
+                        </Box>
+                        <Box display={"flex"} alignItems={"center"}>
+                        
+                       
+
+                        <Typography fontSize={20} fontWeight={800} ml={1}>
+                          {blog.dislikes.length}
+                        </Typography>
+                        <IconButton
+                          onClick={() => handleDislikeButton(blog._id)}
+                          style={{
+                            color: blog.isDisliked ? "red" : "inherit",
+                            transition: "color 0.5s ease",
+                          }}
                         >
-                          Dislike
-                        </Button>
-                        <span className="dislike-count">
-                          {dislikes[blog._id] || 0}
-                        </span>
-                      </div>
+                          {blog.isDisliked ? (
+                            <ThumbDownIcon />
+                          ) : (
+                            <ThumbDownOutlinedIcon />
+                          )}
+                        </IconButton>
+                        </Box>
+                      </Box>
                     </center>
                   </MyCard>
                 </Grid>

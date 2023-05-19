@@ -1,36 +1,5 @@
 import mongoose from "mongoose";
 
-// const blogSchema = new mongoose.Schema({
-//   title: {
-//     type: String,
-//   },
-//   shortDescription: {
-//     type: String,
-//   },
-//   fullDescription: {
-//     type: String,
-//   },
-//   image: {
-//     type: String,
-//   },
-//   like: [
-//     {
-//       type: mongoose.Schema.Types.ObjectId,
-//       ref: "",
-//     },
-//   ],
-//   dislike: [
-//     {
-//       type: mongoose.Schema.Types.ObjectId,
-//       ref: "",
-//     },
-//   ],
-//   blogId: {
-//     type: String,
-//   },
-//   feedback: [{ firstName: String, lastName: String }],
-// });
-// export default mongoose.model("Blog", blogSchema);
 const blogSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -51,21 +20,26 @@ const blogSchema = new mongoose.Schema({
   likes: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "user_accounts",
     },
   ],
   dislikes: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "user_accounts",
     },
   ],
+  isLiked: {
+    type: Boolean,
+    default: false,
+  },
+  isDisliked: {
+    type: Boolean,
+    default: false,
+  },
   feedbacks: [
     {
-      // user: {
-      //   type: mongoose.Schema.Types.ObjectId,
-      //   ref: "User",
-      // },
+      
       firstName: {
         type: String,
         required: true,
