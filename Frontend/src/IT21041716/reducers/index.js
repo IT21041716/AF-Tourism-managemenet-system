@@ -3,6 +3,7 @@ import generalReducer from './generalReducer';
 import revOrderReducer from './revOrderReducer';
 import acptOrdersReducer from './acptOrdersReducer';
 import completeReducer from './completeReducer';
+import postReducer from './postReducer';
 
 import {combineReducers} from'redux'
 
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     revOrders:revOrderReducer,
     AcptOrders:acptOrdersReducer,
     completes:completeReducer,
+    post:postReducer,
 
 })
 

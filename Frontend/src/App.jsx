@@ -15,6 +15,13 @@ import Acpords from "./IT21041716/scenes/Cpanel/AcpOrders";
 import History from "./IT21041716/scenes/Cpanel/OrderHistory";
 import Checkout from "./IT21041716/scenes/checkout/index";
 import Test from "./IT21041716/scenes/Cpanel/test";
+import PwdUpdate from './IT21041716/scenes/Cpanel/updatePwd'
+import Home from './IT21041716/scenes/clientFacing/Home'
+import PlanClient from './IT21041716/scenes/clientFacing/plandetails'
+
+
+
+
 
 // hiruna
 import AddBlog from "./IT21049590/AddBlog";
@@ -60,6 +67,30 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/sample" element={<Sample />} />
 
+
+          <Route path="/login" element={<SignIn />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/sample" element={<Sample />} />
+          <Route path="/dash" element={<Layout />} />
+          <Route path="/checkout/:id" element={<Checkout />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/plans/:id" element={<PlanClient />} />
+          
+          {/* seller controll panel */}
+          <Route element={<Layout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/New Trips" element={<AddTrip />} />
+            <Route path="/Trip Plans" element={<TripPlans />} />
+            <Route path="/Received Orders" element={<Revords />} />
+            <Route path="/Accepted Orders" element={<Acpords />} />
+            <Route path="/Trip Histories" element={<History />} />
+            <Route path="/Password Change" element={<PwdUpdate />} />
+            <Route path="/details/:id" element={<Test />} />
+          
+          </Route>
+
+
           {/* sajindu */}
           <Route path="/user" element={<Header />} />
           <Route path="/userLogin" element={<Login />} />
@@ -71,22 +102,6 @@ function App() {
           />
           <Route path="/user/profile/test/:id" element={<Test />} />
 
-          <Route path="/login" element={<SignIn />} />
-          <Route path="/" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/sample" element={<Sample />} />
-          <Route path="/dash" element={<Layout />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/test" element={<Test />} />
-          {/* seller controll panel */}
-          <Route element={<Layout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/New Trips" element={<AddTrip />} />
-            <Route path="/Trip Plans" element={<TripPlans />} />
-            <Route path="/Received Orders" element={<Revords />} />
-            <Route path="/Accepted Orders" element={<Acpords />} />
-            <Route path="/Trip Histories" element={<History />} />
-          </Route>
         </Routes>
       </BrowserRouter>
     </div>

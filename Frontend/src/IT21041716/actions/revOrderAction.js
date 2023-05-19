@@ -7,7 +7,7 @@ export const NewOrder = (data)=> {
     console.log(data)
     return async(dispatch) => {
         dispatch({type: revOrderConstants.PLACE_ORDER_REQUEST})
-        const res = await axiosInstance.post('/Orders/addorder', data)
+        const res = await axiosInstance.post('/Orders/orderFirst', data)
         if(res.status === 201){
             toast.success("Order Placed...!",{
                 id:"placesuccs"
@@ -61,33 +61,33 @@ export const getOrders = (Seller_ID) => {
     }
 }
 
-export const deleteOrder = (data) => {
-    const form ={
-        oid : data.Order_ID,
-        Customer_Name: data.Customer_Name,
-        email: data.Email
+// export const deleteOrder = (data) => {
+//     const form ={
+//         oid : data.Order_ID,
+//         Customer_Name: data.Customer_Name,
+//         email: data.Email
 
-    }
-    console.log(form)
-    return async (dispatch) => {
-        dispatch({ type: cartConstant.DELETE_CART_REQUEST})
-        const res = await axiosIntance.post('/Cart/deleteCartM',form)
-        if (res.status === 200) {
-            toast.success("Order deleted..! ", {
-                id: 'del'
-            })
-            dispatch({ type:  cartConstant.DELETE_CART_SUCCESS })
-            dispatch(GetCart())
+//     }
+//     console.log(form)
+//     return async (dispatch) => {
+//         dispatch({ type: cartConstant.DELETE_CART_REQUEST})
+//         const res = await axiosIntance.post('/Cart/deleteCartM',form)
+//         if (res.status === 200) {
+//             toast.success("Order deleted..! ", {
+//                 id: 'del'
+//             })
+//             dispatch({ type:  cartConstant.DELETE_CART_SUCCESS })
+//             dispatch(GetCart())
 
-        } else if (res.status === 500) {
-            toast.error("Order rejection failed..!", {
-                id: "fail"
-            })
-            dispatch({
-                type: cartConstant.DELETE_CART_FAILED,
+//         } else if (res.status === 500) {
+//             toast.error("Order rejection failed..!", {
+//                 id: "fail"
+//             })
+//             dispatch({
+//                 type: cartConstant.DELETE_CART_FAILED,
 
-            })
-        } 
+//             })
+//         } 
         
-    }
-}
+//     }
+// }

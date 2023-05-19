@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DashHeader from '../../component/DashHeader'
 import { Box, Typography, Button } from "@mui/material";
 import srilanka from '../../../assets/srilanka.jpg'
@@ -8,28 +8,64 @@ import CloseIcon from '@mui/icons-material/Close';
 import Divider from '@mui/material/Divider';
 import './dash.css'
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
-
+import { useDispatch, useSelector } from 'react-redux'
+import { updateSeller, fetchSeller, updateDp, updateGallery } from '../../actions/authActions'
+import { toast } from 'react-hot-toast'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { MDBBtn, MDBModal, MDBTextArea, MDBScrollspy, MDBModalDialog, MDBModalContent, MDBModalHeader, MDBModalTitle, MDBModalBody, MDBModalFooter, MDBCardFooter } from 'mdb-react-ui-kit';
+import { Col, Container, Row, Table, Nav, Form } from 'react-bootstrap'
 
 const dashboard = () => {
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.auth.user)
 
 
 
-  const images = [
+  const [companyName, setCompanyName] = useState(user.Company_Name);
+  const [companyEmail, setCompanyEmail] = useState(user.Company_email);
+  const [companyContactNo, setCompanyContactNo] = useState(user.Company_contact_no);
+  const [companyAddress, setCompanyAddress] = useState(user.Company_address);
+  const [personalName, setpersonalName] = useState(user.Personal_name);
+  const [personalEmail, setPersonalEmail] = useState(user.Personal_email);
+  const [personalContactNumber, setPersonalContactNumber] = useState(user.Personal_contact_no);
+  const [personalAddress, setPersonalAddress] = useState(user.Personal_address);
+  const [description, setDescription] = useState(user.Description);
+  const [profilepic, setProfilePic] = useState(user.ProfilePicture);
+  const [imagesCom, setImagesCom] = useState([user.imagesCom])
+  const loading = useSelector(state => state.auth.loading)
+  console.log(profilepic)
+  console.log(imagesCom)
 
 
-    'https://images.unsplash.com/photo-1569670380606-fd47201d42da?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTZ8fHNyaSUyMGxhbmthbiUyMHZpbGxhcyUyMHdpdGglMjBuYXRodXJlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1569670380685-169d7737183d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTd8fHNyaSUyMGxhbmthbiUyMHZpbGxhcyUyMHdpdGglMjBuYXRodXJlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1640662112183-a2ad45c4cd30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Njh8fHNyaSUyMGxhbmthbiUyMHZpbGxhcyUyMHdpdGglMjBuYXRodXJlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1569668444080-c3cd3fd2a259?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTV8fHNyaSUyMGxhbmthbiUyMHZpbGxhcyUyMHdpdGglMjBuYXRodXJlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1639401672398-73bb6dad0d05?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTh8fHNyaSUyMGxhbmthbiUyMHZpbGxhcyUyMHdpdGglMjBuYXRodXJlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1569670380686-85f045c172cd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nzl8fHNyaSUyMGxhbmthbiUyMHZpbGxhcyUyMHdpdGglMjBuYXRodXJlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1582610191340-fa501e6e5040?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlsbGElMjBzcmklMjBsYW5rYXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1582609955288-ee637f993957?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8dmlsbGElMjBzcmklMjBsYW5rYXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1621626806480-53591486f446?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8dmlsbGElMjBzcmklMjBsYW5rYXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1582610402980-6a09126b5844?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8dmlsbGElMjBzcmklMjBsYW5rYXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1561426802-392f5b6290cf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHNyaSUyMGxhbmthfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60'
 
-  ];
+  useEffect(() => {
+    if (loading === true) {
+      toast.loading('Processing...', {
+        id: 'loading'
+      })
+    }
+    else if (loading === false) {
+      toast.dismiss('loading')
+    }
+
+  }, [loading]);
+
+  const id = {
+    Seller_ID: localStorage.Seller_ID
+  }
+  useEffect(() => {
+    dispatch(fetchSeller(id))
+  }, [])
+
+
+
+  // const images = [
+
+
+  //   'https://images.unsplash.com/photo-1569670380606-fd47201d42da?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTZ8fHNyaSUyMGxhbmthbiUyMHZpbGxhcyUyMHdpdGglMjBuYXRodXJlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
+  //   'https://images.unsplash.com/photo-1569670380685-169d7737183d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTd8fHNyaSUyMGxhbmthbiUyMHZpbGxhcyUyMHdpdGglMjBuYXRodXJlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
+
+  // ];
 
   const [data, setData] = useState({ image: '', i: 0 })
   const viewImage = (image, i) => {
@@ -43,10 +79,71 @@ const dashboard = () => {
     document.body.style.overflow = '';
     window.scrollTo(0, 0);
   }
+
+
+  const updateDetails = (e) => {
+    e.preventDefault()
+    const form = {
+      Seller_ID: localStorage.Seller_ID,
+      Company_name: companyName,
+      Company_email: companyEmail,
+      Company_contact_no: companyContactNo,
+      Company_address: companyAddress,
+      Personal_name: personalName,
+      Personal_contact_no: personalContactNumber,
+      Personal_address: personalAddress,
+      Personal_email: personalEmail,
+      Description: description
+    }
+
+
+    dispatch(updateSeller(form))
+  }
+
+  const handleCatImg = (e) => {
+    setProfilePic(e.target.files[0]);
+  }
+
+  const updatePropic = (e) => {
+    e.preventDefault()
+    const form = new FormData();
+    form.append('Seller_ID', localStorage.Seller_ID,)
+    form.append('ProfilePicture', profilepic);
+
+    dispatch(updateDp(form))
+  }
+
+  const handleGalImg = (e) => {
+    const files = Array.from(e.target.files);
+    setImagesCom(files);
+  };
+
+  const count = user.ImagesCom.length;
+  const imgArray = [];
+
+  for (let i = 0; i < count; i++) {
+    imgArray.push({ name: user.ImagesCom[i]?.name });
+  }
+
+
+
+
+  const updateGal = (e) => {
+    e.preventDefault()
+
+    const form = {
+      Seller_ID: localStorage.Seller_ID,
+      ImagesCom: imgArray
+    }
+
+
+    dispatch(updateGallery(form))
+  }
+
+
   return (
 
     <>
-
       {
         data.image &&
         <div style={{
@@ -94,55 +191,44 @@ const dashboard = () => {
 
 
       >
-        <Box display="flex" justifyContent="center" alignItems="center" marginTop='-580px'>
+
+        <Box display="flex" justifyContent="center" alignItems="center" marginTop='-580px' cursor='pointer'>
 
           <img
             alt="profile-user"
             width="200px"
             height="200px"
-            src={propic}
+            src={`http://localhost:5000/${profilepic}`}
             style={{ cursor: "pointer", borderRadius: "50%" }}
           />
 
 
         </Box>
+
         <Typography
           variant='h3'
           style={{
-            marginTop: '-350px',
+            marginTop: '-320px',
             textAlign: 'center',
             position: 'absolute',
             fontSize: '32px',
             color: 'black',
             textShadow: '2px 2px 4px #000000',
-          }}
-        >
-          Isuru chamod
-        </Typography>
-        <Typography
-          variant='h2'
-          style={{
-            marginTop: '-300px',
-            textAlign: 'center',
-            position: 'absolute',
-            fontSize: '18px',
-            color: '#3da58a',
 
           }}
-        >
-          Marketing Assistant
-        </Typography>
 
-        <Typography style={{ marginTop: '-200px', textAlign: 'left', position: 'absolute', fontSize: '15px', color: '#black', fontWeight: "600" }}>Email : <p style={{ fontWeight: "400", display: 'inline-block', marginLeft: '5px' }}>sithanga1231@gmail.com</p> </Typography>
-        <Typography style={{ marginTop: '-160px', textAlign: 'left', position: 'absolute', fontSize: '15px', color: '#black', fontWeight: "600" }}>Contact Number :<p style={{ fontWeight: "400", display: 'inline-block', marginLeft: '5px' }}>0763223349</p></Typography>
-        <Typography style={{ marginTop: '-120px', textAlign: 'left', position: 'absolute', fontSize: '15px', color: '#black', fontWeight: "600" }}>Address : <p style={{ fontWeight: "400", display: 'inline-block', marginLeft: '5px' }}>399/c gamunumawatha,palanwatta,pannipitiya</p></Typography>
-        <Typography style={{ marginTop: '-80px', textAlign: 'left', position: 'absolute', fontSize: '15px', color: '#black', fontWeight: "600" }}>Company : <p style={{ fontWeight: "400", display: 'inline-block', marginLeft: '5px' }}>SMS Logistics</p></Typography>
-        <Typography style={{ marginTop: '-40px', textAlign: 'left', position: 'absolute', fontSize: '15px', color: '#black', fontWeight: "600" }}>Company Email : <p style={{ fontWeight: "400", display: 'inline-block', marginLeft: '5px' }}>sms.support@gmail.com</p></Typography>
+        >{user.Personal_name}</Typography>
+
+
+
+        <Typography style={{ marginTop: '-200px', textAlign: 'left', position: 'absolute', fontSize: '15px', color: '#black', fontWeight: "600" }}>Email : <p style={{ fontWeight: "400", display: 'inline-block', marginLeft: '5px' }}>{user.Personal_email}</p> </Typography>
+        <Typography style={{ marginTop: '-160px', textAlign: 'left', position: 'absolute', fontSize: '15px', color: '#black', fontWeight: "600" }}>Contact Number :<p style={{ fontWeight: "400", display: 'inline-block', marginLeft: '5px' }}>{user.Company_contact_no}</p></Typography>
+        <Typography style={{ marginTop: '-120px', textAlign: 'left', position: 'absolute', fontSize: '15px', color: '#black', fontWeight: "600" }}>Address : <p style={{ fontWeight: "400", display: 'inline-block', marginLeft: '5px' }}>{user.Company_address}</p></Typography>
+        <Typography style={{ marginTop: '-80px', textAlign: 'left', position: 'absolute', fontSize: '15px', color: '#black', fontWeight: "600" }}>Company : <p style={{ fontWeight: "400", display: 'inline-block', marginLeft: '5px' }}>{user.Company_name}</p></Typography>
+        <Typography style={{ marginTop: '-40px', textAlign: 'left', position: 'absolute', fontSize: '15px', color: '#black', fontWeight: "600" }}>Company Email : <p style={{ fontWeight: "400", display: 'inline-block', marginLeft: '5px' }}>{user.Company_email}</p></Typography>
 
 
       </Box>
-      <Divider variant="middle" style={{ marginTop: "5.6rem", width: "26rem", marginLeft: "34rem", height: '1px', backgroundColor: '#a2a1a1' }} />
-      <Divider variant="middle" style={{ marginTop: "8rem", width: "26rem", marginLeft: "34rem", height: '1px', backgroundColor: '#a2a1a1' }} />
       <Box
         width="25rem"
         height="25rem"
@@ -154,34 +240,36 @@ const dashboard = () => {
         left="37.5%"
         transform="translate(-50%, -50%)"
       >
-        <Typography color="black" fontSize='12px' fontWeight='400' textAlign='center' >
-          Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+        <Typography color="black" fontSize='12px' fontWeight='400' textAlign='justify' style={{ marginTop: "-110px" }} >
+          {user.Description}
 
         </Typography>
 
+
       </Box>
 
-      <div style={{ marginTop: "21rem", display: "flex", flexDirection: "row" }}>
+      <div style={{ marginTop: "40rem", display: "flex", flexDirection: "row" }}>
         <div className="card mb-4" style={{ width: "45rem", marginLeft: "10rem" }}>
           <div className="card-header">Account Details</div>
           <div className="card-body">
-            <form>
+            <form onSubmit={updateDetails}>
 
               <div className="mb-3">
-                <label className="small mb-1" for="inputUsername">Your Organization Name</label>
-                <input className="form-control" id="inputUsername" type="text" placeholder="Enter your Organization Name"  />
+                <label className="small mb-1" htmlFor="inputUsername">Your Organization Name</label>
+                <input className="form-control" id="inputUsername" type="text" placeholder="Enter your Organization Name" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
               </div>
+
 
               <div className="row gx-3 mb-3">
 
                 <div className="col-md-6">
                   <label className="small mb-1" for="inputFirstName">Organization Email</label>
-                  <input className="form-control" id="inputFirstName" type="text" placeholder="Enter your organization email"  />
+                  <input className="form-control" id="inputFirstName" type="text" placeholder="Enter your organization email" value={companyEmail} onChange={(e) => setCompanyEmail(e.target.value)} />
                 </div>
 
                 <div className="col-md-6">
                   <label className="small mb-1" for="inputLastName">Organization Contact Number</label>
-                  <input className="form-control" id="inputLastName" type="text" placeholder="Enter your Organization contact number"  />
+                  <input className="form-control" id="inputLastName" type="text" placeholder="Enter your Organization contact number" value={companyContactNo} onChange={(e) => setCompanyContactNo(e.target.value)} />
                 </div>
               </div>
 
@@ -189,71 +277,105 @@ const dashboard = () => {
 
                 <div className="col-md-6">
                   <label className="small mb-1" for="inputOrgName">Organization Address</label>
-                  <input className="form-control" id="inputOrgName" type="text" placeholder="Enter your organization address"  />
+                  <input className="form-control" id="inputOrgName" type="text" placeholder="Enter your organization address" value={companyAddress} onChange={(e) => setCompanyAddress(e.target.value)} />
                 </div>
 
                 <div className="col-md-6">
                   <label className="small mb-1" for="inputLocation">Personal Name</label>
-                  <input className="form-control" id="inputLocation" type="text" placeholder="Enter your personal name" />
+                  <input className="form-control" id="inputLocation" type="text" placeholder="Enter your personal name" value={personalName} onChange={(e) => setpersonalName(e.target.value)} />
                 </div>
               </div>
 
               <div className="mb-3">
                 <label className="small mb-1" for="inputEmailAddress">Personal Email</label>
-                <input className="form-control" id="inputEmailAddress" type="email" placeholder="Enter your personal email address" />
+                <input className="form-control" id="inputEmailAddress" type="email" placeholder="Enter your personal email address" value={personalEmail} onChange={(e) => setPersonalEmail(e.target.value)} />
               </div>
 
               <div className="row gx-3 mb-3">
 
                 <div className="col-md-6">
                   <label className="small mb-1" for="inputPhone">Personal Contact Number </label>
-                  <input className="form-control" id="inputPhone" type="tel" placeholder="Enter your personal contact number"  />
+                  <input className="form-control" id="inputPhone" type="tel" placeholder="Enter your personal contact number" value={personalContactNumber} onChange={(e) => setPersonalContactNumber(e.target.value)} />
                 </div>
 
                 <div className="col-md-6">
-                  <label className="small mb-1" for="inputBirthday">Personal Email</label>
-                  <input className="form-control" id="inputBirthday" type="text" name="birthday" placeholder="Enter your personal email"/>
+                  <label className="small mb-1" for="inputBirthday">Personal Address</label>
+                  <input className="form-control" id="inputBirthday" type="text  " name="birthday" placeholder="Enter your personal address" value={personalAddress} onChange={(e) => setPersonalAddress(e.target.value)} />
                 </div>
               </div>
 
-              <button className="btn btn-primary" style={{ backgroundColor: "#3da58a", borderStyle: "none" }} type="button">Save changes</button>
+              <div className="row gx-6 mb-6">
+                <div className="col-md-12">
+                  <label className="small mb-1" for="inputBirthday">Description</label>
+                  <textarea class="form-control" id="textAreaExample" rows="10" cols='50' value={description} onChange={(e) => setDescription(e.target.value)} />
+                </div>
+              </div>
+
+              <button className="btn btn-primary" style={{ backgroundColor: "#3da58a", borderStyle: "none", marginTop: "30px" }} type="submit">Save changes</button>
             </form>
           </div>
         </div>
 
         <div className="card mb-4" style={{ width: "35rem", marginLeft: "2rem" }}>
-          <div className="card-header">Manage your gallery </div>
+          <div className="card-header">Manage your Images </div>
           <div className="card-body">
-            <p>upload image to the gellery and you can remove existing images also here is the option to manage your gellery.</p>
-            <form>
-              <label htmlFor="file-upload">
-                <input
-                  id="file-upload"
-                  type="file"
-                  style={{ display: 'none' }}
+            <Form encType="multipart/form-data" onSubmit={updatePropic}>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
 
+                <Form.Control
+                  type="file"
+                  accept="image/*"
+                  onChange={handleCatImg}
+                  style={{ width: "300px", marginLeft: "200px", marginTop: "50px" }}
                 />
                 <Button
                   variant="contained"
-                  component="span"
                   startIcon={<CloudUploadOutlinedIcon />}
-                  style={{ backgroundColor: "#3da58a", borderStyle: "none" }}
+                  style={{ backgroundColor: "#3da58a", borderStyle: "none", marginTop: "-70px" }}
+                  type="submit"
                 >
-                  Upload image to your gellary
+                  Update
                 </Button>
-              </label>
-              <p style={{ color: "red" }}>Maximum 12 images only</p>
-            </form>
+              </Form.Group>
+            </Form>
+
+            <Form encType="multipart/form-data" onSubmit={updateGal}>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <p>upload image to the gellery and you can remove existing images also here is the option to manage your gellery.</p>
+
+                <Form.Control
+                  type="file"
+                  accept="images/*"
+                  multiple
+                  onChange={handleGalImg}
+                  style={{ width: "300px", marginLeft: "200px", marginTop: "50px" }}
+                />
+                <Button
+                  variant="contained"
+                  startIcon={<CloudUploadOutlinedIcon />}
+                  style={{ backgroundColor: "#3da58a", borderStyle: "none", marginTop: "-70px" }}
+                  type="submit"
+                >
+                  Manage Gallery
+                </Button>
+                <p style={{ color: "red" }}>Maximum 12 images only</p>
+              </Form.Group>
+            </Form>
+
             <Box padding='10px' width="400px" marginLeft='auto' marginRight='auto'>
               <Masonry columnsCount={3} gutter="10px">
-                {images.map((image, i) => (
+                {user.ImagesCom.map((image, i) =>
+
                   <img
                     key={i}
-                    src={image}
+                    src={`http://localhost:5000/${image.img}`}
                     style={{ width: "100%", display: "block", cursor: "pointer" }}
-                    onClick={() => viewImage(image, i)}
+                    onClick={() => viewImage(image.img, i)}
                   />
-                ))}
+
+                )
+                }
+
               </Masonry>
             </Box>
 
@@ -267,16 +389,16 @@ const dashboard = () => {
         <div className="card-body">
 
           <Masonry columnsCount={3} gutter="10px">
-            {images.map((image, i) => (
+            {user.ImagesCom.map((image, i) => (
               <img
                 key={i}
-                src={image}
+                src={`http://localhost:5000/${image}`}
                 style={{ width: "100%", display: "block", cursor: "pointer" }}
                 onClick={() => viewImage(image, i)}
               />
             ))}
           </Masonry>
-          <div style={{marginTop:"20px"}}>
+          <div style={{ marginTop: "20px" }}>
             <h3><center>You are in end of the gellery..!</center></h3>
           </div>
         </div>

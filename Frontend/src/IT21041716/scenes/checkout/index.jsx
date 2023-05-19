@@ -2,11 +2,30 @@ import React, { useEffect, useState } from 'react'
 import ella from '../../../assets/ella.jpg'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
-
 import './check.css'
+import { Link, useParams } from "react-router-dom";
+import { getOnePost } from '../../actions/sellerPostAction';
+import { useDispatch, useSelector } from 'react-redux'
+
+
+
+
+
 
 
 const index = () => {
+
+    const dispatch = useDispatch()
+    const id = useParams()
+    const form = {
+        Trip_ID: id.id
+    }
+    useEffect(() => {
+        dispatch(getOnePost(form))
+    }, [])
+    const data = useSelector(state => state.post.onePost)
+    console.log(data)
+
 
     return (
         <div>
@@ -17,12 +36,12 @@ const index = () => {
                 <div className="card mb-4" style={{ width: "40%", marginLeft: "auto" }}>
                     <div className="card-header">Order Details</div>
                     <div className="card-body">
-                       
-                        <h4 className="postcard__title red">A Journey Through the Trip Planner of Ella and Nuwara Eliya</h4>
+
+                        <h4 className="postcard__title red">{data.Trip_Name}</h4>
                         <div className="postcard__subtitle small">
                             <time dateTime="2020-05-25 12:00:00">
-                                <i className="fas fa-calendar-alt mr-2"></i>Mon, May 25th 2020
-                                <i className="fas fa-calendar-alt mr-2" style={{ marginLeft: "20px" }}><LocationOnOutlinedIcon /></i>Badulla
+                                <i className="fas fa-calendar-alt mr-2"></i>{new Date(data.createdAt).toLocaleDateString('en-GB')}
+                                <i className="fas fa-calendar-alt mr-2" style={{ marginLeft: "20px" }}><LocationOnOutlinedIcon /></i>{data.Destinations}
                                 <i className="fas fa-calendar-alt mr-2" style={{ marginLeft: "20px" }}><Person2OutlinedIcon /></i>Per person based
                             </time>
                         </div>
@@ -32,57 +51,57 @@ const index = () => {
                                 alt="profile-user"
                                 width="250px"
                                 height="250px"
-                                src={ella}
+                                src={`http://localhost:5000/${data.Thumbnail}`}
                                 style={{ cursor: "pointer" }}
                             />
 
 
                         </div>
 
-                        <div class="col-md-6" style={{width:"35rem",marginTop:"20px"}}>
+                        <div class="col-md-6" style={{ width: "35rem", marginTop: "20px" }}>
                             <h4>Summary</h4>
 
                             <div class="card" >
 
-                                <div class="d-flex justify-content-between p-3" style={{marginTop:"20px"}}>
+                                <div class="d-flex justify-content-between p-3" style={{ marginTop: "20px" }}>
 
                                     <div class="d-flex flex-column">
 
                                         <span>Trip package price<i class="fa fa-caret-down"></i></span>
-                                       
+
                                     </div>
 
                                     <div class="mt-1">
-                                    <span>$229.00</span>
+                                        <span>{data.Price}</span>
                                     </div>
 
                                 </div>
 
                                 <div class="p-3">
-                                    <div class="d-flex justify-content-between" style={{marginTop:"-20px"}}>
+                                    <div class="d-flex justify-content-between" style={{ marginTop: "-20px" }}>
 
-                                        <span style={{fontSize:"14px"}}>Quntity <i class="fa fa-clock-o"></i></span>
-                                        <span style={{fontSize:"14px"}}>2</span>
-
-                                    </div>
-
-
-                                </div>
-                                <div class="p-3">
-                                    <div class="d-flex justify-content-between" style={{marginTop:"-20px"}}>
-
-                                        <span style={{fontSize:"14px"}}>SubTotal(229.00 x 2) <i class="fa fa-clock-o"></i></span>
-                                        <span style={{fontSize:"14px"}}>$458.00</span>
+                                        <span style={{ fontSize: "14px" }}>Quntity <i class="fa fa-clock-o"></i></span>
+                                        <span style={{ fontSize: "14px" }}>2</span>
 
                                     </div>
 
 
                                 </div>
                                 <div class="p-3">
-                                    <div class="d-flex justify-content-between" style={{marginTop:"-20px"}}>
+                                    <div class="d-flex justify-content-between" style={{ marginTop: "-20px" }}>
 
-                                        <span style={{fontSize:"14px"}}>Tax <i class="fa fa-clock-o"></i></span>
-                                        <span style={{fontSize:"14px"}}>15%</span>
+                                        <span style={{ fontSize: "14px" }}>SubTotal(229.00 x 2) <i class="fa fa-clock-o"></i></span>
+                                        <span style={{ fontSize: "14px" }}>$458.00</span>
+
+                                    </div>
+
+
+                                </div>
+                                <div class="p-3">
+                                    <div class="d-flex justify-content-between" style={{ marginTop: "-20px" }}>
+
+                                        <span style={{ fontSize: "14px" }}>Tax <i class="fa fa-clock-o"></i></span>
+                                        <span style={{ fontSize: "14px" }}>15%</span>
 
                                     </div>
 
@@ -96,11 +115,11 @@ const index = () => {
 
                                     <div class="d-flex flex-column">
 
-                                        <span style={{fontWeight:"600"}}>Total Amount You have to pay</span>
-                                       
+                                        <span style={{ fontWeight: "600" }}>Total Amount You have to pay</span>
+
 
                                     </div>
-                                    <span style={{fontWeight:"600"}}>$529.00</span>
+                                    <span style={{ fontWeight: "600" }}>$529.00</span>
 
 
 

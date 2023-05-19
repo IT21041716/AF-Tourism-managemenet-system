@@ -85,3 +85,44 @@ export const deleteOrder = async (req, res) => {
         })
     }
 }
+
+
+export const newOrderFirst = async (req, res) => {
+    console.log(req.body)
+
+    try {
+        const prefix = 'OID'
+        const OID = (prefix + Date.now());
+
+
+        const data = req.body;
+        const neworder = new order({
+            Order_ID:OID,
+            Seller_ID:data.Seller_ID,
+            Customer_Name:data.Customer_Name,
+            Phone_number:data.Phone_number,
+            Email:data.Email,
+            No_Of_Persons:data.No_Of_Persons,
+            Resevation_Date:data.Resevation_Date
+        })
+
+        const result = await neworder.save()
+        if(result){
+            res.status(201).json({
+                message: "Data adding successfull..!",
+                payload: result
+            })
+        }else {
+            res.status(401).json({
+              message: "Somthing Went Wrong In data adding..!"
+            })
+          }
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message: "Somthing Went Wrong..!",
+            error: error
+        })
+    }
+}

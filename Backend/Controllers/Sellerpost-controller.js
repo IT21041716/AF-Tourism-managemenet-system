@@ -56,19 +56,15 @@ export const addNewPost = async (req, res) => {
 }
 
 export const uploadImages = async (req, res) => {
+  console.log(req.body)
     try {
-      let file = 'N/A'
-      if (req.file) {
-        file = req.file.filename
-      }
-  
       const id = { Trip_ID: req.body.Trip_ID }
       let images = []
-  
-      if (req.files.length > 0) {
-        images = req.files.map(file => {
+
+      if (req.body.Images.length > 0) {
+        images = req.body.Images.map(file => {
           return {
-            img: file.filename
+            img: Date.now()+"_"+file.name,
   
           }
         }
@@ -79,19 +75,17 @@ export const uploadImages = async (req, res) => {
       const newImages = {
         Images: images
       }
-      console.log(newImages)
       const updateimgs = await sellerPost.findOneAndUpdate(id, newImages, { new: true });
-      console.log("methanin pahala response eka")
-      console.log(updateimgs)
+
       if (updateimgs) {
+        const newdetails =  await sellerPost.find({Trip_ID: req.body.Trip_ID})
         res.status(201).json({
           message: "Images updated..!",
-          payload: updateimgs
+          payload: newdetails
         })
       } else {
         res.status(400).json({
           message: "Images Update failed..!",
-          error: error
         })
       }
   
@@ -101,3 +95,93 @@ export const uploadImages = async (req, res) => {
       })
     }
   }
+
+  export const getPost = async (req, res) => {
+    console.log(req.body)
+    try {
+      const posts = await sellerPost.find({Seller_ID : req.body.Seller_ID})
+      if (posts) {
+        res.status(200).json({
+          message: "Success..!!",
+          payload: posts
+        });
+      } else {
+        res.status(404).json({
+          message: "Error...!"
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: "Internal server error",
+      });
+    }
+  };
+
+  export const deletePost = async (req, res) => {
+    console.log(req.body);
+    try {
+      const success = await sellerPost.findOneAndDelete({ Trip_ID: req.body.Trip_ID });
+  
+      if (success) {
+        const newPosts = await sellerPost.find({ Seller_ID: req.body.Seller_ID });
+  
+        res.status(200).json({
+          message: "Deleted..!",
+          payload: newPosts
+        });
+      } else {
+        res.status(400).json({
+          message: "Error..!"
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: "Server Error..!"
+      });
+    }
+  };
+  
+
+  export const getOnePost = async (req, res) => {
+    console.log(req.body)
+    try {
+      const posts = await sellerPost.find({Trip_ID : req.body.Trip_ID})
+      if (posts) {
+        res.status(200).json({
+          message: "Success..!!",
+          payload: posts
+        });
+      } else {
+        res.status(404).json({
+          message: "Error...!"
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: "Internal server error",
+      });
+    }
+  };
+
+  //  for frontend all post
+
+  export const getAllPost = async (req, res) => {
+    console.log(req.body)
+    try {
+      const posts = await sellerPost.find()
+      if (posts) {
+        res.status(200).json({
+          message: "Success..!!",
+          payload: posts
+        });
+      } else {
+        res.status(404).json({
+          message: "Error...!"
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: "Internal server error",
+      });
+    }
+  };

@@ -8,33 +8,16 @@ import {
   MDBNavbarToggler,
   MDBContainer,
   MDBIcon,
-<<<<<<< HEAD
-  MDBCollapse,
-} from "mdb-react-ui-kit";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleNotch,
-  faHome,
-  faUserCircle,
-  faUserFriends,
-} from "@fortawesome/free-solid-svg-icons";
-
-export default function Header() {
-  const [showBasic, setShowBasic] = useState(true);
-  const { id } = useParams();
-=======
   MDBCollapse
 } from 'mdb-react-ui-kit';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch , faHome, faUserCircle,faUserFriends } from '@fortawesome/free-solid-svg-icons';
-import { Link, useParams } from 'react-router-dom';
 
 
 export default function Header() {
   const [showBasic, setShowBasic] = useState(true);
   const {id} = useParams();
 
->>>>>>> 65ad9893e3eae967416e501f9d4ff7c1cdd2b2f4
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
       <img
