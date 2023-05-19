@@ -15,25 +15,18 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [userName, setUserName] = useState("");
-  const [birthday, setBirthDay] = useState("");
-  const [country, setCountry] = useState("");
-  const [gender, setGender] = useState("");
-  const [tel_no, setTelNo] = useState("");
-  const [badge, setBadge] = useState("");
-  const [ProfilePicture, setImageName] = useState("");
+  const [contactNo, setContactNo] = useState("");
   const navigate = useNavigate();
 
   const handleTabClick = (isLogin) => {
     setIsLoginForm(isLogin);
   };
-  const handleCatImg = (e) => {
-    setImageName(e.target.files[0]);
-  };
+
   const userSignUp = (e) => {
     console.log("Hi");
     e.preventDefault();
@@ -44,25 +37,11 @@ function Login() {
       toast.error("Please Enter User Name..", {
         id: "name",
       });
-    } else if (birthday === "") {
-      toast.error("Please Provide a Birthday..", {
-        id: "bday",
-      });
-    } else if (country === "") {
-      toast.error("Please Enter Country..", {
-        id: "stafNo",
-      });
     } else if (email === "") {
       toast.error("Please Provide Your Email..", {
         id: "email",
       });
-    }
-    // else if (!emailRegex.test(email)) {
-    //     toast.error("Please Provide a Valid Email...", {
-    //         id: 'valEmail'
-    //     })
-    // }
-    else if (password === "") {
+    } else if (password === "") {
       toast.error("Please Provide a Password..", {
         id: "pwd",
       });
@@ -70,39 +49,24 @@ function Login() {
       toast.error("Password should be at least 8 characters long", {
         id: "pwdLength",
       });
-    } else if (tel_no === "") {
+    } else if (contactNo === "") {
       toast.error("Please Provide a Telphone Number..", {
-        id: "tel",
-      });
-    } else if (gender === "") {
-      toast.error("Please Provide the Gender..", {
         id: "tel",
       });
     } else if (
       userName !== "" &&
-      birthday !== "" &&
-      country !== "" &&
       email !== "" &&
-      country !== "" &&
       password !== "" &&
-      tel_no !== "" &&
-      gender !== ""
+      contactNo !== ""
     ) {
       const form = new FormData();
 
       form.append("userName", userName);
-      form.append("birthday", birthday);
       form.append("email", email);
       form.append("password", password);
-      form.append("country", country);
-      form.append("gender", gender);
-      form.append("badge", badge);
-      form.append("tel_no", tel_no);
-      form.append("ProfilePicture", ProfilePicture);
-
-      console.log(badge);
+      form.append("contactNo", contactNo);
       axios
-        .post("http://localhost:5000/user/usersignup", form)
+        .post("http://localhost:5000/Admin/adminSignup", form)
         .then(() => {
           toast.success("Successfully Registred");
           navigate("/userLogin");
@@ -114,12 +78,7 @@ function Login() {
       setEmail("");
       setPassword("");
       setUserName("");
-      setBirthDay("");
-      setCountry("");
-      setGender("");
-      setTelNo("");
-      setBadge("");
-      setImageName(null);
+      setContactNo("");
     }
   };
   const userLogin = (e) => {
@@ -144,13 +103,13 @@ function Login() {
       };
 
       const uid = axios
-        .post("http://localhost:5000/user/usersignin", user)
+        .post("http://localhost:5000/Admin/adminSignin", user)
         .then((response) => {
           toast.success("Successfull Login!");
           const uid = response.data.payload.uid;
           console.log(uid);
           toast.success("Login Success!");
-          navigate("/user/profile/" + uid);
+          navigate("/ViewBlogs");
         })
         .catch(() => {
           alert("Not ok");
@@ -305,7 +264,6 @@ function Login() {
                         Login
                       </motion.a>
                     </li>
-
                     <li className="nav-item" role="presentation">
                       <motion.a
                         className={`nav-link ${!isLoginForm ? "active" : ""}`}
@@ -333,35 +291,6 @@ function Login() {
                         }}
                       >
                         Register
-                      </motion.a>
-                    </li>
-                    <li className="nav-item" role="presentation">
-                      <motion.a
-                        className={`nav-link ${!isLoginForm ? "active" : ""}`}
-                        id="tab-register"
-                        data-mdb-toggle="pill"
-                        href="/adminLogin"
-                        role="tab"
-                        aria-controls="pills-register"
-                        aria-selected={!isLoginForm}
-                        onClick={() => handleTabClick(false)}
-                        whileHover={{
-                          scale: 1.1,
-                          textShadow: "0px 0px 8px rgb(255,255,255)",
-                          boxShadow: "0px 0px 8px rgb(255,255,255)",
-                        }}
-                        style={{
-                          background:
-                            "linear-gradient(90deg, #8B0000, #CD5C5C, #B22222,#CD5C5C, #8B0000)",
-                          borderRadius: "20px",
-                          color: "white",
-                          fontWeight: "bold",
-                          textShadow: "2px 2px 4px rgba(0,0,0,0.4)",
-                          transition: "all 0.3s ease",
-                          marginLeft: "10px",
-                        }}
-                      >
-                        Admin Login
                       </motion.a>
                     </li>
                   </ul>
@@ -463,22 +392,6 @@ function Login() {
                               </label>
                             </div>
                           </div>
-                          <div className="col-md-6">
-                            <div className="form-outline mb-4">
-                              <input
-                                type="date"
-                                id="registerUsername"
-                                className="form-control"
-                                onChange={(e) => setBirthDay(e.target.value)}
-                              />
-                              <label
-                                className="form-label"
-                                htmlFor="registerUsername"
-                              >
-                                Birthday
-                              </label>
-                            </div>
-                          </div>
                         </div>
                         <div className="row">
                           <div className="col-md-6">
@@ -517,44 +430,7 @@ function Login() {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col-md-6">
-                            <div className="form-outline mb-4">
-                              <input
-                                type="text"
-                                id="registerCountry"
-                                className="form-control"
-                                onChange={(e) => setCountry(e.target.value)}
-                                placeholder="ex: Sri Lanka"
-                              />
-                              <label
-                                className="form-label"
-                                htmlFor="registerCountry"
-                              >
-                                Country
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-outline mb-4">
-                              <select
-                                className="form-select"
-                                id="registerGender"
-                                onChange={(e) => setGender(e.target.value)}
-                              >
-                                <option selected disabled>
-                                  Select Gender
-                                </option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                              </select>
-                              <label
-                                className="form-label"
-                                htmlFor="registerGender"
-                              >
-                                Gender
-                              </label>
-                            </div>
-                          </div>
+                          
                         </div>
                         <div className="row">
                           <div className="col-md-6">
@@ -563,58 +439,21 @@ function Login() {
                                 type="text"
                                 id="registerCountry"
                                 className="form-control"
-                                onChange={(e) => setTelNo(e.target.value)}
+                                onChange={(e) => setContactNo(e.target.value)}
                                 placeholder="ex: +255 589 4225"
                               />
                               <label
                                 className="form-label"
                                 htmlFor="registerCountry"
                               >
-                                Tel No
+                                Contact No
                               </label>
                             </div>
                           </div>
-                          <div className="col-md-6">
-                            <div className="form-outline mb-4">
-                              <select
-                                className="form-select"
-                                id="registerGender"
-                                onChange={(e) => setBadge(e.target.value)}
-                              >
-                                <option selected disabled>
-                                  Select Level
-                                </option>
-                                <option value="Silver">Level 01</option>
-                                <option value="Gold" disabled>
-                                  Level 02
-                                </option>
-                                <option value="Platinum" disabled>
-                                  Level 03
-                                </option>
-                              </select>
-                              <label
-                                className="form-label"
-                                htmlFor="registerGender"
-                              >
-                                Badge
-                              </label>
-                            </div>
-                          </div>
+                          
                         </div>
 
-                        <div className="form-outline mb-4">
-                          <input
-                            type="file"
-                            id="registerFile"
-                            className="form-control"
-                            onChange={(e) => {
-                              handleCatImg(e);
-                            }}
-                          />
-                          <label className="form-label" htmlFor="registerFile">
-                            Choose file
-                          </label>
-                        </div>
+                        
                         <motion.button
                           type="submit"
                           className="btn btn-block mb-3"
@@ -670,4 +509,4 @@ function Login() {
     </section>
   );
 }
-export default Login;
+export default AdminLogin;

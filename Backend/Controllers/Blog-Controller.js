@@ -1,5 +1,6 @@
 import express from "express";
 import BlogModel from "../Models/Blog-model.js";
+import asyncHandler from "express-async-handler";
 
 export const addBlog = async (req, res) => {
   //let userId = req.params.id;
@@ -161,3 +162,98 @@ export const getBlogFeedbacks = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+export const handleLike = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const blog = await BlogModel.findById(id);
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+    if (!blog.likes.includes(req.userId)) {
+      blog.likes.push(req.userId);
+      await blog.save();
+    }
+    res.json(blog);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+export const likePost = asyncHandler(async (req, res) => {
+
+  const postId = req.body.bid;
+  const userId = req.body.id;
+
+  try {
+      // Find the post by its ID
+      const post = await BlogModel.findById(postId);
+
+      // Check if the user has already liked the post
+      if (post.likes.includes(userId)) {
+          // User has already liked the post, remove the like
+          post.likes.pull(userId);
+          post.isLiked = false;
+      } else {
+          // Add the user's ID to the likes array
+          post.likes.push(userId);
+          post.isLiked = true;
+      }
+
+      // Remove the user's ID from the disLikes array if present
+      post.dislikes.pull(userId);
+      post.isDisliked = false;
+
+
+      // Save the updated post
+      await post.save();
+
+      // Return the updated post
+      res.json({
+          post,
+          likes: post.likes.length,
+          dislikes: post.dislikes.length,
+      })
+  } catch (error) {
+      throw new Error(error.message);
+  }
+});
+export const dislikePost = asyncHandler(async (req, res) => {
+
+  const postId = req.body.bid;
+  const userId = req.body.id;
+
+  try {
+      // Find the post by its ID
+      const post = await BlogModel.findById(postId);
+
+      // Check if the user has already liked the post
+      if (post.likes.includes(userId)) {
+          // User has already liked the post, remove the like
+          post.likes.pull(userId);
+          post.isLiked = false;
+      }
+
+      // Check if the user has already disliked the post
+      if (post.dislikes.includes(userId)) {
+          // User has already disliked the post, remove the dislike
+          post.dislikes.pull(userId);
+          post.isDisliked = false;
+      } else {
+          // Add the user's ID to the disLikes array
+          post.dislikes.push(userId);
+          post.isDisliked = true;
+      }
+
+      // Save the updated post
+      await post.save();
+
+      // Return the updated post
+      res.json({
+          post,
+          likes: post.likes.length,
+          dislikes: post.dislikes.length,
+      })
+  } catch (error) {
+      throw new Error(error.message);
+  }
+});

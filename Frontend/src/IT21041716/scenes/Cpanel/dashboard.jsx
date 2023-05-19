@@ -162,7 +162,7 @@ const dashboard = () => {
       </Box>
 
       <div style={{ marginTop: "21rem", display: "flex", flexDirection: "row" }}>
-        <div className="card mb-4" style={{ width: "45rem", marginLeft: "5rem" }}>
+        <div className="card mb-4" style={{ width: "45rem", marginLeft: "10rem" }}>
           <div className="card-header">Account Details</div>
           <div className="card-body">
             <form>
@@ -281,11 +281,6 @@ const dashboard = () => {
           </div>
         </div>
       </div>
-
-
-
-
-
 
     </>
 
