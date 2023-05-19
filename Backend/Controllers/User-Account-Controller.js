@@ -185,3 +185,82 @@ export const getOneUser = async (req, res) => {
   }
 }
 
+export const updateUser = async (req, res) => {
+ 
+  const id = req.params.id;
+
+  const user_id = req.body.user_id;
+  const userName = req.body.newuserName;
+  const birthday = req.body.newbirthday;
+  const email = req.body.newcountry;
+  const password = req.body.newpassword;
+  const country = req.body.newcountry;
+  const gender = req.body.newgender;
+  const tel_no = req.body.newtel_no;
+  const badge = req.body.badge;
+  const post_count = req.body.post_count;
+
+  const updatePost = {
+      user_id,
+      userName,
+      birthday,
+      email,
+      password,
+      country,
+      gender,
+      badge,
+      tel_no,
+      post_count
+  }
+
+  try {
+      const updatedPost = await User.findByIdAndUpdate(id, updatePost, { new: true });
+      if (updatedPost) {
+          res.status(200).send({ status: "Post Updated", data: updatedPost });
+      } else {
+          res.status(404).send({ status: "Post not found" });
+      }
+  } catch (err) {
+      console.log(err);
+      res.status(500).send({ status: "Error with updating data" });
+  }
+};
+
+
+export const updateCount = async (req, res) => {
+  const id = req.params.id;
+  const user = await User.findById(id);
+  const postCount = user.post_count;
+  const newPost = Number(postCount) + 1;
+  console.log(newPost);
+  user.post_count = newPost;
+  if(newPost >=0 && newPost <3){
+    user.badge = 'Silver'
+  }else if(newPost >=3 && newPost <7){
+    user.badge = 'Gold'
+  }else if(newPost >=7){
+    user.badge = 'Platinum'
+  }
+  await user.save();
+}
+
+export const updateCount2 = async (req, res) => {
+  const id = req.params.id;
+  const user = await User.findById(id);
+  const postCount = user.post_count;
+  const newPost = Number(postCount) - 1;
+  console.log(newPost);
+  user.post_count = newPost;
+  if(user.post_count >= 0 && user.post_count <=3){
+    user.badge = 'Silver'
+    console.log('silver ekata awa')
+  }else if(user.post_count >3 && user.post_count <=7){
+    user.badge = 'Gold'
+    console.log('gold ekata awa')
+  }else if(user.post_count >7){
+    user.badge = 'Platinum'
+    console.log('Platinum ekata awa')
+  }
+  console.log(user.badge);
+  await user.save();
+}

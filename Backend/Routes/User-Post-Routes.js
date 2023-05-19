@@ -1,7 +1,6 @@
 import  express  from 'express';
 import {addPost, getAllPost, getOnePost, updatePost, deletePost } from '../Controllers/User-Post-Controller.js'
 import multer from 'multer';
-import path from 'path';
 const router = express.Router();
 
 
@@ -24,5 +23,6 @@ router.delete('/postdelete/:post_id',deletePost);
 router.get("/allpost", getAllPost);
 router.get("/post/:user_id", getOnePost);
 router.put("/postupdate/:id",upload.single('post_image'), updatePost);
+
 
 export default router;
