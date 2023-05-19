@@ -8,15 +8,19 @@ import {
   MDBNavbarToggler,
   MDBContainer,
   MDBIcon,
-  MDBCollapse
-} from 'mdb-react-ui-kit';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleNotch , faHome, faUserCircle,faUserFriends } from '@fortawesome/free-solid-svg-icons';
-
+  MDBCollapse,
+} from "mdb-react-ui-kit";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCircleNotch,
+  faHome,
+  faUserCircle,
+  faUserFriends,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Header() {
   const [showBasic, setShowBasic] = useState(true);
-  const {id} = useParams();
+  const { id } = useParams();
 
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
@@ -66,50 +70,85 @@ export default function Header() {
       border-right: 20px solid #333;
     }
     `}
-  </style>
-  <div className="navbar-angle"></div>
-  <MDBContainer fluid>
-        <MDBNavbarToggler
-          onClick={() => setShowBasic(!showBasic)}
-          aria-controls='navbarExample01'
-          aria-expanded='false'
-          aria-label='Toggle navigation'
-        >
-          <MDBIcon icon='bars' fas />
-        </MDBNavbarToggler>
-        <MDBCollapse show={showBasic} navbar>
-          <MDBNavbarNav right className='mb-2 mb-lg-0'>
-            <MDBNavbarItem active>
-           
-           <Link to={`/user/post/add/${id}`}>
-              <MDBNavbarLink aria-current='page' href='#' style={{ color: 'white', marginLeft:'60px', fontSize:'20px', fontFamily:'Trebuchet MS' }}>
-              <FontAwesomeIcon icon={faHome} /> Home
-              </MDBNavbarLink>
-            </Link>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
-              <Link to={`/#`}>
-              <MDBNavbarLink href='#' style={{ color: 'white',marginLeft:'60px' , fontSize:'17px', fontFamily:'Trebuchet MS' }}>
-              <FontAwesomeIcon icon={faCircleNotch} />  All Users
-              </MDBNavbarLink>
-              </Link>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
-              <Link to={`/user/profile/${id}`}>
-              <MDBNavbarLink href='#' style={{ color: 'white',marginLeft:'60px' , fontSize:'17px', fontFamily:'Trebuchet MS'  }}>
-              <FontAwesomeIcon icon={faUserFriends} /> My Profile
-              </MDBNavbarLink>
-              </Link>
-            </MDBNavbarItem>
-            {/* <MDBNavbarItem>
-              <MDBNavbarLink href='#' style={{ color: 'white',marginLeft:'60px' , fontSize:'17px', fontFamily:'Trebuchet MS'  }}>
-              <FontAwesomeIcon icon={faUserCircle} /> My Profile
-              </MDBNavbarLink>
-            </MDBNavbarItem> */}
-          </MDBNavbarNav>
-        </MDBCollapse>
-      </MDBContainer>
-    </MDBNavbar>
+        </style>
+        <div className="navbar-angle"></div>
+        <MDBContainer fluid>
+          <MDBNavbarToggler
+            onClick={() => setShowBasic(!showBasic)}
+            aria-controls="navbarExample01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <MDBIcon icon="bars" fas />
+          </MDBNavbarToggler>
+          <MDBCollapse show={showBasic} navbar>
+            <MDBNavbarNav right className="mb-2 mb-lg-0">
+              <MDBNavbarItem active>
+                <Link to={`/user/post/add/${id}`}>
+                  <MDBNavbarLink
+                    aria-current="page"
+                    href="#"
+                    style={{
+                      color: "white",
+                      marginLeft: "60px",
+                      fontSize: "20px",
+                      fontFamily: "Trebuchet MS",
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faHome} /> Home
+                  </MDBNavbarLink>
+                </Link>
+              </MDBNavbarItem>
+              <MDBNavbarItem>
+                <Link to={`/#`}>
+                  <MDBNavbarLink
+                    href="#"
+                    style={{
+                      color: "white",
+                      marginLeft: "60px",
+                      fontSize: "17px",
+                      fontFamily: "Trebuchet MS",
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faCircleNotch} /> All Users
+                  </MDBNavbarLink>
+                </Link>
+              </MDBNavbarItem>
+              <MDBNavbarItem>
+                <Link to={`/user/profile/${id}`}>
+                  <MDBNavbarLink
+                    href="#"
+                    style={{
+                      color: "white",
+                      marginLeft: "60px",
+                      fontSize: "17px",
+                      fontFamily: "Trebuchet MS",
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faUserFriends} /> My Profile
+                  </MDBNavbarLink>
+                </Link>
+              </MDBNavbarItem>
+              <MDBNavbarItem>
+                <Link to={`/AllBlogs/${id}`}>
+                  <MDBNavbarLink
+                    href="#"
+                    style={{
+                      color: "white",
+                      marginLeft: "60px",
+                      fontSize: "17px",
+                      fontFamily: "Trebuchet MS",
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faUserFriends} />
+                    View Blogs
+                  </MDBNavbarLink>
+                </Link>
+              </MDBNavbarItem>
+            </MDBNavbarNav>
+          </MDBCollapse>
+        </MDBContainer>
+      </MDBNavbar>
     </div>
   );
 }

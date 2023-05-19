@@ -56,7 +56,7 @@ const BlogNavbar = () => {
             <Grid item xs={1}>
               <Box display="flex">
                 <Button
-                  to="/login"
+                  to="/adminLogin"
                   LinkComponent={Link}
                   sx={{ marginLeft: 1, background: "rgba(180,58,58,1)" }}
                   variant="contained"

@@ -32,6 +32,7 @@ import Feedback from "./IT21049590/Feedback";
 import BlogFeedbacks from "./IT21049590/getFeedback";
 import FeedbackItem from "./IT21049590/FeedbackItem";
 import BlogNavbar from "./IT21049590/BlogNavbar";
+import AdminLogin from "./IT21049590/AdminLogin";
 
 // sajindu
 import Header from "./IT21042560/header";
@@ -52,10 +53,12 @@ function App() {
           <Route path="/UpdateBlog/:id" element={<UpdateBlog />} />
           <Route path="/ViewBlogs" element={<ViewBlogs />} />
           <Route path="/AllBlogs/:id" element={<AllBlogs />} />
+          <Route path="/AllBlogs" element={<AllBlogs />} />
           <Route path="/Feedback/:id" element={<Feedback />} />
           <Route path="/BlogFeedbacks/:id" element={<BlogFeedbacks />} />
           <Route path="/FeedbackItem" element={<FeedbackItem />} />
           <Route path="/BlogNavbar" element={<BlogNavbar />} />
+          <Route path="/adminLogin" element={<AdminLogin />} />
 
           {/* sithanga */}
 

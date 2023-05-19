@@ -4,13 +4,14 @@ import { motion,useCycle  } from 'framer-motion';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
-import { faEdit,faHandPointer,faStar  } from "@fortawesome/free-solid-svg-icons";
+import { faEdit,faHandPointer,faStar,faTrash  } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Modal, Button } from 'react-bootstrap';
 import './assest/css/userProfile.css'
+import {CardMedia} from "@mui/material";
+import { useNavigate } from 'react-router-dom';
 import {
     MDBCard,
-    MDBCardImage,
     MDBCardBody,
     MDBCardTitle,
     MDBCardText,
@@ -18,6 +19,7 @@ import {
     MDBCol,
     MDBCardFooter
   } from 'mdb-react-ui-kit';
+  import toast from 'react-hot-toast';
  
 
 const colors = ["white", "#eee3e7", "#ead5dc", "#eec9d2", "#f4b6c2", "#f6abb6","pink","#f6abb6","#f4b6c2","#eec9d2","#ead5dc","#eee3e7"];
@@ -36,10 +38,21 @@ export default function UserProfile() {
       const [gender,setGender] = useState('');
       const [tel_no,setTelNo] = useState('');
       const [badge,setBadge] = useState('');
+      const [post_count, setPostCount] = useState('');
       const [showModal, setShowModal] = useState(false);
       const [showModal1, setShowModal1] = useState(false);
+      const [showModal3, setShowModal3] = useState(false);
+
+      const [newuserName,setNewUserName] = useState('');
+      const [newbirthday,setNewBirthday] = useState('');
+      const [newcountry,setNewCountry] = useState('');
+      const [newemail,setNewEmail] = useState('');
+      const [newpassword,setNewPassword] = useState('');
+      const [newgender,setNewGender] = useState('');
+      const [newtel_no,setNewTelNo] = useState('');
 
       const [posts,setPosts] = useState([]);
+      const navigate = useNavigate();
 
       const [post_title,setPostTitle] = useState("");
       const [post_description,setPostDescription] = useState('');
@@ -54,6 +67,9 @@ export default function UserProfile() {
       const handleShowModal1 = () => setShowModal1(true);
       const handleCloseModal1 = () => setShowModal1(false);
 
+      const handleShowModal3 = () => setShowModal3(true);
+      const handleCloseModal3 = () => setShowModal3(false);
+
       const handleCatImg = (e) => {
         setPostImage(e.target.files[0]);
       }
@@ -61,14 +77,14 @@ export default function UserProfile() {
       const getPost = () => {
         console.log("hi")
         axios.get(`http://localhost:5000/userPost/post/${id}`).then((res)=>{
-            console.log(res.data.posts);
+            //console.log(res.data.posts);
             setPosts(res.data.posts);
         }).catch((err)=>{
             alert(err.message);
         })
         }
 
-        useEffect(() => getPost(), []);
+        useEffect(() => getPost(), [posts]);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -77,7 +93,26 @@ export default function UserProfile() {
         return () => clearInterval(timer);
       }, [cycleColor]);
 
-      
+      const deletePost = (e) =>{
+        var result = window.confirm("Are you sure?");
+      if(result == true){
+          axios.delete(`http://localhost:5000/userPost/postdelete/${e}`).then((res)=>{
+
+          axios.put(`http://localhost:5000/user/countReduce/${id}`).then(() => {
+                            
+            }).catch((err) =>{
+        
+            })
+
+
+          }).catch(e =>{
+              toast.success('Post Deleted Sucessfully!')
+          })
+      }else{
+          e.preventDefault();
+      }
+    
+    }
 
       const getUser = () => {
         console.log("hi")
@@ -92,6 +127,9 @@ export default function UserProfile() {
             setGender(res.data.user.gender);
             setTelNo(res.data.user.tel_no);
             setBadge(res.data.user.badge)
+            setPostCount(res.data.post_count);
+            console.log(res.data.user)
+            //setImage(res.data.user.user.imageName)
            
         }).catch((err)=>{
             alert(err.message);
@@ -138,6 +176,28 @@ export default function UserProfile() {
         <Header/>
         
         <center>
+        {
+                badge == "Silver" ? 
+                <div style={{ backgroundColor: "#C0C0C0",fontFamily:'Comic Sans MS', display: "flex", justifyContent: "center", alignItems: "center", fontSize: "17px", fontWeight: "bold", color: "#333", width:'30%', borderBottomRightRadius:'80px', borderTopLeftRadius:'80px' }}>
+                <span style={{marginRight:'15px'}}><h2>{badge} Profile <br/></h2></span>
+                <FontAwesomeIcon icon={faStar} />
+                </div> : 
+                badge == "Gold" ?
+                <div style={{ backgroundColor: "#FFD700",fontFamily:'Comic Sans MS', display: "flex", justifyContent: "center", alignItems: "center", fontSize: "17px", fontWeight: "bold", color: "#333", width:'30%', borderBottomRightRadius:'80px', borderTopLeftRadius:'80px' }}>
+                <span style={{marginRight:'15px'}}><h2>{badge} Profile <br/></h2></span>
+                <FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} />
+                </div> : 
+                badge == "Platinum" ?
+                <div style={{ backgroundColor: "#E5E4E2",fontFamily:'Comic Sans MS', display: "flex", justifyContent: "center", alignItems: "center", fontSize: "17px", fontWeight: "bold", color: "#333", width:'30%', borderBottomRightRadius:'80px', borderTopLeftRadius:'80px' }}>
+                <span style={{marginRight:'15px'}}><h2>{badge} Profile <br/></h2></span>
+                <FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} />
+                </div> : null
+            } <br/>
+            <div style={{marginLeft:'990px', marginTop:'-60px'}}>
+             <Link to={`/user/profile/certificate/${id}`}>
+                <a href='' style={{fontFamily:'MV Boli', color:'black', textDecoration: 'none', fontSize:'20px'}}>Get Your Certificate</a>
+                </Link> <br/> <br/> <br/>
+            </div>
         <motion.div
             style={{
                 width: "96%",
@@ -190,88 +250,14 @@ export default function UserProfile() {
                 <span style={{ color: 'black'}}>Welcome to Your Profile </span>
                 {/* <span style={{ color: 'black', }}> Your Profile</span> */}
                 </motion.h1> 
-                {
-                badge == "Silver" ? 
-                <div style={{ backgroundColor: "#ffd700",fontFamily:'Comic Sans MS', display: "flex", justifyContent: "center", alignItems: "center", fontSize: "17px", fontWeight: "bold", color: "#333" }}>
-                <span>{badge} Profile <br/></span>
-                <FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faHandPointer} />
-                </div> : 
-                badge == "Gold" ?
-                <div>
-                    <div style={{ alignItems: "center", color:'#D4AF37'}}><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /></div>
-                <div style={{ alignItems: "center", fontSize: "26px", fontWeight: "bold", color: "black" , fontFamily:'Comic Sans MS'}}>
-                <span>{badge}en Profile</span>
-                </div>  </div>
                 
-                :
-                badge == "Platinum" ?
-                <div style={{ backgroundColor: "#ffd700", display: "flex", justifyContent: "center", alignItems: "center", fontSize: "17px", fontWeight: "bold", color: "#333" }}>
-                <span >{badge} Profile</span><br/>
-                <FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} />
-                </div> : null
-            } <br/>
-                <Button style={{marginLeft:'12px',  backgroundColor:'#800000', borderColor:'black'}} onClick={handleShowModal}>View Your Profile <FontAwesomeIcon icon={faHandPointer} /></Button>
+                <Button style={{marginLeft:'12px',color:'white',  backgroundColor:'black', borderColor:'black', marginTop:'150px'}} onClick={handleShowModal}>View Your Profile <FontAwesomeIcon icon={faHandPointer} /></Button>
                 <br/>
-                <Link to={`/user/profile/certificate/${id}`}>
-                <a href='' style={{fontFamily:'MV Boli', color:'black', textDecoration: 'none'}}> <br/>Get Your Certificate<br/><br/></a>
-                </Link>
+               
                 </div>
 
             </div>
             </div>
-            
-                    <Modal show={showModal} onHide={handleCloseModal}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Personal Details</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                    <center >
-                    <div className="profile-details">
-                        <h5 className="profile-details__title">Name - </h5>
-                        <p className="profile-details__value">{userName}</p>
-                    </div>
-                    <div className="profile-details">
-                        <h5 className="profile-details__title">Birthday - </h5>
-                        <p className="profile-details__value">{birthday}</p>
-                    </div>
-                    <div className="profile-details">
-                        <h5 className="profile-details__title">Country - </h5>
-                        <p className="profile-details__value">{country}</p>
-                    </div>
-                    <div className="profile-details">
-                        <h5 className="profile-details__title">Email - </h5>
-                        <p className="profile-details__value">{email}</p>
-                    </div>
-                    <div className="profile-details">
-                        <h5 className="profile-details__title">Gender - </h5>
-                        <p className="profile-details__value">{gender}</p>
-                    </div>
-                    <div className="profile-details">
-                        <h5 className="profile-details__title">Tel No - </h5>
-                        <p className="profile-details__value">{tel_no}</p>
-                    </div>
-                    </center>
-                    <div className="edit-button-container">
-                    <motion.button 
-                        type="submit" 
-                        className="edit-button"
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                    >
-                        Edit
-                    </motion.button>
-                    </div> 
-
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseModal}>
-                        Close
-                        </Button>
-                    </Modal.Footer>
-                    </Modal>
-            
-            
-
              <br/> <br/>
            <h2 style={{fontFamily:'Rockwell', fontSize:'40px'}}>Your Status</h2>
 
@@ -280,12 +266,21 @@ export default function UserProfile() {
             <MDBCol > 
             <MDBCard style={{ border: "none" }}>
             <button className="btn btn-block mb-2" 
-                         style={{  backgroundColor:'#800000', borderColor:'black', borderRadius: "20px", color: "white", fontWeight: "bold", textShadow: "2px 2px 4px rgba(0,0,0,0.4)", transition: "all 0.3s ease", width:'20%' }}
+                         style={{  backgroundColor:'DodgerBlue', borderColor:'white', borderRadius: "20px", color: "white", fontWeight: "bold", textShadow: "2px 2px 4px rgba(0,0,0,0.4)", transition: "all 0.3s ease", width:'20%' }}
                         onClick={handleShowModal1}
                         >Edit <FontAwesomeIcon icon={faEdit} />
                           </button>
-            <img src="https://i2.wp.com/otarafoundation.com/wp-content/uploads/2018/09/40656179_10155906804512183_7160866786412331008_n.jpg?fit=960%2C640&ssl=1" style={{borderRadius:'10px'}}/>
-            <MDBCardBody >
+
+                          <button className="btn btn-block mb-2" 
+                         style={{  backgroundColor:'#8b0000', borderColor:'white', borderRadius: "20px", color: "white", fontWeight: "bold", textShadow: "2px 2px 4px rgba(0,0,0,0.4)", transition: "all 0.3s ease", width:'20%' , marginLeft:'400px', marginTop:'-45px'}}
+                        onClick={() => {deletePost(post._id)}}
+                        >Delete <FontAwesomeIcon icon={faTrash} />
+                          </button>
+                        <br/>
+
+                          <CardMedia component="img" image={`http://localhost:5000/${post.post_image}`} alt={post.post_image}  />
+                
+                 <MDBCardBody >
             
                 <MDBCardTitle style={{ fontSize: "25px" }}>{post.post_title}</MDBCardTitle>
                 <MDBCardText style={{ fontSize: "16px" }}>
@@ -302,6 +297,8 @@ export default function UserProfile() {
                 </MDBCardFooter>
             </MDBCardBody>
             </MDBCard>
+
+            
             <Modal show={showModal1} onHide={handleCloseModal1}>
         <Modal.Header closeButton>
           <Modal.Title>Post Update</Modal.Title>
@@ -334,7 +331,7 @@ export default function UserProfile() {
                             })
                         }}>
                 <br/>
-                                        <div className="row">
+                                        <div className="row">{post._id}
                                             <div className="col-md-12">
                                             <div className="form-outline mb-4">
                                                 <label className="form-label" htmlFor="registerName">Post Title</label>
@@ -409,6 +406,9 @@ export default function UserProfile() {
         </Modal.Footer>
       </Modal>
             </MDBCol>
+
+            
+            
         ))}
            
         </MDBRow>
@@ -454,7 +454,7 @@ export default function UserProfile() {
                         className="edit-button"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        onClick={handleShowModal1}
+                        onClick={handleShowModal3}
                     >
                         Edit
                     </motion.button>
@@ -469,7 +469,117 @@ export default function UserProfile() {
                     </Modal> 
         
         
-        
+                    <Modal show={showModal3} onHide={handleCloseModal3}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Update Personal Details</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    <center >
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+
+                            const newUsr = {
+                                user_id,
+                                newuserName,
+                                newbirthday,
+                                newemail,
+                                newpassword,
+                                newcountry,
+                                newgender,
+                                badge,
+                                newtel_no,
+                                post_count
+                            }
+                            axios.put(`http://localhost:5000/user/updateUser/${id}`, newUsr)
+                            .then(() => {
+                                toast.success('User Updated');
+                                // navigate('/inventory');
+                            })
+                            .catch((err) => {
+                                alert(err);
+                            })
+                        }}>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                            <div className="form-outline mb-4">
+                                                <input type="text" id="registerName" className="form-control" onChange={(e) => setNewUserName(e.target.value)} />
+                                                <label className="form-label" htmlFor="registerName">Name</label>
+                                            </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                            <div className="form-outline mb-4"> 
+                                                <input type="date" id="registerUsername" className="form-control"  onChange={(e) => setNewBirthday(e.target.value)}/>
+                                                <label className="form-label" htmlFor="registerUsername">Birthday</label>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                            <div className="form-outline mb-4">
+                                                <input type="email" id="registerEmail" className="form-control" onChange={(e) => setNewEmail(e.target.value)} placeholder="ex: CeylonTours@gmail.com"/>
+                                                <label className="form-label" htmlFor="registerEmail">Email</label>
+                                            </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                            <div className="form-outline mb-4">
+                                                <input type="password" id="registerPassword" className="form-control" onChange={(e) => setNewPassword(e.target.value)} placeholder="ex: CeylonX11"/>
+                                                <label className="form-label" htmlFor="registerPassword">Password</label>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                            <div className="form-outline mb-4">
+                                                <input type="text" id="registerCountry" className="form-control" onChange={(e) => setNewCountry(e.target.value)} placeholder="ex: Sri Lanka"/>
+                                                <label className="form-label" htmlFor="registerCountry">Country</label>
+                                            </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                        <div className="form-outline mb-4">
+                                            <select className="form-select" id="registerGender" onChange={(e) => setNewGender(e.target.value)}>
+                                            <option selected disabled>Select Gender</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            </select>
+                                            <label className="form-label" htmlFor="registerGender">Gender</label>
+                                        </div>
+                                        </div>
+
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                            <div className="form-outline mb-4">
+                                                <input type="text" id="registerCountry" className="form-control" onChange={(e) => setNewTelNo(e.target.value)} placeholder="ex: +255 589 4225"/>
+                                                <label className="form-label" htmlFor="registerCountry">Tel No</label>
+                                            </div>
+                                            </div>
+                                           
+
+                                        </div>
+
+                                        
+                                        <motion.button type="submit" className="btn btn-block mb-3" 
+                                        style={{
+                                            background:
+                                            "linear-gradient(90deg, #8B0000, #CD5C5C, #B22222,#CD5C5C, #8B0000)",
+                                            borderRadius: "20px",
+                                            color: "white",
+                                            fontWeight: "bold",
+                                            textShadow: "2px 2px 4px rgba(0,0,0,0.4)",
+                                            transition: "all 0.3s ease",
+                                            marginLeft: "10px",
+                                        }}>Update</motion.button>
+                    
+                    </form>
+                    </center>
+
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseModal3}>
+                        Close
+                        </Button>
+                    </Modal.Footer>
+                    </Modal>
     </>
   );
 }
