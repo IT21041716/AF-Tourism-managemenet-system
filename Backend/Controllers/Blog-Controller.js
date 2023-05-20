@@ -180,80 +180,103 @@ export const handleLike = async (req, res) => {
   }
 };
 export const likePost = asyncHandler(async (req, res) => {
-
   const postId = req.body.bid;
   const userId = req.body.id;
 
   try {
-      // Find the post by its ID
-      const post = await BlogModel.findById(postId);
+    // Find the post by its ID
+    const post = await BlogModel.findById(postId);
 
-      // Check if the user has already liked the post
-      if (post.likes.includes(userId)) {
-          // User has already liked the post, remove the like
-          post.likes.pull(userId);
-          post.isLiked = false;
-      } else {
-          // Add the user's ID to the likes array
-          post.likes.push(userId);
-          post.isLiked = true;
-      }
+    // Check if the user has already liked the post
+    if (post.likes.includes(userId)) {
+      // User has already liked the post, remove the like
+      post.likes.pull(userId);
+      post.isLiked = false;
+    } else {
+      // Add the user's ID to the likes array
+      post.likes.push(userId);
+      post.isLiked = true;
+    }
 
-      // Remove the user's ID from the disLikes array if present
-      post.dislikes.pull(userId);
-      post.isDisliked = false;
+    // Remove the user's ID from the disLikes array if present
+    post.dislikes.pull(userId);
+    post.isDisliked = false;
 
+    // Save the updated post
+    await post.save();
 
-      // Save the updated post
-      await post.save();
-
-      // Return the updated post
-      res.json({
-          post,
-          likes: post.likes.length,
-          dislikes: post.dislikes.length,
-      })
+    // Return the updated post
+    res.json({
+      post,
+      likes: post.likes.length,
+      dislikes: post.dislikes.length,
+    });
   } catch (error) {
-      throw new Error(error.message);
+    throw new Error(error.message);
   }
 });
 export const dislikePost = asyncHandler(async (req, res) => {
-
   const postId = req.body.bid;
   const userId = req.body.id;
 
   try {
-      // Find the post by its ID
-      const post = await BlogModel.findById(postId);
+    // Find the post by its ID
+    const post = await BlogModel.findById(postId);
 
-      // Check if the user has already liked the post
-      if (post.likes.includes(userId)) {
-          // User has already liked the post, remove the like
-          post.likes.pull(userId);
-          post.isLiked = false;
-      }
+    // Check if the user has already liked the post
+    if (post.likes.includes(userId)) {
+      // User has already liked the post, remove the like
+      post.likes.pull(userId);
+      post.isLiked = false;
+    }
 
-      // Check if the user has already disliked the post
-      if (post.dislikes.includes(userId)) {
-          // User has already disliked the post, remove the dislike
-          post.dislikes.pull(userId);
-          post.isDisliked = false;
-      } else {
-          // Add the user's ID to the disLikes array
-          post.dislikes.push(userId);
-          post.isDisliked = true;
-      }
+    // Check if the user has already disliked the post
+    if (post.dislikes.includes(userId)) {
+      // User has already disliked the post, remove the dislike
+      post.dislikes.pull(userId);
+      post.isDisliked = false;
+    } else {
+      // Add the user's ID to the disLikes array
+      post.dislikes.push(userId);
+      post.isDisliked = true;
+    }
 
-      // Save the updated post
-      await post.save();
+    // Save the updated post
+    await post.save();
 
-      // Return the updated post
-      res.json({
-          post,
-          likes: post.likes.length,
-          dislikes: post.dislikes.length,
-      })
+    // Return the updated post
+    res.json({
+      post,
+      likes: post.likes.length,
+      dislikes: post.dislikes.length,
+    });
   } catch (error) {
-      throw new Error(error.message);
+    throw new Error(error.message);
   }
 });
+export const getAverageRatingForBlog = async (req, res) => {
+  let id = req.params.id;
+
+  try {
+    const blog = await BlogModel.findById(id);
+    //await BlogModel.findById(id)
+
+    if (!blog) {
+      return res.status(404).json({ error: "Blog not found" });
+    }
+
+    let totalRating = 0;
+    for (const feedback of blog.feedbacks) {
+      totalRating += feedback.rating;
+    }
+    const averageRating =
+      blog.feedbacks.length > 0
+        ? Math.round(totalRating / blog.feedbacks.length)
+        : 0;
+
+    res.json({ averageRating: averageRating });
+  } catch (error) {
+    console.error("Error retrieving average rating:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

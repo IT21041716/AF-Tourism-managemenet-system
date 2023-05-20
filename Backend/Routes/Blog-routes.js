@@ -14,8 +14,8 @@ import {
   getBlogFeedbacks,
   handleLike,
   likePost,
-  dislikePost
-
+  dislikePost,
+  getAverageRatingForBlog,
 } from "../Controllers/Blog-Controller.js";
 
 const storage = multer.diskStorage({
@@ -34,6 +34,7 @@ router.get("/viewAll", viewAll);
 router.put("/updateBlog/:id", upload.single("image"), updateBlog);
 router.delete("/deleteBlog/:id", deleteBlog);
 router.get("/getBlogById/:id", getBlogById);
+router.get("/getRating/:id", getAverageRatingForBlog);
 
 router.post("/addFeedback/:id", addFeedback);
 router.post("/addRating/:id", addRating);
@@ -41,7 +42,7 @@ router.post("/addRating/:id", addRating);
 router.get("/getFeedback/:id", getBlogFeedbacks);
 router.post("/blogLike/:id", handleLike);
 
-router.patch('/like',likePost);
-router.patch('/dislike', dislikePost);
+router.patch("/like", likePost);
+router.patch("/dislike", dislikePost);
 
 export default router;
