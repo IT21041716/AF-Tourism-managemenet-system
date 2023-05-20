@@ -36,9 +36,9 @@ const Plandetails = () => {
 
 
     const data = useSelector(state => state.post.onePost)
-    console.log(data)
-    const img = data.Images
-    console.log(img)
+    // console.log(data.Images)
+    // const img = data.Images
+    // console.log(img)
 
     const [date, setDate] = useState('')
     const [persons, setPersons] = useState('')
@@ -86,16 +86,16 @@ const Plandetails = () => {
 
                     <div className="card-body">
                         <Box padding='10px' marginLeft='auto' marginRight='auto'>
-                            {/* <Masonry columnsCount={2} gutter="2px">
-                        {img.map((image, i) => (
+                            <Masonry columnsCount={2} gutter="2px">
+                        {data.Images.map((image, i) => (
                             <img
                                 key={i}
-                                src={`http://localhost:5000/${image}`}
+                                src={`http://localhost:5000/${image.img}`}
                                 style={{ width: "100%", display: "block", cursor: "pointer" }}
                                 onClick={() => viewImage(image, i)}
                             />
                         ))}
-                    </Masonry> */}
+                    </Masonry>
                         </Box>
                     </div>
                 </div>

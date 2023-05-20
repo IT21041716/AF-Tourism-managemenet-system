@@ -34,10 +34,10 @@ const test = () => {
 
 
     const data = useSelector(state => state.post.onePost)
+    console.log(data.ImagesCom)
 
-
-    const img = data.Images
-    console.log(img)
+    // const img = data.Images
+    // console.log(img)
     const user = useSelector(state => state.auth.user)
     console.log(user)
 
@@ -154,10 +154,10 @@ const test = () => {
                     <div className="card-body">
                         {/* <Box padding='10px' marginLeft='auto' marginRight='auto'>
                             <Masonry columnsCount={2} gutter="2px">
-                                {img.map((image, i) => (
+                                {data.ImagesCom.map((image, i) => (
                                     <img
                                         key={i}
-                                        src={`http://localhost:5000/${image}`}
+                                        src={`http://localhost:5000/${image.img}`}
                                         style={{ width: "100%", display: "block", cursor: "pointer" }}
                                         onClick={() => viewImage(image, i)}
                                     />
