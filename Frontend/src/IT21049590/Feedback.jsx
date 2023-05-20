@@ -31,25 +31,10 @@ const Field = styled(TextField)({
 const SubmitButton = styled(Button)({
   marginTop: 2,
 });
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     display: "flex",
-//     flexDirection: "column",
-//     alignItems: "center",
-//     padding: theme.spacing(3),
-//     margin: theme.spacing(2),
-//   },
-//   formControl: {
-//     margin: theme.spacing(1),
-//     minWidth: 120,
-//   },
-//   submitButton: {
-//     marginTop: theme.spacing(2),
-//   },
-// }));
+
 
 const Feedback = ({ blogId }) => {
-  //const classes = useStyles();
+  
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [rating, setRating] = useState("");

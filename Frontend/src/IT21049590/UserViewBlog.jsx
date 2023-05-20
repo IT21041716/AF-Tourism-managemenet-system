@@ -20,11 +20,11 @@ import Header from "../IT21042560/header";
 import "./Blog1.css";
 import { Box, styled } from "@mui/system";
 
-
 const AllBlogs = () => {
   const [blogs, setBlogs] = useState([]);
   const { id } = useParams();
   const [serQuery, setQuery] = useState("");
+  const [averageRating, setAverageRating] = useState(0);
 
   useEffect(() => {
     axios
@@ -37,6 +37,12 @@ const AllBlogs = () => {
         console.log(error);
       });
   }, []);
+  //refreash
+
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
   const MyCard = styled(Card)(({ theme }) => ({
     width: "700px",
     margin: "10px",
@@ -50,27 +56,8 @@ const AllBlogs = () => {
     },
   }));
 
-  const [likes, setLikes] = useState([]);
-  const [dislikes, setDislikes] = useState([]);
   const [isLiked, setIsLiked] = useState();
   const [isDisliked, setIsDisliked] = useState();
-
-  // const handleLike = async (id) => {
-  //   try {
-  //     const response = await axios.post(
-  //       `http://localhost:5000/Blog/blogLike/${id}`
-  //     );
-  //     const response1 = await axios.get(
-  //       `http://localhost:5000/Blog/getBlogById/${id}`
-  //     );
-  //     const { likes } = response.data;
-  //     console.log("KKK " + response1.data.likes);
-  //     setLikes(likes);
-  //     setIsLiked(true);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   const handleLikeButton = async (bid) => {
     try {
@@ -101,6 +88,10 @@ const AllBlogs = () => {
   function searchfun(e) {
     setQuery(e.target.value);
   }
+  function rating(e) {
+    setQuery(e.target.value);
+  }
+  
 
   return (
     <div>
@@ -152,51 +143,46 @@ const AllBlogs = () => {
                       <Typography gutterBottom variant="h5" component="div">
                         {blog.title}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {blog.shortDescription}
-                      </Typography>
+                      
                     </CardContent>
                     <center>
                       <Box display={"flex"} justifyContent={"space-between"}>
                         <Box display={"flex"} alignItems={"center"}>
-                        <IconButton
-                          onClick={() => handleLikeButton(blog._id)}
-                          style={{
-                            color: blog.isLiked ? "blue" : "inherit",
-                            transition: "color 0.5s ease",
-                          }}
-                        >
-                          {blog.isLiked ? (
-                            <ThumbUpIcon />
-                          ) : (
-                            <ThumbUpOffAltOutlinedIcon />
-                          )}
-                        </IconButton>
+                          <IconButton
+                            onClick={() => handleLikeButton(blog._id)}
+                            style={{
+                              color: blog.isLiked ? "blue" : "inherit",
+                              transition: "color 0.5s ease",
+                            }}
+                          >
+                            {blog.isLiked ? (
+                              <ThumbUpIcon />
+                            ) : (
+                              <ThumbUpOffAltOutlinedIcon />
+                            )}
+                          </IconButton>
 
-                        <Typography fontSize={20} fontWeight={800} ml={1}>
-                          {blog.likes.length}
-                        </Typography>
+                          <Typography fontSize={20} fontWeight={800} ml={1}>
+                            {blog.likes.length}
+                          </Typography>
                         </Box>
                         <Box display={"flex"} alignItems={"center"}>
-                        
-                       
-
-                        <Typography fontSize={20} fontWeight={800} ml={1}>
-                          {blog.dislikes.length}
-                        </Typography>
-                        <IconButton
-                          onClick={() => handleDislikeButton(blog._id)}
-                          style={{
-                            color: blog.isDisliked ? "red" : "inherit",
-                            transition: "color 0.5s ease",
-                          }}
-                        >
-                          {blog.isDisliked ? (
-                            <ThumbDownIcon />
-                          ) : (
-                            <ThumbDownOutlinedIcon />
-                          )}
-                        </IconButton>
+                          <Typography fontSize={20} fontWeight={800} ml={1}>
+                            {blog.dislikes.length}
+                          </Typography>
+                          <IconButton
+                            onClick={() => handleDislikeButton(blog._id)}
+                            style={{
+                              color: blog.isDisliked ? "red" : "inherit",
+                              transition: "color 0.5s ease",
+                            }}
+                          >
+                            {blog.isDisliked ? (
+                              <ThumbDownIcon />
+                            ) : (
+                              <ThumbDownOutlinedIcon />
+                            )}
+                          </IconButton>
                         </Box>
                       </Box>
                     </center>

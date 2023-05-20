@@ -162,6 +162,22 @@ export default function Header() {
                   </MDBNavbarLink>
                 </Link>
               </MDBNavbarItem>
+              <MDBNavbarItem>
+                <Link to={`/`}>
+                  <MDBNavbarLink
+                    href="#"
+                    style={{
+                      color: "white",
+                      marginLeft: "60px",
+                      fontSize: "17px",
+                      fontFamily: "Trebuchet MS",
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faUserFriends} />
+                    Log out
+                  </MDBNavbarLink>
+                </Link>
+              </MDBNavbarItem>
             </MDBNavbarNav>
           </MDBCollapse>
         </MDBContainer>
