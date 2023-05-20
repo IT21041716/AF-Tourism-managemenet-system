@@ -8,7 +8,7 @@ import { getOnePost } from '../../actions/sellerPostAction';
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-hot-toast';
 import { NewOrder } from '../../actions/revOrderAction';
-
+import Header from '../../../IT21042560/header'
 
 
 
@@ -62,7 +62,7 @@ const index = () => {
 
     return (
         <div>
-
+<Header/>
             <div style={{ marginTop: "2rem", display: "flex", flexDirection: "row" }}>
 
 

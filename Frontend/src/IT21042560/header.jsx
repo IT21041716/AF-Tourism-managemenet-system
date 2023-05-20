@@ -17,6 +17,8 @@ import {
   faUserCircle,
   faUserFriends,
 } from "@fortawesome/free-solid-svg-icons";
+import HandshakeIcon from '@mui/icons-material/Handshake';
+
 
 export default function Header() {
   const [showBasic, setShowBasic] = useState(true);
@@ -100,7 +102,7 @@ export default function Header() {
                 </Link>
               </MDBNavbarItem>
               <MDBNavbarItem>
-                <Link to={`/#`}>
+                <Link to={`/home`}>
                   <MDBNavbarLink
                     href="#"
                     style={{
@@ -110,7 +112,22 @@ export default function Header() {
                       fontFamily: "Trebuchet MS",
                     }}
                   >
-                    <FontAwesomeIcon icon={faCircleNotch} /> All Users
+                    <FontAwesomeIcon icon={faCircleNotch} /> Trip Plans
+                  </MDBNavbarLink>
+                </Link>
+              </MDBNavbarItem>
+              <MDBNavbarItem>
+                <Link to={`/signup`}>
+                  <MDBNavbarLink
+                    href="#"
+                    style={{
+                      color: "white",
+                      marginLeft: "60px",
+                      fontSize: "17px",
+                      fontFamily: "Trebuchet MS",
+                    }}
+                  >
+                    <HandshakeIcon /> Partner with US
                   </MDBNavbarLink>
                 </Link>
               </MDBNavbarItem>

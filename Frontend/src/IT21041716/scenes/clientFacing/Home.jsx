@@ -10,7 +10,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import '../Cpanel/cssfiles/card.css'
-
+import Header from '../../../IT21042560/header';
 
 const Home = () => {
 
@@ -34,6 +34,7 @@ const Home = () => {
 
     return (
         <div>
+            <Header/>
             <div
                 style={{
                     backgroundImage: `url(${fort})`,

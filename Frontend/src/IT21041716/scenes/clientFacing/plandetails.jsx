@@ -17,7 +17,7 @@ import Masonry from "react-responsive-masonry"
 import './new.css'
 import { NewOrder } from '../../actions/revOrderAction'
 import { toast } from 'react-hot-toast';
-
+import Header from '../../../IT21042560/header';
 
 const Plandetails = () => {
 
@@ -53,6 +53,7 @@ const Plandetails = () => {
 
     return (
         <div>
+            <Header/>
             <div
                 style={{
                     backgroundImage: `url(${temple})`,
