@@ -18,6 +18,7 @@ import './new.css'
 import { NewOrder } from '../../actions/revOrderAction'
 import { toast } from 'react-hot-toast';
 
+
 const Plandetails = () => {
 
 
@@ -45,28 +46,9 @@ const Plandetails = () => {
     const [phone, setPhone] = useState('')
     const [customerName, setCustomerName] = useState('')
 
-
-    const sendData =async  (e) => {
-        e.preventDefault()
-        const form = {
-            Resevation_Date: date,
-            No_Of_Persons: persons,
-            Email: email,
-            Phone_number: phone,
-            Customer_Name: customerName,
-            Seller_ID: localStorage.Seller_ID
-        }
-
-        try {
-
-            await dispatch(NewOrder(form))
-            setIsSubmitted(true);
-        } catch (error) {
-            error.error
-        }
+    
 
 
-    }
 
 
     return (
@@ -125,7 +107,7 @@ const Plandetails = () => {
                             <div className="section-center" style={{ backgroundColor: "#f7f9fadf", paddingTop: "50px", paddingBottom: "50px" }}>
                                 <div className="container">
                                     <div className="row">
-                                        <form onSubmit={sendData}>
+                                        {/* <form onSubmit={sendData}> */}
                                             <div className="form-header">
                                                 <h2>Make your reservation</h2>
                                             </div>
@@ -158,25 +140,17 @@ const Plandetails = () => {
                                             </div>
                                             <div className="form-btn">
                                                 <div>
-                                                    {/* Rest of your component code */}
-                                                    {isSubmitted ? (
-                                                        <Link to={'/checkout/' + data.Trip_ID}>
+                                                  
+                                                   
+                                                        <Link to={`/checkout/${data.Trip_ID}/${email}/${date}/${persons}/${phone}/${customerName}`}>
                                                             <Button style={{ backgroundColor: 'green', color: 'white', marginTop: '20px' }}>
                                                                 Go to Checkout
                                                             </Button>
                                                         </Link>
-                                                    ) : (
-                                                        <Button
-                                                            style={{ backgroundColor: 'green', color: 'white', marginTop: '20px' }}
-                                                            type="submit"
-                                                            onClick={sendData}
-                                                        >
-                                                            Book Now
-                                                        </Button>
-                                                    )}
+                                                   
                                                 </div>
                                             </div>
-                                        </form>
+                                        {/* </form> */}
                                     </div>
                                 </div>
                             </div>

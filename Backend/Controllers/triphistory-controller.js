@@ -9,7 +9,6 @@ export const HistoryAdd = async (req, res) => {
             Order_ID:data.Order_ID,
             Seller_ID: data.Seller_ID,
             Customer_Name:data.Customer_Name,
-            Country:data.Country,
             Phone_number:data.Phone_number,
             Email:data.Email,
             Total_Amount:data.Total_Amount,

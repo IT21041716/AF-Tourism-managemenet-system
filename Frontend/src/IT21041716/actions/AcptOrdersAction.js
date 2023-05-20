@@ -1,10 +1,14 @@
 import {acptOrderConstants } from "./constants";
 import {toast} from 'react-hot-toast'
 import { axiosInstance } from "../helpers/axios";
-
+import {deleteOrder} from '../actions/revOrderAction'
 
 export const AcptOrder = (data)=> {
     console.log(data)
+    const form ={
+        Order_ID: data.Order_ID,
+        Seller_ID: data.Seller_ID,
+    }
     return async(dispatch) => {
         dispatch({type: acptOrderConstants.ACPT_ORDER_REQUEST})
         const res = await axiosInstance.post('/Accept/orderAccept', data)
@@ -16,6 +20,7 @@ export const AcptOrder = (data)=> {
                 type:acptOrderConstants.ACPT_ORDER_SUCCESS,
                 payload:res.data.payload
             })
+            dispatch(deleteOrder(form))
         }else{
             if(res.status === 401){
                 toast.error("Somthing went wrong in order accepting..!",{
@@ -60,3 +65,31 @@ export const getAcptOrders = (Seller_ID) => {
         }
     }
 }
+
+
+export const deleteacptOrder = (data) => {
+
+    console.log(data)
+    return async (dispatch) => {
+        dispatch({ type: acptOrderConstants.DELETE_ORDER_REQUEST})
+        const res = await axiosInstance.post('/Accept/delete',data)
+        if (res.status === 200) {
+            dispatch({ 
+                type:  acptOrderConstants.DELETE_ORDER_SUCCESS,
+                payload: res.data.payload
+            })
+            
+
+        } else if (res.status === 500) {
+            toast.error("Order rejection failed..!", {
+                id: "fail"
+            })
+            dispatch({
+                type: acptOrderConstants.DELETE_ORDER_FAILURE,
+
+            })
+        } 
+        
+    }
+}
+

@@ -8,6 +8,7 @@ import { getAcptOrders } from '../../actions/AcptOrdersAction';
 import { CompleteOrder } from '../../actions/completeAction';
 import { useDispatch, useSelector } from 'react-redux'
 import Swal from 'sweetalert2';
+import {deleteacptOrder} from '../../actions/AcptOrdersAction'
 
 const AcpOrders = () => {
 
@@ -36,6 +37,11 @@ const AcpOrders = () => {
             Trip_Name:data.Trip_Name,
             Resevation_Date:data.Resevation_Date,
 		}
+
+        const form2 ={
+            Order_ID:data.Order_ID,
+            Seller_ID: data.Seller_ID,
+        }
 		Swal.fire({
 			title: 'Are you sure want to Complete this Order?',
 			icon: 'question',
@@ -48,12 +54,14 @@ const AcpOrders = () => {
 		}).then(async (result) => {
 			if (result.isConfirmed) {
 				dispatch(CompleteOrder(form))
+				dispatch(deleteacptOrder(form2))
 
 			}
 		})
 
 
 	}
+
 
     return (
         <div>
@@ -81,7 +89,6 @@ const AcpOrders = () => {
                             <th style={{ verticalAlign: 'middle ' }}>#</th>
                             <th style={{ verticalAlign: 'middle ' }}>Order ID</th>
                             <th style={{ verticalAlign: 'middle ' }}>Customer Name</th>
-                            <th style={{ verticalAlign: 'middle ' }}>Country</th>
                             <th style={{ verticalAlign: 'middle ' }}>Phone Number</th>
                             <th style={{ verticalAlign: 'middle ' }}>Email</th>
                             <th style={{ verticalAlign: 'middle ' }}>Total Amount</th>
@@ -98,7 +105,6 @@ const AcpOrders = () => {
                                     <td scope="row">{index+1}</td>
                                     <td scope="row">{data.Order_ID}</td>
                                     <td scope="row">{data.Customer_Name}</td>
-                                    <td scope="row">{data.Country}</td>
                                     <td scope="row">{data.Phone_number}</td>
                                     <td scope="row">{data.Email}</td>
                                     <td scope="row">{data.Total_Amount}</td>

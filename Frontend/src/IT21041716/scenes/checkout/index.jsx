@@ -6,7 +6,8 @@ import './check.css'
 import { Link, useParams } from "react-router-dom";
 import { getOnePost } from '../../actions/sellerPostAction';
 import { useDispatch, useSelector } from 'react-redux'
-
+import { toast } from 'react-hot-toast';
+import { NewOrder } from '../../actions/revOrderAction';
 
 
 
@@ -20,11 +21,43 @@ const index = () => {
     const form = {
         Trip_ID: id.id
     }
+    console.log(id)
+
+
     useEffect(() => {
         dispatch(getOnePost(form))
     }, [])
     const data = useSelector(state => state.post.onePost)
     console.log(data)
+
+    const qty = id.persons
+    const email = id. email
+    const date = id. date
+    const name = id.customerName
+    const phone = id.phone
+    const subTotal = data.Price * qty
+    const totalAmt = subTotal * 115 /100
+
+    const sendData =  (e) => {
+        e.preventDefault()
+        toast("heeeeeee")
+        
+       
+            const form = {
+                Resevation_Date: date,
+                No_Of_Persons: qty,
+                Email: email,
+                Phone_number: phone,
+                Customer_Name: name,
+                Seller_ID: localStorage.Seller_ID,
+                Total_Amount:totalAmt,
+                Trip_Name :data.Trip_Name
+            }
+        
+                dispatch(NewOrder(form))        
+
+    }
+
 
 
     return (
@@ -81,7 +114,7 @@ const index = () => {
                                     <div class="d-flex justify-content-between" style={{ marginTop: "-20px" }}>
 
                                         <span style={{ fontSize: "14px" }}>Quntity <i class="fa fa-clock-o"></i></span>
-                                        <span style={{ fontSize: "14px" }}>2</span>
+                                        <span style={{ fontSize: "14px" }}>{qty}</span>
 
                                     </div>
 
@@ -90,8 +123,8 @@ const index = () => {
                                 <div class="p-3">
                                     <div class="d-flex justify-content-between" style={{ marginTop: "-20px" }}>
 
-                                        <span style={{ fontSize: "14px" }}>SubTotal(229.00 x 2) <i class="fa fa-clock-o"></i></span>
-                                        <span style={{ fontSize: "14px" }}>$458.00</span>
+                                        <span style={{ fontSize: "14px" }}>SubTotal({data.Price} x {qty}) <i class="fa fa-clock-o"></i></span>
+                                        <span style={{ fontSize: "14px" }}>{subTotal}</span>
 
                                     </div>
 
@@ -119,7 +152,7 @@ const index = () => {
 
 
                                     </div>
-                                    <span style={{ fontWeight: "600" }}>$529.00</span>
+                                    <span style={{ fontWeight: "600" }}>${totalAmt}</span>
 
 
 
@@ -131,7 +164,7 @@ const index = () => {
 
                 <div className="card mb-4" style={{ width: "40%", marginLeft: "2rem", marginRight: "auto" }}>
                     <div className="card-body">
-                        <form >
+                        <form onSubmit={sendData}>
                             <h2 style={{ marginTop: "20px", marginBottom: "20px" }}><center>Payment Information</center></h2>
                             <p>Cardholder Name</p>
                             <input type="text" class="inputbox" name="name" required />
@@ -154,7 +187,7 @@ const index = () => {
                                 <input type="password" class="inputbox" name="cvv" id="cvv" required />
                             </div>
                             <p></p>
-                            <button type="submit" class="button">Pay $526.00</button>
+                            <button type="submit" class="button" >Pay ${totalAmt}</button>
                         </form>
                     </div>
                 </div>

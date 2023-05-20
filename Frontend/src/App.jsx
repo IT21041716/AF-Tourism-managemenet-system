@@ -76,7 +76,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/sample" element={<Sample />} />
           <Route path="/dash" element={<Layout />} />
-          <Route path="/checkout/:id" element={<Checkout />} />
+          <Route path="/checkout/:id/:email/:date/:persons/:phone/:customerName" element={<Checkout />} />
           <Route path="/home" element={<Home />} />
           <Route path="/plans/:id" element={<PlanClient />} />
           

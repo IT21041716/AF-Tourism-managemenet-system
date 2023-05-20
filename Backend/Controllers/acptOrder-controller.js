@@ -13,7 +13,6 @@ export const orderAccept = async (req, res) => {
             Order_ID:data.Order_ID,
             Seller_ID:data.Seller_ID,
             Customer_Name:data.Customer_Name,
-            Country:data.Country,
             Phone_number:data.Phone_number,
             Email:data.Email,
             Total_Amount:data.Total_Amount,
@@ -59,6 +58,30 @@ export const getAcptOrder = async(req,res) => {
     }catch(error){
         res.status(500).json({
             message:"server crashed..!"
+        })
+    }
+}
+
+export const deleteacptOrder = async (req, res) => {
+    let Order_ID = req.body.Order_ID
+    try{
+
+        const success = await acptOrders.findOneAndDelete({ Order_ID : Order_ID })
+        if (success) {
+            const newdata = await acptOrders.find({Seller_ID : req.body.Seller_ID})
+            res.status(200).json({
+                message: "Delete successfull..!",
+                payload:newdata
+            })
+    
+        } else {
+            res.status(400).json({
+                message: "Delete unsuccessfull..!"
+            })
+        }
+    }catch(error){
+        res.status(500).json({
+            message:"server error..!"
         })
     }
 }

@@ -15,10 +15,6 @@ const historySchema = new Schema({
         type: String,
         required: true
     },
-    Country: {
-        type: String,
-        required: true
-    },
     Phone_number: {
         type: String,
         required: true
@@ -29,7 +25,7 @@ const historySchema = new Schema({
     },
     Total_Amount: {
         type: String,
-        required: true
+    
     },
     No_Of_Persons: {
         type: String,

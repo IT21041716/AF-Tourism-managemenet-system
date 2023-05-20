@@ -13,7 +13,6 @@ export const newOrder = async (req, res) => {
             Order_ID:OID,
             Seller_ID:data.Seller_ID,
             Customer_Name:data.Customer_Name,
-            Country:data.Country,
             Phone_number:data.Phone_number,
             Email:data.Email,
             Total_Amount:data.Total_Amount,
@@ -70,8 +69,10 @@ export const deleteOrder = async (req, res) => {
 
         const success = await order.findOneAndDelete({ Order_ID : Order_ID })
         if (success) {
+            const newdata = await order.find({Seller_ID : req.body.Seller_ID})
             res.status(200).json({
-                message: "Delete successfull..!"
+                message: "Delete successfull..!",
+                payload:newdata
             })
     
         } else {

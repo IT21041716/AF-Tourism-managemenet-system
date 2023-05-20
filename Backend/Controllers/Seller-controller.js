@@ -251,8 +251,8 @@ export const uploadImages = async (req, res) => {
 
   const id = { Seller_ID: req.body.Seller_ID };
   let images = [];
-    console.log(req.body)
-    console.log(req.file)
+    console.log(req.body.ImagesCom)
+
 
   if (req.body.ImagesCom.length > 0) {
     images = req.body.ImagesCom.map((file) => {

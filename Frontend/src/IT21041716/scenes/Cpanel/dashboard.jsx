@@ -33,8 +33,7 @@ const dashboard = () => {
   const [profilepic, setProfilePic] = useState(user.ProfilePicture);
   const [imagesCom, setImagesCom] = useState([user.imagesCom])
   const loading = useSelector(state => state.auth.loading)
-  console.log(profilepic)
-  console.log(imagesCom)
+
 
 
 
@@ -118,7 +117,7 @@ const dashboard = () => {
     setImagesCom(files);
   };
 
-  const count = user.ImagesCom.length;
+  const count = imagesCom.length;
   const imgArray = [];
 
   for (let i = 0; i < count; i++) {
@@ -139,7 +138,12 @@ const dashboard = () => {
 
     dispatch(updateGallery(form))
   }
+ 
 
+
+  {user.ImagesCom.map((image, i) => (
+    console.log(image.img)
+  ))}
 
   return (
 
@@ -198,9 +202,10 @@ const dashboard = () => {
             alt="profile-user"
             width="200px"
             height="200px"
-            src={`http://localhost:5000/${profilepic}`}
+            src={`http://localhost:5000/${user.ProfilePicture}`}
             style={{ cursor: "pointer", borderRadius: "50%" }}
           />
+
 
 
         </Box>
@@ -392,7 +397,7 @@ const dashboard = () => {
             {user.ImagesCom.map((image, i) => (
               <img
                 key={i}
-                src={`http://localhost:5000/${image}`}
+                src={`http://localhost:5000/${image.img}`}
                 style={{ width: "100%", display: "block", cursor: "pointer" }}
                 onClick={() => viewImage(image, i)}
               />
