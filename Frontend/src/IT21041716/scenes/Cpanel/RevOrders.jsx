@@ -8,7 +8,7 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { MDBBtn, MDBModal, MDBModalDialog, MDBModalContent, MDBModalHeader, MDBModalTitle, MDBModalBody } from 'mdb-react-ui-kit';
 import { useDispatch, useSelector } from 'react-redux'
-import { getOrders } from '../../actions/revOrderAction'
+import { getOrders,deleteOrder } from '../../actions/revOrderAction'
 import { AcptOrder } from '../../actions/AcptOrdersAction';
 import Swal from 'sweetalert2';
 
@@ -16,7 +16,7 @@ const ReceivedOrders = () => {
 
 
 	const [shDataModel, setShDataModel] = useState(false);
-	const[datas,setDatas] =useState('')
+	const [datas, setDatas] = useState('')
 
 
 	const DataModelShow = (data) => {
@@ -112,7 +112,7 @@ const ReceivedOrders = () => {
 	const receivedOrders = useSelector(state => state.revOrders.getorders);
 	const user = useSelector(state => state.auth.user)
 	const dispatch = useDispatch()
-console.log(receivedOrders)
+	console.log(receivedOrders)
 	const Seller_ID = user.Seller_ID
 
 	useEffect(() => {
@@ -154,6 +154,10 @@ console.log(receivedOrders)
 
 	const rejectOrder = (id) => {
 
+		const form ={
+			Seller_ID:user.Seller_ID,
+			Order_ID:id.Order_ID,
+		}
 		Swal.fire({
 			title: 'Are you sure want to Delete this Order?',
 			icon: 'question',
@@ -165,7 +169,7 @@ console.log(receivedOrders)
 
 		}).then(async (result) => {
 			if (result.isConfirmed) {
-				
+				dispatch(deleteOrder(form))
 			}
 		})
 	}
@@ -197,7 +201,6 @@ console.log(receivedOrders)
 							<th style={{ verticalAlign: 'middle ' }}>#</th>
 							<th style={{ verticalAlign: 'middle ' }}>Order ID</th>
 							<th style={{ verticalAlign: 'middle ' }}>Customer Name</th>
-							<th style={{ verticalAlign: 'middle ' }}>Country</th>
 							<th style={{ verticalAlign: 'middle ' }}>Phone Number</th>
 							<th style={{ verticalAlign: 'middle ' }}>Email</th>
 							<th style={{ verticalAlign: 'middle ' }}>Total Amount</th>
@@ -214,7 +217,6 @@ console.log(receivedOrders)
 									<td scope="row">{index + 1}</td>
 									<td scope="row">{data.Order_ID}</td>
 									<td scope="row">{data.Customer_Name}</td>
-									<td scope="row">{data.Country}</td>
 									<td scope="row">{data.Phone_number}</td>
 									<td scope="row">{data.Email}</td>
 									<td scope="row">$ {data.Total_Amount}</td>

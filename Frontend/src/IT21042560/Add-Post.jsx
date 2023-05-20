@@ -18,6 +18,8 @@ import {
     MDBCol,
     MDBCardFooter
   } from 'mdb-react-ui-kit';
+import {CardMedia} from "@mui/material";
+  
 
 const AddPost = () => {
 
@@ -33,18 +35,23 @@ const AddPost = () => {
 
     const [posts, setPosts] = useState([]);
     const [selectedId, setSelectedId] = useState(null);
+    const [userNames, setUserNames] = useState([]);
+
+    let currentIndex = 0;
 
     useEffect(()=>{
         function getPosts(){
         axios.get("http://localhost:5000/userPost/allpost").then((res)=>{
             setPosts(res.data.payload);
-            console.log(res.data.payload)
+           
+            
         }).catch((err)=>{
             alert(err.message);
         })
         }
         getPosts();
-    },[posts])
+    },[])
+
 
     const handleShowModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
@@ -91,9 +98,19 @@ const AddPost = () => {
         
                     axios.post("http://localhost:5000/userPost/postadd",form).then(()=>{
                         toast.success("Successfully Uploaded Your Status");
-                        // navigate('/signin/');
+                        
+
+
+                        axios.put(`http://localhost:5000/user/count/${id}`).then(() => {
+                            
+                        }).catch((err) =>{
+                     
+                        })
+
+                       
+
                     }).catch(()=>{
-                        toast.success("Something Went Wrong")
+
                     })
         
                     setUserId('')
@@ -103,6 +120,7 @@ const AddPost = () => {
                     setPostLocation('')
                     setPostRemark('')
                     setPostImage(null)
+                    navigate(`/user/post/add/${id}`);
               }
           }
           
@@ -228,13 +246,26 @@ const AddPost = () => {
                 src={require(`./${post.post_image}`).default}
                 alt='...'
                 position='top'
-            /> */}
-            <img src="https://i2.wp.com/otarafoundation.com/wp-content/uploads/2018/09/40656179_10155906804512183_7160866786412331008_n.jpg?fit=960%2C640&ssl=1" style={{borderRadius:'20px'}}/>
+            />  */}
+
+            <CardMedia
+
+            component="img"
+
+
+            image={`http://localhost:5000/${post.post_image}`}
+
+            alt={post.post_image}
+
+            />
+
+           
+            {/* <img  style={{borderRadius:'20px'}}/>   src={require(`../../../Backend/UploadUserPostImages/${post.post_image}`)}*/}
            <MDBCardBody>
            <center> 
             <MDBCardTitle style={{ fontSize: "25px" }}>{post.post_title}</MDBCardTitle>
                 <MDBCardText style={{ fontSize: "16px" }}>
-                    {post.post_description}
+                    {post.post_description} 
                 </MDBCardText>
                 <MDBCardText style={{ fontSize: "14px" }}>
                     Location - {post.post_location}

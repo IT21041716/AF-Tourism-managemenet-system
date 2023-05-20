@@ -13,7 +13,6 @@ export const newOrder = async (req, res) => {
             Order_ID:OID,
             Seller_ID:data.Seller_ID,
             Customer_Name:data.Customer_Name,
-            Country:data.Country,
             Phone_number:data.Phone_number,
             Email:data.Email,
             Total_Amount:data.Total_Amount,
@@ -70,8 +69,10 @@ export const deleteOrder = async (req, res) => {
 
         const success = await order.findOneAndDelete({ Order_ID : Order_ID })
         if (success) {
+            const newdata = await order.find({Seller_ID : req.body.Seller_ID})
             res.status(200).json({
-                message: "Delete successfull..!"
+                message: "Delete successfull..!",
+                payload:newdata
             })
     
         } else {
@@ -82,6 +83,47 @@ export const deleteOrder = async (req, res) => {
     }catch(error){
         res.status(500).json({
             message:"server error..!"
+        })
+    }
+}
+
+
+export const newOrderFirst = async (req, res) => {
+    console.log(req.body)
+
+    try {
+        const prefix = 'OID'
+        const OID = (prefix + Date.now());
+
+
+        const data = req.body;
+        const neworder = new order({
+            Order_ID:OID,
+            Seller_ID:data.Seller_ID,
+            Customer_Name:data.Customer_Name,
+            Phone_number:data.Phone_number,
+            Email:data.Email,
+            No_Of_Persons:data.No_Of_Persons,
+            Resevation_Date:data.Resevation_Date
+        })
+
+        const result = await neworder.save()
+        if(result){
+            res.status(201).json({
+                message: "Data adding successfull..!",
+                payload: result
+            })
+        }else {
+            res.status(401).json({
+              message: "Somthing Went Wrong In data adding..!"
+            })
+          }
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message: "Somthing Went Wrong..!",
+            error: error
         })
     }
 }

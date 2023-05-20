@@ -49,20 +49,19 @@ const PostSchema = new Schema({
     },
     Images: [
         {
-            img:{
+            img: {
                 type: String
             }
         }
     ],
-    Destinations: [
-        {
-            type: String,
-            required: true
-        }
-    ],
-    
+    Destinations: {
+        type: String,
+        required: true
+    },
+
+
     Activities: {
-        type: [String],
+        type: String,
         required: true
     }
 

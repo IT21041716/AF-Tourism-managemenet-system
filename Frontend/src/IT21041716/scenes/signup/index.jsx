@@ -14,8 +14,9 @@ import { Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { SignUp } from '../../actions/authActions';
 import toast from 'react-hot-toast'
-import'./signup.css'
-
+import { faSignInAlt, faUser, faUnlockAlt, faBriefcase, faBicycle, faCar, faCarSide, faPlane } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { motion } from 'framer-motion';
 
 const index = () => {
     const [Company_name, setCompany_name] = useState('')
@@ -31,7 +32,6 @@ const index = () => {
     const loading = useSelector(state => state.auth.loading)
     const authenticated = useSelector(state => state.auth.authenticated)
 
-    console.log("image eka "+ image)
 
     const dispatch = useDispatch();
 
@@ -63,7 +63,7 @@ const index = () => {
                 id: 'comemail'
             })
         }
-        else if (!emailRegex.test(Company_email) ) {
+        else if (!emailRegex.test(Company_email)) {
             toast.error("Please Provide a Company email..", {
                 id: 'comemail'
             })
@@ -115,7 +115,7 @@ const index = () => {
         }
 
         else if (Company_name !== '' && Company_email !== '' && Company_contact_no !== '' && Company_address !== '' && Personal_name !== '' && Personal_contact_no !== '' && Personal_address !== '' && Personal_email !== '' && Password !== '') {
-            const form =new FormData();
+            const form = new FormData();
             form.append('Company_name', Company_name);
             form.append('Company_email', Company_email);
             form.append('Company_contact_no', Company_contact_no);
@@ -127,12 +127,12 @@ const index = () => {
             form.append('Password', Password);
             form.append('ProfilePicture', image);
 
-            const form2 ={                
+            const form2 = {
                 Company_email: Company_email,
-                Password: Password                
+                Password: Password
             }
 
-            dispatch(SignUp(form,form2))
+            dispatch(SignUp(form, form2))
             setCompany_name('')
             setCompany_email('')
             setCompany_contact_no('')
@@ -151,168 +151,231 @@ const index = () => {
         setImage(e.target.files[0]);
 
     }
+    const loaderVariants = {
+        animationOne: {
+          x: [-150, 150],
+          transition: {
+            x: {
+              yoyo: Infinity,
+              duration: 15,
+              repeat: Infinity,
+            },
+
+          }
+        }
+      };
 
     if (authenticated) {
         return <Navigate to='/dashboard' />
     }
 
     return (
-        <div className='body' data-testid="signup-id-1">
-
-        <Container component="main" maxWidth="sm" className='container1'>
-            <CssBaseline />
-            <Box
-                sx={{
-                    marginTop: 4,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
-            >
-                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                    <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Sign up
-                </Typography>
-                <Box component="form" onSubmit={sendData} encType='multipart/form-data' noValidate sx={{ mt: 3 }}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <Box >
-                                <TextField
-                                    fullWidth
-                                    required
-                                    id="Company name"
-                                    label="Company name"
-                                    name="Company name"
-                                    value={Company_name}
-                                    onChange={(e) => {setCompany_name(e.target.value)}}
-                                />
 
 
-                            </Box>
+            <section className="vh-100" >
+                <div className="container-fluid" style={{ backgroundImage: `url('https://th.bing.com/th/id/R.dde94b0bb9c08c01f57e7dfe47bd6a1c?rik=do7j1ZUvxsznYw&pid=ImgRaw&r=0')` }}> <br />
+                    <br /><div className="row">
+                        <div >
+                            <center>
 
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                id="Company_email"
-                                label="Company email"
-                                name="Company_email"
-                                value={Company_email}
-                                onChange={(e) => {setCompany_email(e.target.value)}}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                id="Company_contact_no"
-                                label="Company contact_no"
-                                name="Company_contact_no"
-                                value={Company_contact_no}
-                                onChange={(e) => {setCompany_contact_no(e.target.value)}}
+                                <motion.div style={{ border: "2px solid #8B4513", backgroundColor: "#f0f3ff", borderRadius: "20px", padding: "10px", width: "40%" }}
+                                    transition={{ delay: 0.2, duration: 2.0, type: 'spring', stiffness: 120 }}
+                                    whileHover={{ boxShadow: "0px 0px 8px rgb(255,255,255)", scale: 1.03 }}
+                                ><h3>Ceylon Tours </h3> <hr />
 
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                id="Company_address"
-                                label="Company address"
-                                name="Company_address"
-                                value={Company_address}
-                                onChange={(e) => {setCompany_address(e.target.value)}}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                id="Personal_name"
-                                label="Personal name"
-                                name="Personal_name"
-                                value={Personal_name}
-                                onChange={(e) => {setPersonal_name(e.target.value)}}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                id="Personal_contact_no"
-                                label="Personal contact no"
-                                name="Personal_contact_no"
-                                value={Personal_contact_no}
-                                onChange={(e) => {setPersonal_contact_no(e.target.value)}}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                id="Personal_address"
-                                label="Personal address"
-                                name="Personal_address"
-                                value={Personal_address}
-                                onChange={(e) => {setPersonal_address(e.target.value)}}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                id="Personal_email"
-                                label="Personal email"
-                                name="Personal_email"
-                                value={Personal_email}
-                                onChange={(e) => {setPersonal_email(e.target.value)}}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                id="password"
-                                label="Password"
-                                name="Password"
-                                value={Password}
-                                onChange={(e) => {setPassword(e.target.value)}}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label >Profile picture</Form.Label>
-                                <Form.Control
-                                    type='file'
-                                    onChange={(e) => { handleCatImg(e) }}
 
-                                />
+                                    <div className="px-5 ms-xl-4">
+                                        <i
+                                            className="fas fa-crow fa-2x me-3 pt-5 mt-xl-4"
+                                            style={{ color: "#709085" }}
+                                        ></i>
 
-                            </Form.Group>
-                        </Grid>
-                    </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
-                        Sign Up
-                    </Button>
-                    <Grid container justifyContent="flex-end">
-                        <Grid item>
-                            <Link to="/login" variant="body2" className='link'>
-                                Already have an account? Sign in
-                            </Link>
-                        </Grid>
-                    </Grid>
-                </Box>
-            </Box>
-        </Container>
-        </div>
+                                        <motion.span
+                                            className="h1 fw-bold mb-0"
+                                            whileHover={{ scale: 1.3, color: ['#f8e112', '#ff00ff', '#00ffff'], originX: 0 }}
+                                            transition={{ type: 'spring', stiffness: 500 }}
+                                        >
+
+                                            <span style={{ background: "-webkit-linear-gradient(#800000, #A52A2A, #A0522D)", "-webkit-background-clip": "text", "-webkit-text-fill-color": "transparent", textAlign: "center" }}>ආයුබෝවන් !</span> <br />
+                                            <span style={{ background: "-webkit-linear-gradient(#800000, #A52A2A, #A0522D)", "-webkit-background-clip": "text", "-webkit-text-fill-color": "transparent", textAlign: "center" }}>WELCOME !</span> <br />
+
+
+                                        </motion.span>
+
+                                    </div> <br />
+                                    <motion.div
+                                        className="loader"
+                                        variants={loaderVariants}
+                                        animate="animationOne"
+                                    >
+                                        <FontAwesomeIcon icon={faPlane} />
+                                    </motion.div>
+                                    <div style={{ width: '80%' }}>
+
+                                        <br />
+
+
+
+                                        <div className="tab-pane fade show active" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
+                                            <form onSubmit={sendData}>
+                                                <Grid container spacing={2}>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <Box >
+                                                            <TextField
+                                                                fullWidth
+                                                                required
+                                                                id="Company name"
+                                                                label="Company name"
+                                                                name="Company name"
+                                                                value={Company_name}
+                                                                onChange={(e) => { setCompany_name(e.target.value) }}
+                                                            />
+
+
+                                                        </Box>
+
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <TextField
+                                                            required
+                                                            fullWidth
+                                                            id="Company_email"
+                                                            label="Company email"
+                                                            name="Company_email"
+                                                            value={Company_email}
+                                                            onChange={(e) => { setCompany_email(e.target.value) }}
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <TextField
+                                                            required
+                                                            fullWidth
+                                                            id="Company_contact_no"
+                                                            label="Company contact_no"
+                                                            name="Company_contact_no"
+                                                            value={Company_contact_no}
+                                                            onChange={(e) => { setCompany_contact_no(e.target.value) }}
+
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <TextField
+                                                            required
+                                                            fullWidth
+                                                            id="Company_address"
+                                                            label="Company address"
+                                                            name="Company_address"
+                                                            value={Company_address}
+                                                            onChange={(e) => { setCompany_address(e.target.value) }}
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <TextField
+                                                            required
+                                                            fullWidth
+                                                            id="Personal_name"
+                                                            label="Personal name"
+                                                            name="Personal_name"
+                                                            value={Personal_name}
+                                                            onChange={(e) => { setPersonal_name(e.target.value) }}
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <TextField
+                                                            required
+                                                            fullWidth
+                                                            id="Personal_contact_no"
+                                                            label="Personal contact no"
+                                                            name="Personal_contact_no"
+                                                            value={Personal_contact_no}
+                                                            onChange={(e) => { setPersonal_contact_no(e.target.value) }}
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <TextField
+                                                            required
+                                                            fullWidth
+                                                            id="Personal_address"
+                                                            label="Personal address"
+                                                            name="Personal_address"
+                                                            value={Personal_address}
+                                                            onChange={(e) => { setPersonal_address(e.target.value) }}
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <TextField
+                                                            required
+                                                            fullWidth
+                                                            id="Personal_email"
+                                                            label="Personal email"
+                                                            name="Personal_email"
+                                                            value={Personal_email}
+                                                            onChange={(e) => { setPersonal_email(e.target.value) }}
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <TextField
+                                                            required
+                                                            fullWidth
+                                                            id="password"
+                                                            label="Password"
+                                                            name="Password"
+                                                            value={Password}
+                                                            onChange={(e) => { setPassword(e.target.value) }}
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12}>
+                                                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                                                            <Form.Label >Profile picture</Form.Label>
+                                                            <Form.Control
+                                                                type='file'
+                                                                onChange={(e) => { handleCatImg(e) }}
+
+                                                            />
+
+                                                        </Form.Group>
+                                                    </Grid>
+                                                </Grid>
+
+                                                <motion.button type="submit" className="btn btn-block mb-3"
+                                                    style={{
+                                                        background:
+                                                            "linear-gradient(90deg, #8B0000, #CD5C5C, #B22222,#CD5C5C, #8B0000)",
+                                                        borderRadius: "20px",
+                                                        color: "white",
+                                                        fontWeight: "bold",
+                                                        textShadow: "2px 2px 4px rgba(0,0,0,0.4)",
+                                                        transition: "all 0.3s ease",
+                                                        marginLeft: "10px",
+                                                    }}>Sign Up</motion.button>
+                                                <Grid container justifyContent="flex-end">
+                                                    <Grid item>
+                                                        <Link to="/login" variant="body2" className='link'>
+                                                            Already have an account? Sign in
+                                                        </Link>
+                                                    </Grid>
+                                                </Grid>
+
+                                            </form>
+                                        </div>
+                                        <br/><br/>
+
+
+                                        <div class="tab-content">
+                                            <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+                                            </div>
+                                            <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
+
+                                            </div>
+                                        </div>
+
+                                        <span style={{ background: "-webkit-linear-gradient(#f8e112, #ff00ff, #00ffff)", "-webkit-background-clip": "text", "-webkit-text-fill-color": "transparent" }}># VISIT SRI LANKA</span>
+                                    </div></motion.div></center>
+                        </div>
+                    </div> <br /> <br />
+                </div>
+            </section>
+
     )
 }
 

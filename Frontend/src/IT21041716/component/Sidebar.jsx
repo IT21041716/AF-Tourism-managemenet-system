@@ -33,6 +33,7 @@ import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlin
 import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
 import propic from '../../assets/isuru.png'
 
+
 const navItems = [
     {
         text: "dashboard",
@@ -68,7 +69,7 @@ const navItems = [
         icon: null,
     },
     {
-        text: "Administrators",
+        text: "Password Change",
         icon: <AdminPanelSettingsOutlined />,
     }
 ];
@@ -143,8 +144,7 @@ const Sidebar = (props) => {
                                             alt="profile-user"
                                             width="100px"
                                             height="100px"
-                                            // src={`../../assets/user.png`}
-                                            src={propic}
+                                            src={`http://localhost:5000/${user.ProfilePicture}`}
                                             style={{ cursor: "pointer", borderRadius: "50%" }}
                                         />
 
@@ -157,11 +157,9 @@ const Sidebar = (props) => {
                                             fontWeight="bold"
                                             sx={{ m: "10px 0 0 0" }}
                                         >
-                                            Isuru Chamod
+                                            {user.Personal_name}
                                         </Typography>
-                                        <Typography fontSize="11"  color='#3da58a'>
-                                            Marketing Assistant
-                                        </Typography>
+
                                     </Box>
                                 </Box>
 

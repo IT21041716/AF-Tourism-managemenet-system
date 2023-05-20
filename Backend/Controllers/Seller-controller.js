@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 let refreshtokens = [];
 
 export const sellerSignup = async (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
   try {
     let file = 'N/A'
     if (req.file) {
@@ -34,7 +34,7 @@ export const sellerSignup = async (req, res) => {
         Hash_password: Hash_password,
         ProfilePicture: file,
         Description: "Type somthing here...",
-        ImagesCom: "N/A"
+        ImagesCom: undefined
 
       })
       const newAcct = await newSeller.save()
@@ -50,7 +50,7 @@ export const sellerSignup = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error)
+    // console.log(error)
     res.status(500).json({
       message: "Somthing Went Wrong..!",
       error: error
@@ -91,7 +91,7 @@ export const login = async (req, res) => {
 
     }
   } catch (error) {
-    console.log(error)
+    // console.log(error)
     res.status(500).json({
       message: "Server error..!",
       error: error
@@ -143,12 +143,10 @@ export const Signout = (req, res) => {
 }
 
 export const updateSeller = async (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
   try {
 
     const id = { Seller_ID: req.body.Seller_ID }
-    const Hash_password = await bcrypt.hash(req.body.Password, 10);
-
     const updateSeller = {
       Company_name: req.body.Company_name,
       Company_email: req.body.Company_email,
@@ -158,16 +156,46 @@ export const updateSeller = async (req, res) => {
       Personal_contact_no: req.body.Personal_contact_no,
       Personal_address: req.body.Personal_address,
       Personal_email: req.body.Personal_email,
-      Hash_password: Hash_password,
       Description: req.body.Description,
 
     }
 
     const update = await seller.findOneAndUpdate(id, updateSeller, { new: true })
     if (update) {
+      const newDetails = await seller.find({ Seller_ID: req.body.Seller_ID })
       res.status(201).json({
         message: "Detailes updated..!",
-        payload: update
+        payload: newDetails
+      })
+    } else {
+      res.status(400).json({
+        message: "Update failed..!",
+      })
+    }
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Somthing Went Wrong..!",
+      error: error
+    })
+  }
+}
+export const updatePwd = async (req, res) => {
+  try {
+
+    const id = { Seller_ID: req.body.Seller_ID }
+    const Hash_password = await bcrypt.hash(req.body.Password, 10);
+
+    const updateSeller = {
+      Hash_password: Hash_password,
+    }
+
+    const update = await seller.findOneAndUpdate(id, updateSeller, { new: true })
+    if (update) {
+      const newDetails = await seller.find({ Seller_ID: req.body.Seller_ID })
+      res.status(201).json({
+        message: "password updated..!",
+        payload: newDetails
       })
     } else {
       res.status(400).json({
@@ -177,7 +205,6 @@ export const updateSeller = async (req, res) => {
     }
 
   } catch (error) {
-    console.log(error)
     res.status(500).json({
       message: "Somthing Went Wrong..!",
       error: error
@@ -198,63 +225,65 @@ export const updateDP = async (req, res) => {
 
     const updates = await seller.findOneAndUpdate(id, newDP, { new: true });
     if (updates) {
+      const newDetails = await seller.find({ Seller_ID: req.body.Seller_ID })
       res.status(201).json({
         message: "Profile picture updated..!",
-        payload: updates
+        payload: newDetails
       })
     } else {
       res.status(400).json({
         message: "Profile picture Update failed..!",
-        error: error
       })
     }
-
   } catch (error) {
     res.status(500).json({
-      message: "Somthing Went Wrong..!",
+      message: "server Error..!"
     })
   }
+
+
 }
 
 export const uploadImages = async (req, res) => {
   try {
-    let file = 'N/A'
-    if (req.file) {
-      file = req.file.filename
-    }
+  console.log("hello")
+  console.log(req.body.Seller_ID)
 
-    const id = { Seller_ID: req.body.Seller_ID }
-    let images = []
+  const id = { Seller_ID: req.body.Seller_ID };
+  let images = [];
+    console.log(req.body.ImagesCom)
 
-    if (req.files.length > 0) {
-      images = req.files.map(file => {
-        return {
-          img: file.filename
 
-        }
-      }
+  if (req.body.ImagesCom.length > 0) {
+    images = req.body.ImagesCom.map((file) => {
+      console.log(file);
+      return {
+        img: Date.now()+"_"+file.name,
+      };
+    });
+  }
+  console.log(images);
 
-      )
-    }
+  const newImages = {
+    ImagesCom: images,
+  };
 
-    const newImages = {
-      ImagesCom: images
-    }
-    console.log(newImages)
-    const updateimgs = await seller.findOneAndUpdate(id, newImages, { new: true });
-    console.log("methanin pahala response eka")
-    console.log(updateimgs)
-    if (updateimgs) {
-      res.status(201).json({
-        message: "Images updated..!",
-        payload: updateimgs
-      })
-    } else {
-      res.status(400).json({
-        message: "Images Update failed..!",
-        error: error
-      })
-    }
+  // console.log(newImages)
+  const updateimgs = await seller.findOneAndUpdate(id, newImages, { new: true });
+  // console.log("methanin pahala response eka")
+  // console.log(updateimgs)
+  if (updateimgs) {
+    const newDetails = await seller.find({ Seller_ID: req.body.Seller_ID })
+    res.status(201).json({
+      message: "Images updated..!",
+      payload: newDetails
+    })
+  } else {
+    res.status(400).json({
+      message: "Images Update failed..!",
+      error: error
+    })
+  }
 
   } catch (error) {
     res.status(500).json({
@@ -264,7 +293,7 @@ export const uploadImages = async (req, res) => {
 }
 
 export const deleteSeller = async (req, res) => {
-  console.log(req.body.Seller_ID)
+  console.log(req.body)
   try {
     let id = req.body.Seller_ID
     const success = await seller.findOneAndDelete({ Seller_ID: id })
@@ -284,3 +313,23 @@ export const deleteSeller = async (req, res) => {
     })
   }
 }
+
+export const getSeller = async (req, res) => {
+  try {
+    const sellerDetes = await seller.find({ Seller_ID: req.body.Seller_ID })
+    if (sellerDetes) {
+      res.status(200).json({
+        message: "Success..!!",
+        payload: sellerDetes
+      });
+    } else {
+      res.status(404).json({
+        message: "Error...!"
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};

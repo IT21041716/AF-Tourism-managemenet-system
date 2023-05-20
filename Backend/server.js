@@ -11,6 +11,11 @@ const dirName = path.dirname(filePath);
 const app = express();
 const PORT = process.env.PORT || 5000;
 app.use(express.static(path.join(dirName, "uploads")));
+
+const filePath1 = fileURLToPath(import.meta.url);
+const dirName1 = path.dirname(filePath1);
+app.use(express.static(path.join(dirName1, "UploadUserPostImages")));
+
 dotenv.config();
 app.use(cors());
 app.use(bodyParser.json());

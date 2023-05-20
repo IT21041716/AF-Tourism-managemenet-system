@@ -1,5 +1,5 @@
 import  express  from 'express';
-import {UserRegister, Signin, Signout, tokenRefresh, getAllUsers,getOneUser } from '../Controllers/User-Account-Controller.js'
+import {UserRegister, Signin, Signout, tokenRefresh, getAllUsers,getOneUser,updateCount,updateCount2,updateUser } from '../Controllers/User-Account-Controller.js'
 import multer from 'multer';
 import path from 'path';
 const router = express.Router();
@@ -25,5 +25,8 @@ router.delete('/usersignout',Signout);
 router.post('/Token',tokenRefresh);
 router.get("/allusers", getAllUsers);
 router.get("/user/:userid", getOneUser);
+router.put("/count/:id",updateCount);
+router.put("/countReduce/:id",updateCount2);
+router.put('/updateUser/:id', updateUser);
 
 export default router;

@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { Button } from 'react-bootstrap';
 
 export default function Certificate() {
 
@@ -49,7 +50,6 @@ export default function Certificate() {
 
   return (
     <>
-    <Header/>
     <div className='divbody'>
         <div class="border-pattern">
             <div class="content">
@@ -60,24 +60,35 @@ export default function Certificate() {
                 <h3 className='divh3'><br/>This Certificate Is Proudly Presented To</h3>
                 <p className='divp'>{userName}</p>
                 <p className='divp' style={{ marginTop:'-30px'}}>......................................</p>
-                <h3 className='divh3'>For Their Contribution To</h3>
-                <p className='divp' >Environmental Care in Sri Lanka</p>
+                <h3 className='divh3'>For Their Contribution To Maintain</h3>
+                <p className='divp'> {badge} profile</p>
+                <p className='divp' style={{ marginTop:'-30px'}}>......................................</p>
+                <p className='divp' >And Help To Environmental Care in Sri Lanka</p>
                 <h3 className='divh3'>Issued By</h3>
                 <p className='divp' >Ceylone Tours</p>
                 <h3 className='divh3'>On</h3>
                 <p className='divp'>{currentDate.toLocaleDateString()}</p>
                 <div>
                   <br/>
-                  <div style={{marginLeft:'650px'}}>
+                  <div style={{marginLeft:'650px', marginTop:'-70px'}}>
                   <img src={i3}  width={'50%'} />
                   <p className='divp' style={{fontSize:'15px', marginTop:'-10px'}}> ....................<br/>Dr.Danuka Bandara<br/> Sustainable Tourism Coordinator,<br/> Ceylon Tours.</p>
                   </div>
-                  <img src={i2}  width={'20%'} style={{marginTop:'-150px'}}/>
-                  <img src={i1}  width={'20%'} style={{marginTop:'-200px', marginRight:'650px'}}/>
+                  <img src={i2}  width={'20%'} style={{marginTop:'-130px'}}/>
+                  <img src={i1}  width={'20%'} style={{marginTop:'-230px', marginRight:'650px'}}/>
                 </div>
               </div>
             </div>
         </div></div>
+
+        <Button style={{marginLeft:'900px'}}
+                        variant="primary"
+                        onClick={() => {
+                        window.print();
+                        }}
+                    >
+                        Download
+                    </Button> <br/>
     </>
   );
 }

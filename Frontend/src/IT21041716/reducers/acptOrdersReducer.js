@@ -48,6 +48,27 @@ export default(state =initState,action) => {
                 loading: false,
             }
         break
+        case acptOrderConstants.DELETE_ORDER_REQUEST:
+            state = {
+                ...state,
+                loading: true,
+            }
+        break
+        case acptOrderConstants.DELETE_ORDER_SUCCESS:
+            state = {
+                ...state,
+                loading: false,
+                Getacptorders: action.payload
+           
+            }
+        break
+        case acptOrderConstants.DELETE_ORDER_FAILURE:
+            state = {
+                ...state,
+                loading: false,
+            }
+        break
+        
        
 
     }

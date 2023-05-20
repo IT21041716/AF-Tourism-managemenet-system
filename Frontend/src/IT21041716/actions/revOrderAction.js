@@ -1,7 +1,7 @@
 import {revOrderConstants } from "./constants";
 import {toast} from 'react-hot-toast'
 import { axiosInstance } from "../helpers/axios";
-
+import Swal from "sweetalert2";
 
 export const NewOrder = (data)=> {
     console.log(data)
@@ -62,29 +62,24 @@ export const getOrders = (Seller_ID) => {
 }
 
 export const deleteOrder = (data) => {
-    const form ={
-        oid : data.Order_ID,
-        Customer_Name: data.Customer_Name,
-        email: data.Email
 
-    }
-    console.log(form)
+    console.log(data)
     return async (dispatch) => {
-        dispatch({ type: cartConstant.DELETE_CART_REQUEST})
-        const res = await axiosIntance.post('/Cart/deleteCartM',form)
+        dispatch({ type: revOrderConstants.DELETE_ORDER_REQUEST})
+        const res = await axiosInstance.post('/Orders/deleteOrder',data)
         if (res.status === 200) {
-            toast.success("Order deleted..! ", {
-                id: 'del'
+            dispatch({ 
+                type:  revOrderConstants.DELETE_ORDER_SUCCESS,
+                payload: res.data.payload
             })
-            dispatch({ type:  cartConstant.DELETE_CART_SUCCESS })
-            dispatch(GetCart())
+            
 
         } else if (res.status === 500) {
             toast.error("Order rejection failed..!", {
                 id: "fail"
             })
             dispatch({
-                type: cartConstant.DELETE_CART_FAILED,
+                type: revOrderConstants.DELETE_ORDER_FAILURE,
 
             })
         } 
