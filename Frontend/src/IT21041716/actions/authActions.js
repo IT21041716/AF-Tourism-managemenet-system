@@ -271,6 +271,7 @@ export const deleteSeller = (id) => {
         try{
             dispatch({
                 type:authConstants.DELETE_REQUEST
+                
             })
     
             const res = await axiosInstance.post('/Seller/deleteSeller',form);
